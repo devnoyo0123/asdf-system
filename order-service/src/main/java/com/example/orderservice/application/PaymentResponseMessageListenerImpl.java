@@ -1,7 +1,7 @@
 package com.example.orderservice.application;
 
 import com.example.orderservice.application.dto.message.PaymentResponse;
-import com.example.orderservice.application.ports.input.service.message.listener.payment.PaymentResponseMessageListener;
+import com.example.orderservice.application.ports.input.message.listener.payment.PaymentResponseMessageListener;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

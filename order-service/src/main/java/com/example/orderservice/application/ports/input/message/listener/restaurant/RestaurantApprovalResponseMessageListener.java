@@ -1,4 +1,4 @@
-package com.example.orderservice.application.ports.input.service.message.listener.restaurant;
+package com.example.orderservice.application.ports.input.message.listener.restaurant;
 
 import com.example.orderservice.application.dto.message.RestaurantApproveResponse;
 
