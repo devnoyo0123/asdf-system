@@ -1,3 +1,10 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        mavenCentral()
+    }
+}
+
 rootProject.name = 'food-ordering-system'
 
 include 'module-common'
