@@ -4,7 +4,7 @@ import com.example.orderservice.application.ports.output.message.publisher.payme
 import com.example.orderservice.application.ports.output.message.publisher.payment.OrderCreatedPaymentRequestMessagePublisher;
 import com.example.orderservice.application.ports.output.message.publisher.restaurantapproval.OrderPaidRestaurantRequestMessagePublisher;
 import com.example.orderservice.application.ports.output.repository.CustomerRepository;
-import com.example.orderservice.application.ports.output.repository.OrderRepository;
+import com.example.orderservice.application.ports.output.order.repository.OrderRepository;
 import com.example.orderservice.application.ports.output.repository.RestaurantRepository;
 import org.mockito.Mockito;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -3,11 +3,9 @@ package com.example.orderservice.application;
 import com.example.orderservice.application.dto.create.CreateOrderCommand;
 import com.example.orderservice.application.dto.create.CreateOrderResponse;
 import com.example.orderservice.application.mapper.OrderDataMapper;
-import com.example.orderservice.domain.OrderDomainService;
 import com.example.orderservice.domain.event.OrderCreatedEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Component
@@ -21,7 +19,6 @@ public class OrderCreateCommandHandler {
         this.orderDataMapper = orderDataMapper;
     }
 
-    @Transactional
     public CreateOrderResponse createOrder(CreateOrderCommand createOrderCommand) {
         OrderCreatedEvent orderCreatedEvent = orderCreateHelper.persistOrder(createOrderCommand);
         log.info("Order is created with id: {}", orderCreatedEvent.getOrder().getId().getValue());

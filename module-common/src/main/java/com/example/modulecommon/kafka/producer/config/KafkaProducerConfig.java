@@ -1,4 +1,4 @@
-package com.example.modulecommon.kafka.producer.service;
+package com.example.modulecommon.kafka.producer.config;
 
 import com.example.modulecommon.kafka.config.KafkaConfigData;
 import com.example.modulecommon.kafka.config.KafkaProducerConfigData;

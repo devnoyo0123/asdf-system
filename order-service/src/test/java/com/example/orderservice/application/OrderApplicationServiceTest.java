@@ -8,7 +8,7 @@ import com.example.orderservice.application.dto.create.OrderItemDto;
 import com.example.orderservice.application.mapper.OrderDataMapper;
 import com.example.orderservice.application.ports.input.service.OrderApplicationService;
 import com.example.orderservice.application.ports.output.repository.CustomerRepository;
-import com.example.orderservice.application.ports.output.repository.OrderRepository;
+import com.example.orderservice.application.ports.output.order.repository.OrderRepository;
 import com.example.orderservice.application.ports.output.repository.RestaurantRepository;
 import com.example.orderservice.domain.OrderTestConfiguration;
 import com.example.orderservice.domain.entity.Customer;
