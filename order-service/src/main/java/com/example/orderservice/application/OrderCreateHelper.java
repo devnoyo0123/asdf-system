@@ -1,10 +1,10 @@
 package com.example.orderservice.application;
 
 import com.example.orderservice.application.dto.create.CreateOrderCommand;
-import com.example.orderservice.application.mapper.OrderDataMapper;
-import com.example.orderservice.application.ports.output.repository.CustomerRepository;
+import com.example.orderservice.application.mapper.order.OrderDataMapper;
+import com.example.orderservice.application.ports.output.customer.repository.CustomerRepository;
 import com.example.orderservice.application.ports.output.order.repository.OrderRepository;
-import com.example.orderservice.application.ports.output.repository.RestaurantRepository;
+import com.example.orderservice.application.ports.output.restaurant.repository.RestaurantRepository;
 import com.example.orderservice.domain.OrderDomainService;
 import com.example.orderservice.domain.entity.Customer;
 import com.example.orderservice.domain.entity.Order;

@@ -8,17 +8,14 @@ import java.util.List;
 
 @Getter
 public class Restaurant extends AggregateRoot<RestaurantId> {
-    public Restaurant(List<Product> productLists, boolean active) {
-        this.productLists = productLists;
-        this.active = active;
-    }
 
-    private final List<Product> productLists;
+    private final List<Product> products;
     private boolean active;
+
 
     private Restaurant(Builder builder) {
         super.setId(builder.restaurantId);
-        productLists = builder.productLists;
+        products = builder.products;
         active = builder.active;
     }
 
@@ -28,7 +25,7 @@ public class Restaurant extends AggregateRoot<RestaurantId> {
 
     public static final class Builder {
         private RestaurantId restaurantId;
-        private List<Product> productLists;
+        private List<Product> products;
         private boolean active;
 
         private Builder() {
@@ -39,8 +36,8 @@ public class Restaurant extends AggregateRoot<RestaurantId> {
             return this;
         }
 
-        public Builder productLists(List<Product> val) {
-            productLists = val;
+        public Builder products(List<Product> val) {
+            products = val;
             return this;
         }
 

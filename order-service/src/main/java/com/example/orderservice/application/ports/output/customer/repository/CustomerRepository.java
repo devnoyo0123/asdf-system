@@ -1,4 +1,4 @@
-package com.example.orderservice.application.ports.output.repository;
+package com.example.orderservice.application.ports.output.customer.repository;
 
 import com.example.orderservice.domain.entity.Customer;
 

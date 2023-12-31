@@ -1,4 +1,4 @@
-package com.example.orderservice.application.mapper;
+package com.example.orderservice.application.mapper.order;
 
 import com.example.modulecommon.domain.valueobject.CustomerId;
 import com.example.modulecommon.domain.valueobject.Money;

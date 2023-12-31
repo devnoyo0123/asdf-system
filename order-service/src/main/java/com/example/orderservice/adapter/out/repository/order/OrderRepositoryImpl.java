@@ -1,9 +1,8 @@
-package com.example.orderservice.adapter.out.repository;
+package com.example.orderservice.adapter.out.repository.order;
 
-import com.example.orderservice.application.mapper.OrderDataAccessMapper;
-import com.example.orderservice.application.ports.output.order.entity.OrderEntity;
+import com.example.orderservice.application.mapper.order.OrderDataAccessMapper;
 import com.example.orderservice.application.ports.output.order.repository.OrderJpaRepository;
-import com.example.orderservice.application.ports.output.repository.OrderRepository;
+import com.example.orderservice.application.ports.output.order.repository.OrderRepository;
 import com.example.orderservice.domain.entity.Order;
 import com.example.orderservice.domain.valueobject.TrackingId;
 import org.springframework.stereotype.Component;

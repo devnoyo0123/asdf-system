@@ -1,4 +1,4 @@
-package com.example.orderservice.application.mapper;
+package com.example.orderservice.application.mapper.order;
 
 import com.example.modulecommon.domain.valueobject.*;
 import com.example.orderservice.application.ports.output.order.entity.OrderAddressEntity;
