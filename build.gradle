@@ -5,8 +5,11 @@ plugins {
 group = 'org.example'
 version = '1.0-SNAPSHOT'
 
-repositories {
-    mavenCentral()
+allprojects {
+    repositories {
+        mavenCentral()
+        maven { url "https://packages.confluent.io/maven/" } // 추가된 Confluent Maven 리포지터리
+    }
 }
 
 dependencies {

@@ -26,7 +26,7 @@ public class OrderDataMapper {
     public Restaurant createOrderCommandToRestaurant(CreateOrderCommand createOrderCommand) {
         return Restaurant.builder()
                 .restaurantId(new RestaurantId(createOrderCommand.getRestaurantId()))
-                .productLists(createOrderCommand.getItemList().stream().map(orderItemDto ->
+                .products(createOrderCommand.getItemList().stream().map(orderItemDto ->
                                 new Product(new ProductId(orderItemDto.getProductId())))
                         .collect(Collectors.toList())
                 )

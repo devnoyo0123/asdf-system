@@ -32,7 +32,7 @@ public class OrderDomainServiceImpl implements OrderDomainService{
 
     private void serOrderProductInformation(Order order, Restaurant restaurant) {
         order.getItems().forEach(orderItem -> {
-            restaurant.getProductLists().forEach(restaurantProduct -> {
+            restaurant.getProducts().forEach(restaurantProduct -> {
                 Product product = orderItem.getProduct();
                 if(product.equals(restaurantProduct)) {
                     product.updateWithConfirmedNameAndPrice(restaurantProduct.getName(), restaurantProduct.getPrice());
