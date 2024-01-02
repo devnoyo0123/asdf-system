@@ -44,3 +44,4 @@ bin/
 **/.env
 
 food-ordering-system-container/volumes/
+food-ordering-system-container/db/
