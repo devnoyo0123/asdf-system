@@ -41,5 +41,6 @@ bin/
 ### Mac OS ###
 .DS_Store
 
+**/.env
 
-docker-compose/volumes/
+food-ordering-system-container/volumes/
