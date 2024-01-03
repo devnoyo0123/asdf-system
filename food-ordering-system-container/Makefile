@@ -44,6 +44,13 @@ logs-init-kafka:
 logs-db:
 	docker-compose logs db
 
+# PostgreSQL 데이터 초기화
+reset-db:
+	docker-compose stop db && \
+	docker-compose rm db && \
+	rm -rf ./db/pgdata && \
+	docker-compose up -d db
+
 # 도움말
 help:
 	@echo "사용 가능한 명령어:"
@@ -58,3 +65,4 @@ help:
 	@echo "  make logs-kafka-ui        : Kafka UI 로그 확인"
 	@echo "  make logs-init-kafka      : Init Kafka 로그 확인"
 	@echo "  make logs-db              : PostgreSQL DB 로그 확인"
+	@echo "  make reset-db             : PostgreSQL 데이터 초기화"
