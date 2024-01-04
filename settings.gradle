@@ -9,3 +9,7 @@ rootProject.name = 'food-ordering-system'
 
 include 'module-common'
 include 'order-service'
+include 'customer-service'
+include 'payment-service'
+include 'customer-service'
+
