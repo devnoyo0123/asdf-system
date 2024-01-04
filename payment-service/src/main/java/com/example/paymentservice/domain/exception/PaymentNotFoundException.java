@@ -1,6 +1,4 @@
-package com.example.paymentservice.exception;
-
-import com.example.modulecommon.domain.exception.DomainException;
+package com.example.paymentservice.domain.exception;
 
 public class PaymentNotFoundException extends PaymentDomainException{
 

@@ -1,4 +1,4 @@
-package com.example.paymentservice.event;
+package com.example.paymentservice.domain.event;
 
 
 import com.example.modulecommon.domain.event.DomainEvent;

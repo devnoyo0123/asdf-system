@@ -1,4 +1,4 @@
-package com.example.paymentservice.exception;
+package com.example.paymentservice.domain.exception;
 
 import com.example.modulecommon.domain.exception.DomainException;
 
