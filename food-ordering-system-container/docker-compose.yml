@@ -133,13 +133,11 @@ services:
       - "8989:8080"
     environment:
       DYNAMIC_CONFIG_ENABLED: 'true'
-    depends_on:
-      kafka-broker-1:
-        condition: service_healthy
-      kafka-broker-2:
-        condition: service_healthy
-      kafka-broker-3:
-        condition: service_healthy
+      KAFKA_CLUSTERS_0_NAME: wizard_confluent
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: pkc-0xrvv6.ap-northeast-2.aws.confluent.cloud:9092
+      KAFKA_CLUSTERS_0_PROPERTIES_SECURITY_PROTOCOL: SASL_SSL
+      KAFKA_CLUSTERS_0_PROPERTIES_SASL_MECHANISM: PLAIN
+      KAFKA_CLUSTERS_0_PROPERTIES_SASL_JAAS_CONFIG: org.apache.kafka.common.security.plain.PlainLoginModule required username="LA6RJZPJFZIR7GOT" password="HZdQehilytj4CLxNfj5CrCdimXDUmCCTu6QhXicT8UKp1SzVvkqqnJatokJpD+/K";
     networks:
       - ${GLOBAL_NETWORK:-kafka}
 
