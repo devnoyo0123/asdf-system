@@ -12,4 +12,5 @@ include 'order-service'
 include 'customer-service'
 include 'payment-service'
 include 'customer-service'
+include 'restaurant-service'
 
