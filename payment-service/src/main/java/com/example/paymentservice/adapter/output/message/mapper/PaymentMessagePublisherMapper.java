@@ -1,20 +1,16 @@
 package com.example.paymentservice.adapter.output.message.mapper;
 
-import com.example.modulecommon.kafka.order.avro.model.PaymentOrderStatus;
-import com.example.modulecommon.kafka.order.avro.model.PaymentRequestAvroModel;
 import com.example.modulecommon.kafka.order.avro.model.PaymentResponseAvroModel;
 import com.example.modulecommon.kafka.order.avro.model.PaymentStatus;
-import com.example.paymentservice.application.dto.PaymentRequest;
 import com.example.paymentservice.domain.event.PaymentCancelledEvent;
 import com.example.paymentservice.domain.event.PaymentCompletedEvent;
-import com.example.paymentservice.domain.event.PaymentEvent;
 import com.example.paymentservice.domain.event.PaymentFailedEvent;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
 @Component
-public class PaymentMessagePublishMapper {
+public class PaymentMessagePublisherMapper {
     public PaymentResponseAvroModel paymentCompletedEventToPaymentResponseAvroModel(PaymentCompletedEvent paymentCompletedEvent) {
         return PaymentResponseAvroModel.newBuilder()
                 .setId(UUID.randomUUID().toString())
@@ -40,18 +36,6 @@ public class PaymentMessagePublishMapper {
                 .setCreatedAt(paymentCancelledEvent.getPayment().getCreatedAt().toInstant())
                 .setPaymentStatus(PaymentStatus.valueOf(paymentCancelledEvent.getPayment().getPaymentStatus().name()))
                 .setFailureMessages(paymentCancelledEvent.getFailureMessages())
-                .build();
-    }
-
-    public PaymentRequest paymentRequestAvroModelToPaymentRequest(PaymentRequestAvroModel paymentRequestAvroModel) {
-        return PaymentRequest.builder()
-                .id(paymentRequestAvroModel.getId())
-                .sagaId(paymentRequestAvroModel.getSagaId())
-                .customerId(paymentRequestAvroModel.getCustomerId())
-                .orderId(paymentRequestAvroModel.getOrderId())
-                .price(paymentRequestAvroModel.getPrice())
-                .createdAt(paymentRequestAvroModel.getCreatedAt())
-                .paymentOrderStatus(PaymentOrderStatus.valueOf(paymentRequestAvroModel.getPaymentOrderStatus().name()))
                 .build();
     }
 

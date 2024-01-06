@@ -1,10 +1,10 @@
 package com.example.paymentservice.adapter.output.message.publisher;
 
 import com.example.modulecommon.kafka.order.avro.model.PaymentResponseAvroModel;
+import com.example.modulecommon.kafka.producer.service.KafkaMessageHelper;
 import com.example.modulecommon.kafka.producer.service.KafkaProducer;
-import com.example.orderservice.adapter.out.message.order.KafkaMessageHelper;
-import com.example.paymentservice.adapter.output.message.mapper.PaymentMessagePublishMapper;
-import com.example.paymentservice.application.ports.output.message.PaymentMessagePublisher;
+import com.example.paymentservice.adapter.output.message.mapper.PaymentMessagePublisherMapper;
+import com.example.paymentservice.application.ports.output.message.PaymentEventPublisher;
 import com.example.paymentservice.config.PaymentServiceConfigData;
 import com.example.paymentservice.domain.event.PaymentCompletedEvent;
 import lombok.extern.slf4j.Slf4j;
@@ -12,16 +12,18 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-public class PaymentCompletedKafkaMessagePublisher implements PaymentMessagePublisher<PaymentCompletedEvent> {
+public class PaymentCompletedKafkaEventPublisher implements PaymentEventPublisher<PaymentCompletedEvent> {
 
-    private final PaymentMessagePublishMapper paymentMessagePublishMapper;
+    private final PaymentMessagePublisherMapper paymentMessagePublisherMapper;
     private final KafkaProducer<String, PaymentResponseAvroModel> kafkaProducer;
     private final PaymentServiceConfigData paymentServiceConfigData;
     private final KafkaMessageHelper kafkaMessageHelper;
 
-
-    public PaymentCompletedKafkaMessagePublisher(PaymentMessagePublishMapper paymentMessagePublishMapper, KafkaProducer<String, PaymentResponseAvroModel> kafkaProducer, PaymentServiceConfigData paymentServiceConfigData, KafkaMessageHelper kafkaMessageHelper) {
-        this.paymentMessagePublishMapper = paymentMessagePublishMapper;
+    public PaymentCompletedKafkaEventPublisher(PaymentMessagePublisherMapper paymentMessagePublisherMapper,
+                                               KafkaProducer<String, PaymentResponseAvroModel> kafkaProducer,
+                                               PaymentServiceConfigData paymentServiceConfigData,
+                                               KafkaMessageHelper kafkaMessageHelper) {
+        this.paymentMessagePublisherMapper = paymentMessagePublisherMapper;
         this.kafkaProducer = kafkaProducer;
         this.paymentServiceConfigData = paymentServiceConfigData;
         this.kafkaMessageHelper = kafkaMessageHelper;
@@ -35,7 +37,7 @@ public class PaymentCompletedKafkaMessagePublisher implements PaymentMessagePubl
 
         try {
             PaymentResponseAvroModel paymentResponseAvroModel =
-                    paymentMessagePublishMapper.paymentCompletedEventToPaymentResponseAvroModel(domainEvent);
+                    paymentMessagePublisherMapper.paymentCompletedEventToPaymentResponseAvroModel(domainEvent);
 
             kafkaProducer.send(paymentServiceConfigData.getPaymentResponseTopicName(),
                     orderId,

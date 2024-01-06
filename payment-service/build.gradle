@@ -32,7 +32,7 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-    implementation project(path: ':module-common')
+    implementation project(':module-common')
 }
 
 tasks.named('bootBuildImage') {

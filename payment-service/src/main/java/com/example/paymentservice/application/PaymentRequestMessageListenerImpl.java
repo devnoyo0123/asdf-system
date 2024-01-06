@@ -1,6 +1,5 @@
-package com.example.paymentservice.adapter.input.message.listener;
+package com.example.paymentservice.application;
 
-import com.example.paymentservice.application.PaymentRequestHelper;
 import com.example.paymentservice.application.dto.PaymentRequest;
 import com.example.paymentservice.application.ports.input.message.listener.PaymentRequestMessageListener;
 import com.example.paymentservice.domain.event.PaymentEvent;

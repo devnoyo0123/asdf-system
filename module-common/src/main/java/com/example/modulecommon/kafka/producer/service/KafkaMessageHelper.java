@@ -1,4 +1,4 @@
-package com.example.orderservice.adapter.out.message.order;
+package com.example.modulecommon.kafka.producer.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.RecordMetadata;

@@ -4,9 +4,13 @@ import com.example.paymentservice.application.dto.PaymentRequest;
 import com.example.paymentservice.application.exception.PaymentApplicationServiceException;
 import com.example.paymentservice.application.mapper.PaymentDataMapper;
 import com.example.paymentservice.application.ports.output.dataaccess.repository.PaymentRepository;
+import com.example.paymentservice.application.ports.output.message.PaymentEventPublisher;
 import com.example.paymentservice.domain.PaymentDomainService;
 import com.example.paymentservice.domain.entity.Payment;
+import com.example.paymentservice.domain.event.PaymentCancelledEvent;
+import com.example.paymentservice.domain.event.PaymentCompletedEvent;
 import com.example.paymentservice.domain.event.PaymentEvent;
+import com.example.paymentservice.domain.event.PaymentFailedEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,11 +27,22 @@ public class PaymentRequestHelper {
     private final PaymentDomainService paymentDomainService;
     private final PaymentDataMapper paymentDataMapper;
     private final PaymentRepository paymentRepository;
+    private final PaymentEventPublisher<PaymentCompletedEvent> paymentCompletedEventDomainEventPublisher;
+    private final PaymentEventPublisher<PaymentCancelledEvent> paymentCancelledEventDomainEventPublisher;
+    private final PaymentEventPublisher<PaymentFailedEvent> paymentFailedEventDomainEventPublisher;
 
-    public PaymentRequestHelper(PaymentDomainService paymentDomainService, PaymentDataMapper paymentDataMapper, PaymentRepository paymentRepository) {
+    public PaymentRequestHelper(PaymentDomainService paymentDomainService,
+                                PaymentDataMapper paymentDataMapper,
+                                PaymentRepository paymentRepository,
+                                PaymentEventPublisher<PaymentCompletedEvent> paymentCompletedEventDomainEventPublisher,
+                                PaymentEventPublisher<PaymentCancelledEvent> paymentCancelledEventDomainEventPublisher,
+                                PaymentEventPublisher<PaymentFailedEvent> paymentFailedEventDomainEventPublisher) {
         this.paymentDomainService = paymentDomainService;
         this.paymentDataMapper = paymentDataMapper;
         this.paymentRepository = paymentRepository;
+        this.paymentCompletedEventDomainEventPublisher = paymentCompletedEventDomainEventPublisher;
+        this.paymentCancelledEventDomainEventPublisher = paymentCancelledEventDomainEventPublisher;
+        this.paymentFailedEventDomainEventPublisher = paymentFailedEventDomainEventPublisher;
     }
 
     @Transactional
@@ -35,7 +50,7 @@ public class PaymentRequestHelper {
         log.info("Received payment complete event for order id: {}", paymentRequest.getOrderId());
         Payment payment = paymentDataMapper.paymentRequestModelToPayment(paymentRequest);
         List<String> failureMessages = new ArrayList<>();
-        PaymentEvent paymentEvent = paymentDomainService.validateAndInitiatePayment(payment, failureMessages);
+        PaymentEvent paymentEvent = paymentDomainService.validateAndInitiatePayment(payment, failureMessages, paymentCompletedEventDomainEventPublisher, paymentFailedEventDomainEventPublisher);
         paymentRepository.save(payment);
         return paymentEvent;
     }
@@ -51,7 +66,7 @@ public class PaymentRequestHelper {
         }
         Payment payment = paymentResponse.get();
         List<String> failureMessages = new ArrayList<>();
-        PaymentEvent paymentEvent = paymentDomainService.validateAndCancelPayment(payment,failureMessages);
+        PaymentEvent paymentEvent = paymentDomainService.validateAndCancelPayment(payment,failureMessages,paymentCancelledEventDomainEventPublisher, paymentFailedEventDomainEventPublisher);
         paymentRepository.save(payment);
         return paymentEvent;
     }
