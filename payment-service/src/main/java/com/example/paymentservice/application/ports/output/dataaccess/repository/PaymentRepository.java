@@ -1,4 +1,4 @@
-package com.example.paymentservice.application.ports.output.repository;
+package com.example.paymentservice.application.ports.output.dataaccess.repository;
 
 
 import com.example.paymentservice.domain.entity.Payment;

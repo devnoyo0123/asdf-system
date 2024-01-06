@@ -1,9 +1,9 @@
-package com.example.paymentservice.adapter.output.mapper;
+package com.example.paymentservice.adapter.output.dataaccess.mapper;
 
 import com.example.modulecommon.domain.valueobject.CustomerId;
 import com.example.modulecommon.domain.valueobject.Money;
 import com.example.modulecommon.domain.valueobject.OrderId;
-import com.example.paymentservice.adapter.output.entity.PaymentEntity;
+import com.example.paymentservice.adapter.output.dataaccess.entity.PaymentEntity;
 import com.example.paymentservice.domain.entity.Payment;
 import com.example.paymentservice.domain.valueobject.PaymentId;
 import org.springframework.stereotype.Component;

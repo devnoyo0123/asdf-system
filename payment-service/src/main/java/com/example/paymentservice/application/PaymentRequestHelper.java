@@ -3,7 +3,7 @@ package com.example.paymentservice.application;
 import com.example.paymentservice.application.dto.PaymentRequest;
 import com.example.paymentservice.application.exception.PaymentApplicationServiceException;
 import com.example.paymentservice.application.mapper.PaymentDataMapper;
-import com.example.paymentservice.application.ports.output.repository.PaymentRepository;
+import com.example.paymentservice.application.ports.output.dataaccess.repository.PaymentRepository;
 import com.example.paymentservice.domain.PaymentDomainService;
 import com.example.paymentservice.domain.entity.Payment;
 import com.example.paymentservice.domain.event.PaymentEvent;

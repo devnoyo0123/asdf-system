@@ -16,13 +16,13 @@ public class PayOrderKafkaMessagePublisher implements OrderPaidRestaurantRequest
     private final OrderMessagingDataMapper orderMessagingDataMapper;
     private final OrderServiceConfigData orderServiceConfigData;
     private final KafkaProducer<String, RestaurantApprovalRequestAvroModel> kafkaProducer;
-    private final OrderKafkaMessageHelper orderKafkaMessageHelper;
+    private final KafkaMessageHelper kafkaMessageHelper;
 
-    public PayOrderKafkaMessagePublisher(OrderMessagingDataMapper orderMessagingDataMapper, OrderServiceConfigData orderServiceConfigData, KafkaProducer<String, RestaurantApprovalRequestAvroModel> kafkaProducer, OrderKafkaMessageHelper orderKafkaMessageHelper) {
+    public PayOrderKafkaMessagePublisher(OrderMessagingDataMapper orderMessagingDataMapper, OrderServiceConfigData orderServiceConfigData, KafkaProducer<String, RestaurantApprovalRequestAvroModel> kafkaProducer, KafkaMessageHelper kafkaMessageHelper) {
         this.orderMessagingDataMapper = orderMessagingDataMapper;
         this.orderServiceConfigData = orderServiceConfigData;
         this.kafkaProducer = kafkaProducer;
-        this.orderKafkaMessageHelper = orderKafkaMessageHelper;
+        this.kafkaMessageHelper = kafkaMessageHelper;
     }
 
     public void publish(OrderPaidEvent domainEvent) {
@@ -35,7 +35,7 @@ public class PayOrderKafkaMessagePublisher implements OrderPaidRestaurantRequest
             kafkaProducer.send(orderServiceConfigData.getPaymentRequestTopicName(),
                     orderId,
                     paymentRequestAvroModel,
-                    orderKafkaMessageHelper.getKafkaCallback(orderServiceConfigData.getPaymentResponseTopicName(), paymentRequestAvroModel,
+                    kafkaMessageHelper.getKafkaCallback(orderServiceConfigData.getPaymentResponseTopicName(), paymentRequestAvroModel,
                             orderId, RestaurantApprovalRequestAvroModel.getClassSchema().getName())
             );
         } catch (Exception e) {

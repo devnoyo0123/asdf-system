@@ -1,8 +1,8 @@
-package com.example.paymentservice.adapter.output.repository;
+package com.example.paymentservice.adapter.output.dataaccess.repository;
 
-import com.example.paymentservice.adapter.output.mapper.PaymentDataAccessMapper;
-import com.example.paymentservice.application.ports.output.repository.PaymentJpaRepository;
-import com.example.paymentservice.application.ports.output.repository.PaymentRepository;
+import com.example.paymentservice.adapter.output.dataaccess.mapper.PaymentDataAccessMapper;
+import com.example.paymentservice.application.ports.output.dataaccess.repository.PaymentJpaRepository;
+import com.example.paymentservice.application.ports.output.dataaccess.repository.PaymentRepository;
 import com.example.paymentservice.domain.entity.Payment;
 import org.springframework.stereotype.Component;
 

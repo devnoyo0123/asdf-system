@@ -1,4 +1,4 @@
-package com.example.paymentservice.application.ports.output.exception;
+package com.example.paymentservice.application.ports.output.dataaccess.exception;
 
 public class PaymentDataAccessException extends RuntimeException {
 
