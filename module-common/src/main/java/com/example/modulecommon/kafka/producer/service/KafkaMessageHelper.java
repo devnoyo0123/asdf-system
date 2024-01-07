@@ -11,7 +11,10 @@ import java.util.function.BiConsumer;
 @Component
 public class KafkaMessageHelper {
 
-    public <T> BiConsumer<SendResult<String, T>, Throwable> getKafkaCallback(String responseTopicName, T avroModel, String orderId, String avroModelName) {
+    public <T> BiConsumer<SendResult<String, T>, Throwable> getKafkaCallback(String responseTopicName,
+                                                                             T avroModel,
+                                                                             String orderId,
+                                                                             String avroModelName) {
         return (result, ex) -> {
             if (ex == null) {
                 RecordMetadata metadata = result.getRecordMetadata();
