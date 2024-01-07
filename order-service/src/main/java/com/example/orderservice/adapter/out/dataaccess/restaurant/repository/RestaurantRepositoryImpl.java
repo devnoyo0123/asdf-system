@@ -1,8 +1,8 @@
-package com.example.orderservice.adapter.out.repository.restaurant;
+package com.example.orderservice.adapter.out.dataaccess.restaurant.repository;
 
-import com.example.orderservice.application.mapper.restaurant.RestaurantDataAccessMapper;
-import com.example.orderservice.application.ports.output.restaurant.entity.RestaurantEntity;
-import com.example.orderservice.application.ports.output.restaurant.repository.RestaurantJpaRepository;
+import com.example.modulecommon.dataaccess.restaurant.entity.RestaurantEntity;
+import com.example.orderservice.adapter.out.dataaccess.restaurant.mapper.RestaurantDataAccessMapper;
+import com.example.modulecommon.dataaccess.restaurant.repository.RestaurantJpaRepository;
 import com.example.orderservice.application.ports.output.restaurant.repository.RestaurantRepository;
 import com.example.orderservice.domain.entity.Restaurant;
 import org.springframework.stereotype.Component;

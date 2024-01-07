@@ -4,7 +4,7 @@ import com.example.modulecommon.kafka.order.avro.model.PaymentRequestAvroModel;
 import com.example.modulecommon.kafka.order.avro.model.RestaurantApprovalRequestAvroModel;
 import com.example.modulecommon.kafka.producer.service.KafkaMessageHelper;
 import com.example.modulecommon.kafka.producer.service.KafkaProducer;
-import com.example.orderservice.application.mapper.order.OrderMessagingDataMapper;
+import com.example.orderservice.adapter.out.message.mapper.OrderMessagingDataMapper;
 import com.example.orderservice.application.ports.output.message.publisher.payment.OrderCancelledPaymentRequestMessagePublisher;
 import com.example.orderservice.config.OrderServiceConfigData;
 import com.example.orderservice.domain.event.OrderCancelledEvent;

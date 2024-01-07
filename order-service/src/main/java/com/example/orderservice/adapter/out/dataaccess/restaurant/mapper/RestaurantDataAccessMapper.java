@@ -1,10 +1,10 @@
-package com.example.orderservice.application.mapper.restaurant;
+package com.example.orderservice.adapter.out.dataaccess.restaurant.mapper;
 
-import com.example.modulecommon.domain.exception.RestaurantDataAccessException;
+import com.example.modulecommon.dataaccess.restaurant.entity.RestaurantEntity;
+import com.example.modulecommon.dataaccess.restaurant.exception.RestaurantDataAccessException;
 import com.example.modulecommon.domain.valueobject.Money;
 import com.example.modulecommon.domain.valueobject.ProductId;
 import com.example.modulecommon.domain.valueobject.RestaurantId;
-import com.example.orderservice.application.ports.output.restaurant.entity.RestaurantEntity;
 import com.example.orderservice.domain.entity.Product;
 import com.example.orderservice.domain.entity.Restaurant;
 import org.springframework.stereotype.Component;

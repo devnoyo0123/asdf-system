@@ -1,4 +1,4 @@
-package com.example.orderservice.application.mapper.order;
+package com.example.orderservice.adapter.out.message.mapper;
 
 import com.example.modulecommon.domain.valueobject.OrderApprovalStatus;
 import com.example.modulecommon.domain.valueobject.PaymentStatus;

@@ -1,4 +1,4 @@
-package com.example.orderservice.application.ports.output.restaurant.entity;
+package com.example.modulecommon.dataaccess.restaurant.entity;
 
 
 import jakarta.persistence.Entity;

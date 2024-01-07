@@ -1,7 +1,8 @@
-package com.example.orderservice.application.ports.output.restaurant.repository;
+package com.example.modulecommon.dataaccess.restaurant.repository;
 
-import com.example.orderservice.application.ports.output.restaurant.entity.RestaurantEntity;
-import com.example.orderservice.application.ports.output.restaurant.entity.RestaurantEntityId;
+
+import com.example.modulecommon.dataaccess.restaurant.entity.RestaurantEntity;
+import com.example.modulecommon.dataaccess.restaurant.entity.RestaurantEntityId;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

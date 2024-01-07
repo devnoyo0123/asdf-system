@@ -1,4 +1,4 @@
-package com.example.orderservice.application.mapper.customer;
+package com.example.orderservice.adapter.out.dataaccess.customer.mapper;
 
 import com.example.modulecommon.domain.valueobject.CustomerId;
 import com.example.orderservice.application.ports.output.customer.entity.CustomerEntity;

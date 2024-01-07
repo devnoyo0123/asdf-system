@@ -1,6 +1,6 @@
-package com.example.orderservice.adapter.out.repository.customer;
+package com.example.orderservice.adapter.out.dataaccess.customer.repository;
 
-import com.example.orderservice.application.mapper.customer.CustomerDataAccessMapper;
+import com.example.orderservice.adapter.out.dataaccess.customer.mapper.CustomerDataAccessMapper;
 import com.example.orderservice.application.ports.output.customer.repository.CustomerJpaRepository;
 import com.example.orderservice.application.ports.output.customer.repository.CustomerRepository;
 import com.example.orderservice.domain.entity.Customer;

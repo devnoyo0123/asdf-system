@@ -3,7 +3,7 @@ package com.example.orderservice.adapter.in.message;
 import com.example.modulecommon.kafka.consumer.service.KafkaConsumer;
 import com.example.modulecommon.kafka.order.avro.model.OrderApprovalStatus;
 import com.example.modulecommon.kafka.order.avro.model.RestaurantApprovalResponseAvroModel;
-import com.example.orderservice.application.mapper.order.OrderMessagingDataMapper;
+import com.example.orderservice.adapter.out.message.mapper.OrderMessagingDataMapper;
 import com.example.orderservice.application.ports.input.message.listener.restaurant.RestaurantApprovalResponseMessageListener;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
