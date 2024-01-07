@@ -26,7 +26,7 @@ public class RestaurantApprovalResponseKafkaListener implements KafkaConsumer<Re
     }
 
     @Override
-    @KafkaListener(id = "${kafka-consumer-config.restaurant-approval-consumer-group-id}",
+    @KafkaListener(groupId = "${kafka-consumer-config.restaurant-approval-consumer-group-id}",
             topics = "${order-service.restaurant-approval-response-topic-name}"
     )
     public void receive(List<RestaurantApprovalResponseAvroModel> messages, List<String> keys, List<Integer> partitions, List<Long> offsets) {

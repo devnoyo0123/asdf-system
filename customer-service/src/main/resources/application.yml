@@ -14,3 +14,7 @@ spring:
     username: pass_local_user
     password: pass_local
     driver-class-name: org.postgresql.Driver
+  sql:
+    init:
+      mode: NEVER
+      schema-locations: classpath:init-schema.sql, classpath:init-data.sql
