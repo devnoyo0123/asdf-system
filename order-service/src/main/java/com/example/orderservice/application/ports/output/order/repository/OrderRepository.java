@@ -1,5 +1,6 @@
 package com.example.orderservice.application.ports.output.order.repository;
 
+import com.example.modulecommon.domain.valueobject.OrderId;
 import com.example.orderservice.domain.entity.Order;
 import com.example.orderservice.domain.valueobject.TrackingId;
 
@@ -9,4 +10,6 @@ public interface OrderRepository {
     Order save(Order order);
 
     Optional<Order> findByTrackingId(TrackingId trackingId);
+
+    Optional<Order> findById(OrderId orderId);
 }
