@@ -3,7 +3,6 @@ package com.example.orderservice.application;
 import com.example.orderservice.application.dto.create.CreateOrderCommand;
 import com.example.orderservice.application.dto.create.CreateOrderResponse;
 import com.example.orderservice.application.mapper.order.OrderDataMapper;
-import com.example.orderservice.application.ports.output.message.publisher.payment.OrderCreatedPaymentRequestMessagePublisher;
 import com.example.orderservice.domain.event.OrderCreatedEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
