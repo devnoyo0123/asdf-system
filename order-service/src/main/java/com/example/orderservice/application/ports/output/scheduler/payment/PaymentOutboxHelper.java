@@ -2,7 +2,6 @@ package com.example.orderservice.application.ports.output.scheduler.payment;
 
 import com.example.modulecommon.outbox.OutboxStatus;
 import com.example.modulecommon.saga.SagaStatus;
-import com.example.orderservice.adapter.out.scheduler.exception.PaymentOutboxSchedulerException;
 import com.example.orderservice.application.ports.output.outbox.repository.PaymentOutboxRepository;
 import com.example.orderservice.domain.exception.OrderDomainException;
 import com.example.orderservice.domain.outbox.payment.OrderPaymentOutboxMessage;
@@ -47,7 +46,7 @@ public class PaymentOutboxHelper {
         OrderPaymentOutboxMessage message = paymentOutboxRepository.save(orderPaymentOutboxMessage);
         if (message == null) {
             log.error("Could not save outbox message for order with id: {}", orderPaymentOutboxMessage.getOrderId());
-            throw new PaymentOutboxSchedulerException("Could not save outbox message for order with id: " + orderPaymentOutboxMessage.getOrderId());
+            throw new OrderDomainException("Could not save outbox message for order with id: " + orderPaymentOutboxMessage.getOrderId());
 
         }
         log.info("OrderPaymentMessage saved with id: {}", message.getId());
