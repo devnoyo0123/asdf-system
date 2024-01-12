@@ -52,4 +52,13 @@ public class PaymentOutboxHelper {
         }
         log.info("OrderPaymentMessage saved with id: {}", message.getId());
     }
+
+    @Transactional
+    public void deletePaymentOutboxMessageByOutboxStatusAndSagaStatus(OutboxStatus outboxStatus,
+                                                                      SagaStatus... sagaStatus) {
+        paymentOutboxRepository.deleteByTypeAndOutboxStatusAndSagaStatus(ORDER_SAGA_NAME,
+                outboxStatus,
+                sagaStatus);
+
+    }
 }
