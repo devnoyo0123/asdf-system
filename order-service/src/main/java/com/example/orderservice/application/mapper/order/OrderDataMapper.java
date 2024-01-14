@@ -12,6 +12,7 @@ import com.example.orderservice.domain.entity.OrderItem;
 import com.example.orderservice.domain.entity.Product;
 import com.example.orderservice.domain.entity.Restaurant;
 import com.example.orderservice.domain.event.OrderCancelledEvent;
+import com.example.orderservice.domain.event.OrderCreatedEvent;
 import com.example.orderservice.domain.event.OrderPaidEvent;
 import com.example.orderservice.domain.outbox.approval.OrderApprovalEventPayload;
 import com.example.orderservice.domain.outbox.approval.OrderApprovalEventProduct;
@@ -72,6 +73,16 @@ public class OrderDataMapper {
                 .orderTrackingId(order.getTrackingId().getValue())
                 .orderStatus(order.getOrderStatus())
                 .failureMessages(order.getFailureMessages())
+                .build();
+    }
+
+    public OrderPaymentEventPayload orderCreatedEventToOrderPaymentEventPayload(OrderCreatedEvent orderCreatedEvent) {
+        return OrderPaymentEventPayload.builder()
+                .customerId(orderCreatedEvent.getOrder().getCustomerId().getValue().toString())
+                .orderId(orderCreatedEvent.getOrder().getId().getValue().toString())
+                .price(orderCreatedEvent.getOrder().getPrice().getAmount())
+                .createdAt(orderCreatedEvent.getCreatedAt())
+                .paymentOrderStatus(PaymentOrderStatus.PENDING.name())
                 .build();
     }
 
