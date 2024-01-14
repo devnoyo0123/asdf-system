@@ -1,6 +1,7 @@
 package com.example.orderservice.application.mapper.order;
 
 import com.example.modulecommon.domain.valueobject.*;
+import com.example.modulecommon.kafka.order.avro.model.PaymentOrderStatus;
 import com.example.orderservice.application.dto.create.CreateOrderCommand;
 import com.example.orderservice.application.dto.create.CreateOrderResponse;
 import com.example.orderservice.application.dto.create.OrderAddressDto;
@@ -10,9 +11,11 @@ import com.example.orderservice.domain.entity.Order;
 import com.example.orderservice.domain.entity.OrderItem;
 import com.example.orderservice.domain.entity.Product;
 import com.example.orderservice.domain.entity.Restaurant;
+import com.example.orderservice.domain.event.OrderCancelledEvent;
 import com.example.orderservice.domain.event.OrderPaidEvent;
 import com.example.orderservice.domain.outbox.approval.OrderApprovalEventPayload;
 import com.example.orderservice.domain.outbox.approval.OrderApprovalEventProduct;
+import com.example.orderservice.domain.outbox.payment.OrderPaymentEventPayload;
 import com.example.orderservice.domain.valueobject.StreetAddress;
 import org.springframework.stereotype.Component;
 
@@ -85,5 +88,17 @@ public class OrderDataMapper {
                 .price(orderPaidEvent.getOrder().getPrice().getAmount())
                 .createdAt(orderPaidEvent.getCreatedAt())
                 .build();
+    }
+
+    public OrderPaymentEventPayload orderCancelledEventToOrderPaymentEventPayload(OrderCancelledEvent
+                                                                                           orderCancelledEvent) {
+        return OrderPaymentEventPayload.builder()
+                .customerId(orderCancelledEvent.getOrder().getCustomerId().getValue().toString())
+                .orderId(orderCancelledEvent.getOrder().getId().getValue().toString())
+                .price(orderCancelledEvent.getOrder().getPrice().getAmount())
+                .createdAt(orderCancelledEvent.getCreatedAt())
+                .paymentOrderStatus(PaymentOrderStatus.CANCELLED.name())
+                .build();
+
     }
 }
