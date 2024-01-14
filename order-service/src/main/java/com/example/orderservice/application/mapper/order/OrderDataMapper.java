@@ -1,9 +1,6 @@
 package com.example.orderservice.application.mapper.order;
 
-import com.example.modulecommon.domain.valueobject.CustomerId;
-import com.example.modulecommon.domain.valueobject.Money;
-import com.example.modulecommon.domain.valueobject.ProductId;
-import com.example.modulecommon.domain.valueobject.RestaurantId;
+import com.example.modulecommon.domain.valueobject.*;
 import com.example.orderservice.application.dto.create.CreateOrderCommand;
 import com.example.orderservice.application.dto.create.CreateOrderResponse;
 import com.example.orderservice.application.dto.create.OrderAddressDto;
@@ -13,6 +10,9 @@ import com.example.orderservice.domain.entity.Order;
 import com.example.orderservice.domain.entity.OrderItem;
 import com.example.orderservice.domain.entity.Product;
 import com.example.orderservice.domain.entity.Restaurant;
+import com.example.orderservice.domain.event.OrderPaidEvent;
+import com.example.orderservice.domain.outbox.approval.OrderApprovalEventPayload;
+import com.example.orderservice.domain.outbox.approval.OrderApprovalEventProduct;
 import com.example.orderservice.domain.valueobject.StreetAddress;
 import org.springframework.stereotype.Component;
 
@@ -69,6 +69,21 @@ public class OrderDataMapper {
                 .orderTrackingId(order.getTrackingId().getValue())
                 .orderStatus(order.getOrderStatus())
                 .failureMessages(order.getFailureMessages())
+                .build();
+    }
+
+    public OrderApprovalEventPayload orderPaidEventToOrderApprovalEventPayload(OrderPaidEvent orderPaidEvent) {
+        return OrderApprovalEventPayload.builder()
+                .orderId(orderPaidEvent.getOrder().getId().getValue().toString())
+                .restaurantId(orderPaidEvent.getOrder().getRestaurantId().getValue().toString())
+                .restaurantApprovalStatus(RestaurantOrderStatus.PAID.name())
+                .products(orderPaidEvent.getOrder().getItems().stream().map(orderItem ->
+                        OrderApprovalEventProduct.builder()
+                                .id(orderItem.getProduct().getId().getValue().toString())
+                                .quantity(orderItem.getQuantity())
+                                .build()).collect(Collectors.toList()))
+                .price(orderPaidEvent.getOrder().getPrice().getAmount())
+                .createdAt(orderPaidEvent.getCreatedAt())
                 .build();
     }
 }
