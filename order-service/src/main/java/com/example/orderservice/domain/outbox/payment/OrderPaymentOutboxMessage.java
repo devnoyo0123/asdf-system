@@ -25,7 +25,6 @@ public class OrderPaymentOutboxMessage {
     private OutboxStatus outboxStatus;
     private int version;
 
-
     public void setProcessedAt(ZonedDateTime processedAt) {
         this.processedAt = processedAt;
     }
