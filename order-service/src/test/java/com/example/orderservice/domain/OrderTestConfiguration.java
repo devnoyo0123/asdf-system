@@ -10,7 +10,9 @@ import com.example.orderservice.application.ports.output.restaurant.repository.R
 import org.mockito.Mockito;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.kafka.test.context.EmbeddedKafka;
 
+@EmbeddedKafka
 @SpringBootApplication(scanBasePackages = {"com.example.orderservice"})
 public class OrderTestConfiguration {
     @Bean
