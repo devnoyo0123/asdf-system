@@ -8,7 +8,9 @@ import com.example.orderservice.adapter.out.dataaccess.outbox.payment.mapper.Pay
 import com.example.orderservice.adapter.out.dataaccess.outbox.payment.repository.PaymentOutboxJpaRepository;
 import com.example.orderservice.application.ports.output.outbox.repository.PaymentOutboxRepository;
 import com.example.orderservice.domain.outbox.payment.OrderPaymentOutboxMessage;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
@@ -16,6 +18,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Component
 public class PaymentOutboxRepositoryImpl implements PaymentOutboxRepository {
 
@@ -54,6 +57,7 @@ public class PaymentOutboxRepositoryImpl implements PaymentOutboxRepository {
     public Optional<OrderPaymentOutboxMessage> findByTypeAndSagaIdAndSagaStatus(String type,
                                                                                 UUID sagaId,
                                                                                 SagaStatus... sagaStatus) {
+
         return paymentOutboxJpaRepository
                 .findByTypeAndSagaIdAndSagaStatusIn(type, sagaId, Arrays.asList(sagaStatus))
                 .map(paymentOutboxDataAccessMapper::paymentOutboxEntityToOrderPaymentOutboxMessage);

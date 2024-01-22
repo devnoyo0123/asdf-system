@@ -46,7 +46,8 @@ public class OrderPaymentSaga implements SagaStep<PaymentResponse> {
     @Transactional
     public void process(PaymentResponse paymentResponse) {
 
-        Optional<OrderPaymentOutboxMessage> orderPaymentOutboxMessageResponse = paymentOutboxHelper.getPaymentOutboxMessageBySagaIdAndSagaStatus(
+        Optional<OrderPaymentOutboxMessage> orderPaymentOutboxMessageResponse =
+                paymentOutboxHelper.getPaymentOutboxMessageBySagaIdAndSagaStatus(
                 UUID.fromString(paymentResponse.getSagaId()),
                 SagaStatus.STARTED
         );
@@ -76,13 +77,6 @@ public class OrderPaymentSaga implements SagaStep<PaymentResponse> {
         );
 
         log.info("Order with id: {} is paid", orderPaidEvent.getOrder().getId().getValue());
-    }
-
-    private OrderPaymentOutboxMessage getUpdatedOrderPaymentOutboxMessage(OrderPaymentOutboxMessage orderPaymentOutboxMessage, OrderStatus orderStatus, SagaStatus sagaStatus) {
-        orderPaymentOutboxMessage.setProcessedAt(ZonedDateTime.now(ZoneId.of("UTC")));
-        orderPaymentOutboxMessage.setOrderStatus(orderStatus);
-        orderPaymentOutboxMessage.setSagaStatus(sagaStatus);
-        return orderPaymentOutboxMessage;
     }
 
     @Override
@@ -121,6 +115,13 @@ public class OrderPaymentSaga implements SagaStep<PaymentResponse> {
         }
 
         log.info("Order with id {} is cancelled", order.getId().getValue());
+    }
+
+    private OrderPaymentOutboxMessage getUpdatedOrderPaymentOutboxMessage(OrderPaymentOutboxMessage orderPaymentOutboxMessage, OrderStatus orderStatus, SagaStatus sagaStatus) {
+        orderPaymentOutboxMessage.setProcessedAt(ZonedDateTime.now(ZoneId.of("UTC")));
+        orderPaymentOutboxMessage.setOrderStatus(orderStatus);
+        orderPaymentOutboxMessage.setSagaStatus(sagaStatus);
+        return orderPaymentOutboxMessage;
     }
 
     private OrderApprovalOutboxMessage getUpdatedApprovalOutboxMessage(String sagaId, OrderStatus orderStatus, SagaStatus sagaStatus) {

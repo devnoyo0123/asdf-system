@@ -16,7 +16,7 @@ public class PaymentDataMapper {
         return Payment.builder()
                 .orderId(new OrderId(UUID.fromString(paymentRequest.getOrderId())))
                 .customerId(new CustomerId(UUID.fromString(paymentRequest.getCustomerId())))
-                .price(new Money(paymentRequest.getPrice()))
+                .price(Money.of(paymentRequest.getPrice()))
                 .build();
     }
 }

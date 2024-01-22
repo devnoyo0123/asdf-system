@@ -127,7 +127,8 @@ public class OrderApprovalSaga implements SagaStep<RestaurantApproveResponse> {
     }
 
     private OrderPaymentOutboxMessage getUpdatedOrderPaymentOutboxMessage(String sagaId, OrderStatus orderStatus, SagaStatus sagaStatus) {
-        Optional<OrderPaymentOutboxMessage> orderPaymentOutboxMessageResponse = paymentOutboxHelper.getPaymentOutboxMessageBySagaIdAndSagaStatus(
+        Optional<OrderPaymentOutboxMessage> orderPaymentOutboxMessageResponse =
+                paymentOutboxHelper.getPaymentOutboxMessageBySagaIdAndSagaStatus(
                 UUID.fromString(sagaId),
                 SagaStatus.PROCESSING
         );

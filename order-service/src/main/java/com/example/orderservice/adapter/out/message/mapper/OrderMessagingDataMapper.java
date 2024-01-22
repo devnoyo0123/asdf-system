@@ -9,6 +9,8 @@ import com.example.orderservice.domain.entity.Order;
 import com.example.orderservice.domain.event.OrderCancelledEvent;
 import com.example.orderservice.domain.event.OrderCreatedEvent;
 import com.example.orderservice.domain.event.OrderPaidEvent;
+import com.example.orderservice.domain.outbox.approval.OrderApprovalEventPayload;
+import com.example.orderservice.domain.outbox.payment.OrderPaymentEventPayload;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
@@ -83,5 +85,36 @@ public class OrderMessagingDataMapper {
                 .orderApprovalStatus(OrderApprovalStatus.valueOf(restaurantApprovalResponseAvroModel.getOrderApprovalStatus().name()))
                 .failureMessages(restaurantApprovalResponseAvroModel.getFailureMessages())
                 .build();
+    }
+
+    public PaymentRequestAvroModel orderPaymentEventToPaymentRequestAvroModel(String sagaId,
+                                                                              OrderPaymentEventPayload orderPaymentEventPayload) {
+        return PaymentRequestAvroModel.newBuilder()
+                .setId(UUID.randomUUID().toString())
+                .setSagaId(sagaId)
+                .setCustomerId(orderPaymentEventPayload.getCustomerId().toString())
+                .setOrderId(orderPaymentEventPayload.getOrderId().toString())
+                .setPrice(orderPaymentEventPayload.getPrice())
+                .setCreatedAt(orderPaymentEventPayload.getCreatedAt().toInstant())
+                .setPaymentOrderStatus(PaymentOrderStatus.valueOf(orderPaymentEventPayload.getPaymentOrderStatus()))
+                .build();
+    }
+
+    public RestaurantApprovalRequestAvroModel orderApprovalEventToRestaurantApprovalRequestAvroModel(String sagaId,
+                                                                                                      OrderApprovalEventPayload orderApprovalEventPayload) {
+        return RestaurantApprovalRequestAvroModel.newBuilder()
+                .setId(UUID.randomUUID().toString())
+                .setSagaId(sagaId)
+                .setOrderId(orderApprovalEventPayload.getOrderId().toString())
+                .setRestaurantId(orderApprovalEventPayload.getRestaurantId().toString())
+                .setRestaurantOrderStatus(RestaurantOrderStatus.valueOf(orderApprovalEventPayload.getRestaurantApprovalStatus()))
+                .setProducts(orderApprovalEventPayload.getProducts().stream().map(product -> Product.newBuilder()
+                        .setId(product.getId().toString())
+                        .setQuantity(product.getQuantity())
+                        .build()).collect(Collectors.toList()))
+                .setPrice(orderApprovalEventPayload.getPrice())
+                .setCreatedAt(orderApprovalEventPayload.getCreatedAt().toInstant())
+                .build();
+
     }
 }

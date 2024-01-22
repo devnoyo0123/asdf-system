@@ -1,4 +1,4 @@
-package com.example.orderservice.application.ports.output.order.entity;
+package com.example.orderservice.adapter.out.dataaccess.order.entity;
 
 
 import jakarta.persistence.*;

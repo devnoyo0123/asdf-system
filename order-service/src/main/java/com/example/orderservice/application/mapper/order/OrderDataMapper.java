@@ -42,7 +42,7 @@ public class OrderDataMapper {
                 .customerId(new CustomerId(createOrderCommand.getCustomerId()))
                 .restaurantId(new RestaurantId(createOrderCommand.getRestaurantId()))
                 .deliveryAddress(orderAddressToStreetAddress(createOrderCommand.getAddress()))
-                .price(new Money(createOrderCommand.getPrice()))
+                .price(Money.of(createOrderCommand.getPrice()))
                 .items(orderItemsToOrderItemEntities(createOrderCommand.getItemList()))
                 .build();
     }
@@ -50,14 +50,14 @@ public class OrderDataMapper {
     private List<OrderItem> orderItemsToOrderItemEntities(List<OrderItemDto> itemList) {
         return itemList.stream().map(orderItemDto ->
                 OrderItem.builder().product(new Product(new ProductId(orderItemDto.getProductId())))
-                        .price(new Money(orderItemDto.getPrice()))
+                        .price(Money.of(orderItemDto.getPrice()))
                         .quantity(orderItemDto.getQuantity())
-                        .subTotal(new Money(orderItemDto.getSubTotal()))
+                        .subTotal(Money.of(orderItemDto.getSubTotal()))
                         .build()).collect(Collectors.toList());
     }
 
     private StreetAddress orderAddressToStreetAddress(OrderAddressDto address) {
-        return new StreetAddress(UUID.randomUUID(), address.getStreet(), address.getPostalCode(), address.getCity());
+        return new StreetAddress(UUID.randomUUID(), address.street(), address.postalCode());
     }
 
     public CreateOrderResponse orderToCreateOrderResponse(Order order, String message) {

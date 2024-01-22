@@ -25,4 +25,5 @@ public interface PaymentOutboxJpaRepository extends JpaRepository<PaymentOutboxE
                                                     OutboxStatus outboxStatus,
                                                     List<SagaStatus> sagaStatus);
 
+    Optional<PaymentOutboxEntity> findBySagaId(UUID sagaId);
 }

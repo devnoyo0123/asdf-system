@@ -136,31 +136,31 @@ services:
     networks:
       - ${GLOBAL_NETWORK:-kafka}
 
-  kafka-debezium-connector:
-    image: debezium/connect:${DEBEZIUM_VERSION}
-    ports:
-      - 8083:8083
-    environment:
-      GROUP_ID: 1
-      CONFIG_STORAGE_TOPIC: "connect-config"
-      OFFSET_STORAGE_TOPIC: "connect-offsets"
-      STATUS_STORAGE_TOPIC: "connect-status"
-      BOOTSTRAP_SERVERS: kafka-broker-1:9092,kafka-broker-2:9092,kafka-broker-3:9092
-      LOGGING_LEVEL: "DEBUG"
-      CONNECT_SCHEMA_NAME_ADJUSTMENT_MODE: avro
-      KEY_CONVERTER: io.confluent.connect.avro.AvroConverter
-      VALUE_CONVERTER: io.confluent.connect.avro.AvroConverter
-      CONNECT_KEY_CONVERTER_SCHEMA_REGISTRY_URL: http://schema-registry:8081
-      CONNECT_VALUE_CONVERTER_SCHEMA_REGISTRY_URL: http://schema-registry:8081
-    depends_on:
-      - kafka-broker-1
-      - kafka-broker-2
-      - kafka-broker-3
-      - schema-registry
-    volumes:
-      - "/Users/Shared/debezium-connector-schemaregistry-7.2.5:/kafka/connect/debezium-connector-schemaregistry-7.2.5"
-    networks:
-      - ${GLOBAL_NETWORK:-kafka}
+#  kafka-debezium-connector:
+#    image: debezium/connect:${DEBEZIUM_VERSION}
+#    ports:
+#      - 8083:8083
+#    environment:
+#      GROUP_ID: 1
+#      CONFIG_STORAGE_TOPIC: "connect-config"
+#      OFFSET_STORAGE_TOPIC: "connect-offsets"
+#      STATUS_STORAGE_TOPIC: "connect-status"
+#      BOOTSTRAP_SERVERS: kafka-broker-1:9092,kafka-broker-2:9092,kafka-broker-3:9092
+#      LOGGING_LEVEL: "DEBUG"
+#      CONNECT_SCHEMA_NAME_ADJUSTMENT_MODE: avro
+#      KEY_CONVERTER: io.confluent.connect.avro.AvroConverter
+#      VALUE_CONVERTER: io.confluent.connect.avro.AvroConverter
+#      CONNECT_KEY_CONVERTER_SCHEMA_REGISTRY_URL: http://schema-registry:8081
+#      CONNECT_VALUE_CONVERTER_SCHEMA_REGISTRY_URL: http://schema-registry:8081
+#    depends_on:
+#      - kafka-broker-1
+#      - kafka-broker-2
+#      - kafka-broker-3
+#      - schema-registry
+#    volumes:
+#      - "/Users/Shared/debezium-connector-schemaregistry-7.2.5:/kafka/connect/debezium-connector-schemaregistry-7.2.5"
+#    networks:
+#      - ${GLOBAL_NETWORK:-kafka}
 
   init-kafka:
     image: confluentinc/cp-kafka:${KAFKA_VERSION}
@@ -203,11 +203,13 @@ services:
     ports:
       - "5432:5432"                     # 호스트와 컨테이너 간의 포트 바인딩
     environment:
+      POSTGRES_DB: postgres             # 데이터베이스 이름
       POSTGRES_USER: pass_local_user
       POSTGRES_PASSWORD: pass_local     # 데이터베이스 비밀번호
       TZ: Asia/Seoul                    # 시간대 설정
     volumes:
       - ./db/pgdata:/var/lib/postgresql/data  # 공유 볼륨 경로
+      - ./ddl:/docker-entrypoint-initdb.d
     networks:
       - ${GLOBAL_NETWORK:-kafka}
 

@@ -1,9 +1,9 @@
 package com.example.orderservice.adapter.out.dataaccess.order.mapper;
 
 import com.example.modulecommon.domain.valueobject.*;
-import com.example.orderservice.application.ports.output.order.entity.OrderAddressEntity;
-import com.example.orderservice.application.ports.output.order.entity.OrderEntity;
-import com.example.orderservice.application.ports.output.order.entity.OrderItemEntity;
+import com.example.orderservice.adapter.out.dataaccess.order.entity.OrderAddressEntity;
+import com.example.orderservice.adapter.out.dataaccess.order.entity.OrderEntity;
+import com.example.orderservice.adapter.out.dataaccess.order.entity.OrderItemEntity;
 import com.example.orderservice.domain.entity.Order;
 import com.example.orderservice.domain.entity.OrderItem;
 import com.example.orderservice.domain.entity.Product;
@@ -46,7 +46,7 @@ public class OrderDataAccessMapper {
                 .customerId(new CustomerId(orderEntity.getCustomerId()))
                 .restaurantId(new RestaurantId(orderEntity.getRestaurantId()))
                 .deliveryAddress(addressEntityToDeliveryAddress(orderEntity.getAddress()))
-                .price(new Money(orderEntity.getPrice()))
+                .price(Money.of(orderEntity.getPrice()))
                 .items(orderItemEntitiesToOrderItems(orderEntity.getItems()))
                 .trackingId(new TrackingId(orderEntity.getTrackingId()))
                 .orderStatus(orderEntity.getOrderStatus())
@@ -61,9 +61,9 @@ public class OrderDataAccessMapper {
                 .map(orderItemEntity -> OrderItem.builder()
                         .orderItemId(new OrderItemId(orderItemEntity.getId()))
                         .product(new Product(new ProductId(orderItemEntity.getProductId())))
-                        .price(new Money(orderItemEntity.getPrice()))
+                        .price(Money.of(orderItemEntity.getPrice()))
                         .quantity(orderItemEntity.getQuantity())
-                        .subTotal(new Money(orderItemEntity.getSubTotal()))
+                        .subTotal(Money.of(orderItemEntity.getSubTotal()))
                         .build())
                 .collect(Collectors.toList());
     }
@@ -71,10 +71,9 @@ public class OrderDataAccessMapper {
 
     private OrderAddressEntity deliveryAddressToAddressEntity(StreetAddress deliveryAddress) {
         return OrderAddressEntity.builder()
-                .id(deliveryAddress.getId())
-                .street(deliveryAddress.getStreet())
-                .postalCode(deliveryAddress.getPostalCode())
-                .city(deliveryAddress.getCity())
+                .id(deliveryAddress.id())
+                .street(deliveryAddress.street())
+                .postalCode(deliveryAddress.postalCode())
                 .build();
     }
 
@@ -93,7 +92,6 @@ public class OrderDataAccessMapper {
     private StreetAddress addressEntityToDeliveryAddress(OrderAddressEntity address) {
         return new StreetAddress(address.getId(),
                 address.getStreet(),
-                address.getPostalCode(),
-                address.getCity());
+                address.getPostalCode());
     }
 }

@@ -1,6 +1,5 @@
 package com.example.orderservice.domain;
 
-import com.example.modulecommon.domain.event.publisher.DomainEventPublisher;
 import com.example.orderservice.domain.entity.Order;
 import com.example.orderservice.domain.entity.Product;
 import com.example.orderservice.domain.entity.Restaurant;

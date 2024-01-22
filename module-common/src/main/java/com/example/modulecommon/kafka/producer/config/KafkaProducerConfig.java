@@ -14,6 +14,8 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
+import static io.confluent.kafka.schemaregistry.rules.FieldRuleExecutor.log;
+
 @Configuration
 public class KafkaProducerConfig<K extends Serializable, V extends SpecificRecordBase> {
 
@@ -29,8 +31,12 @@ public class KafkaProducerConfig<K extends Serializable, V extends SpecificRecor
     @Bean
     public Map<String, Object> producerConfig() {
         Map<String, Object> props = new HashMap<>();
-        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaConfigData.getBootstrapServers());
-        props.put(kafkaConfigData.getSchemaRegistryUrlKey(), kafkaConfigData.getSchemaRegistryUrl());
+        if(kafkaConfigData.getBootstrapServers()!=null){
+            props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaConfigData.getBootstrapServers());
+        }
+        if(kafkaConfigData.getSchemaRegistryUrl()!= null){
+            props.put(kafkaConfigData.getSchemaRegistryUrlKey(), kafkaConfigData.getSchemaRegistryUrl());
+        }
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, kafkaProducerConfigData.getKeySerializerClass());
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, kafkaProducerConfigData.getValueSerializerClass());
         props.put(ProducerConfig.BATCH_SIZE_CONFIG, kafkaProducerConfigData.getBatchSize() *
@@ -45,7 +51,13 @@ public class KafkaProducerConfig<K extends Serializable, V extends SpecificRecor
 
     @Bean
     public ProducerFactory<K, V> producerFactory() {
-        return new DefaultKafkaProducerFactory<>(producerConfig());
+        try {
+            var config = producerConfig();
+            return new DefaultKafkaProducerFactory<>(config);
+        } catch (Exception e) {
+            log.error("Exception occurred while creating ProducerFactory: ", e);
+        }
+        return null;
     }
 
     @Bean

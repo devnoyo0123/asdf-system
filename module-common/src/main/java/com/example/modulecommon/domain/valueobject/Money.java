@@ -10,10 +10,14 @@ import java.util.Objects;
 public class Money {
     private final BigDecimal amount;
 
-    public static final Money ZERO = new Money(BigDecimal.ZERO);
+    public static final Money ZERO = Money.of(BigDecimal.ZERO);
 
-    public Money(BigDecimal amount) {
+    protected Money(BigDecimal amount) {
         this.amount = amount;
+    }
+
+    public static Money of(BigDecimal amount) {
+        return new Money(amount);
     }
 
     public boolean isGreaterThanZero() {
@@ -26,15 +30,15 @@ public class Money {
     }
 
     public Money add(Money money) {
-        return new Money(setScale(this.amount.add(money.getAmount())));
+        return Money.of(this.amount.add(money.getAmount()));
     }
 
     public Money substract(Money money) {
-        return new Money(setScale(this.amount.subtract(money.getAmount())));
+        return Money.of(this.amount.subtract(money.getAmount()));
     }
 
     public Money multiply(int multiplier) {
-        return new Money(setScale(this.amount.multiply(new BigDecimal(multiplier))));
+        return Money.of(this.amount.multiply(new BigDecimal(multiplier)));
     }
 
     @Override
@@ -50,7 +54,4 @@ public class Money {
         return Objects.hash(amount);
     }
 
-    private BigDecimal setScale(BigDecimal input) {
-        return input.setScale(2, RoundingMode.HALF_EVEN);
-    }
 }

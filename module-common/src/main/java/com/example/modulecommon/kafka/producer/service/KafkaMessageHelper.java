@@ -1,5 +1,9 @@
 package com.example.modulecommon.kafka.producer.service;
 
+import com.example.modulecommon.kafka.producer.exception.KafkaProducerException;
+import com.example.modulecommon.outbox.OutboxStatus;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.RecordMetadata;
 import org.springframework.kafka.support.SendResult;
@@ -11,8 +15,25 @@ import java.util.function.BiConsumer;
 @Component
 public class KafkaMessageHelper {
 
-    public <T> BiConsumer<SendResult<String, T>, Throwable> getKafkaCallback(String responseTopicName,
+    private final ObjectMapper objectMapper;
+
+    public KafkaMessageHelper(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
+
+    public  <T> T  getOrderEventPayload(String payload, Class<T> outputType) {
+        try {
+            return objectMapper.readValue(payload, outputType);
+        } catch (JsonProcessingException e) {
+            log.error("Could not read {} object!",outputType.getName(), e);
+            throw new KafkaProducerException("Could not read "+  outputType.getName() + " object!", e);
+        }
+    }
+
+    public <T, U> BiConsumer<SendResult<String, T>, Throwable> getKafkaCallback(String responseTopicName,
                                                                              T avroModel,
+                                                                             U outboxMessage,
+                                                                             BiConsumer<U, OutboxStatus> outboxCallback,
                                                                              String orderId,
                                                                              String avroModelName) {
         return (result, ex) -> {
@@ -25,9 +46,13 @@ public class KafkaMessageHelper {
                         metadata.partition(),
                         metadata.offset(),
                         metadata.timestamp());
+                outboxCallback.accept(outboxMessage, OutboxStatus.FAILED);
+
             } else {
                 log.error("Error while sending "+avroModelName+" message {} to topic {}",
                         avroModel.toString(), responseTopicName, ex);
+
+                outboxCallback.accept(outboxMessage, OutboxStatus.COMPLETED);
             }
         };
     }

@@ -1,4 +1,4 @@
-package com.example.orderservice.application.ports.output.order.entity;
+package com.example.orderservice.adapter.out.dataaccess.order.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -23,7 +23,6 @@ public class OrderAddressEntity {
 
     private String street;
     private String postalCode;
-    private String city;
 
     @Override
     public boolean equals(Object o) {

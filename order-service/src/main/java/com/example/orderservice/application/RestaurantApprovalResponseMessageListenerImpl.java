@@ -2,7 +2,6 @@ package com.example.orderservice.application;
 
 import com.example.orderservice.application.dto.message.RestaurantApproveResponse;
 import com.example.orderservice.application.ports.input.message.listener.restaurant.RestaurantApprovalResponseMessageListener;
-import com.example.orderservice.domain.event.OrderCancelledEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
