@@ -27,22 +27,13 @@ public class PaymentRequestHelper {
     private final PaymentDomainService paymentDomainService;
     private final PaymentDataMapper paymentDataMapper;
     private final PaymentRepository paymentRepository;
-    private final PaymentEventPublisher<PaymentCompletedEvent> paymentCompletedEventDomainEventPublisher;
-    private final PaymentEventPublisher<PaymentCancelledEvent> paymentCancelledEventDomainEventPublisher;
-    private final PaymentEventPublisher<PaymentFailedEvent> paymentFailedEventDomainEventPublisher;
 
     public PaymentRequestHelper(PaymentDomainService paymentDomainService,
                                 PaymentDataMapper paymentDataMapper,
-                                PaymentRepository paymentRepository,
-                                PaymentEventPublisher<PaymentCompletedEvent> paymentCompletedEventDomainEventPublisher,
-                                PaymentEventPublisher<PaymentCancelledEvent> paymentCancelledEventDomainEventPublisher,
-                                PaymentEventPublisher<PaymentFailedEvent> paymentFailedEventDomainEventPublisher) {
+                                PaymentRepository paymentRepository) {
         this.paymentDomainService = paymentDomainService;
         this.paymentDataMapper = paymentDataMapper;
         this.paymentRepository = paymentRepository;
-        this.paymentCompletedEventDomainEventPublisher = paymentCompletedEventDomainEventPublisher;
-        this.paymentCancelledEventDomainEventPublisher = paymentCancelledEventDomainEventPublisher;
-        this.paymentFailedEventDomainEventPublisher = paymentFailedEventDomainEventPublisher;
     }
 
     @Transactional
@@ -50,7 +41,7 @@ public class PaymentRequestHelper {
         log.info("Received payment complete event for order id: {}", paymentRequest.getOrderId());
         Payment payment = paymentDataMapper.paymentRequestModelToPayment(paymentRequest);
         List<String> failureMessages = new ArrayList<>();
-        PaymentEvent paymentEvent = paymentDomainService.validateAndInitiatePayment(payment, failureMessages, paymentCompletedEventDomainEventPublisher, paymentFailedEventDomainEventPublisher);
+        PaymentEvent paymentEvent = paymentDomainService.validateAndInitiatePayment(payment, failureMessages);
         paymentRepository.save(payment);
         return paymentEvent;
     }
@@ -66,7 +57,7 @@ public class PaymentRequestHelper {
         }
         Payment payment = paymentResponse.get();
         List<String> failureMessages = new ArrayList<>();
-        PaymentEvent paymentEvent = paymentDomainService.validateAndCancelPayment(payment,failureMessages,paymentCancelledEventDomainEventPublisher, paymentFailedEventDomainEventPublisher);
+        PaymentEvent paymentEvent = paymentDomainService.validateAndCancelPayment(payment,failureMessages);
         paymentRepository.save(payment);
         return paymentEvent;
     }

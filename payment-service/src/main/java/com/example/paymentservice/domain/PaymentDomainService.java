@@ -22,37 +22,34 @@ import static java.time.ZoneOffset.UTC;
 public class PaymentDomainService {
 
     public PaymentEvent validateAndInitiatePayment(Payment payment,
-                                                   List<String> failureMessages,
-                                                   PaymentEventPublisher<PaymentCompletedEvent> paymentCompletedEventDomainEventPublisher,
-                                                   PaymentEventPublisher<PaymentFailedEvent> paymentFailedEventDomainEventPublisher) {
+                                                   List<String> failureMessages
+                                                   ) {
         payment.validatePayment(failureMessages);
         payment.initializePayment();
 
         if (failureMessages.isEmpty()) {
             log.info("Payment is initiated for order id: {}", payment.getOrderId().getValue());
             payment.updateStatus(PaymentStatus.COMPLETED);
-            return new PaymentCompletedEvent(payment, ZonedDateTime.now(ZoneId.of(String.valueOf(UTC))), paymentCompletedEventDomainEventPublisher);
+            return new PaymentCompletedEvent(payment, ZonedDateTime.now(ZoneId.of(String.valueOf(UTC))));
         } else {
             log.info("Payment initiation is failed for order id: {}", payment.getOrderId().getValue());
             payment.updateStatus(PaymentStatus.FAILED);
-            return new PaymentFailedEvent(payment, ZonedDateTime.now(ZoneId.of(String.valueOf(UTC))), failureMessages, paymentFailedEventDomainEventPublisher);
+            return new PaymentFailedEvent(payment, ZonedDateTime.now(ZoneId.of(String.valueOf(UTC))), failureMessages);
         }
     }
 
     public PaymentEvent validateAndCancelPayment(Payment payment,
-                                                 List<String> failureMessages,
-                                                 PaymentEventPublisher<PaymentCancelledEvent> paymentCancelledEventDomainEventPublisher,
-                                                 PaymentEventPublisher<PaymentFailedEvent> paymentFailedEventDomainEventPublisher) {
+                                                 List<String> failureMessages) {
         payment.validatePayment(failureMessages);
 
         if (failureMessages.isEmpty()) {
             log.info("Payment is cancelled for order id: {}", payment.getOrderId().getValue());
             payment.updateStatus(PaymentStatus.CANCELLED);
-            return new PaymentCancelledEvent(payment, ZonedDateTime.now(ZoneId.of(String.valueOf(UTC))), paymentCancelledEventDomainEventPublisher);
+            return new PaymentCancelledEvent(payment, ZonedDateTime.now(ZoneId.of(String.valueOf(UTC))));
         } else {
             log.info("Payment cancellation is failed for order id: {}", payment.getOrderId().getValue());
             payment.updateStatus(PaymentStatus.FAILED);
-            return new PaymentFailedEvent(payment, ZonedDateTime.now(ZoneId.of(String.valueOf(UTC))), failureMessages, paymentFailedEventDomainEventPublisher);
+            return new PaymentFailedEvent(payment, ZonedDateTime.now(ZoneId.of(String.valueOf(UTC))), failureMessages);
         }
     }
 

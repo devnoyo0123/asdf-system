@@ -8,16 +8,11 @@ import java.util.Collections;
 
 public class PaymentCancelledEvent extends PaymentEvent {
 
-    private final PaymentEventPublisher<PaymentCancelledEvent> domainEventPublisher;
 
     public PaymentCancelledEvent(Payment payment,
-                                 ZonedDateTime createdAt, PaymentEventPublisher<PaymentCancelledEvent> domainEventPublisher) {
+                                 ZonedDateTime createdAt) {
         super(payment, createdAt, Collections.emptyList());
-        this.domainEventPublisher = domainEventPublisher;
     }
 
-    @Override
-    public void fire() {
-        this.domainEventPublisher.publish(this);
-    }
+
 }

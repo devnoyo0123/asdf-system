@@ -35,22 +35,22 @@ public class PaymentCompletedKafkaEventPublisher implements PaymentEventPublishe
 
         log.info("Received PaymentCompletedEvent for order id: {}", orderId);
 
-        try {
-            PaymentResponseAvroModel paymentResponseAvroModel =
-                    paymentMessagePublisherMapper.paymentCompletedEventToPaymentResponseAvroModel(domainEvent);
-
-            kafkaProducer.send(paymentServiceConfigData.getPaymentResponseTopicName(),
-                    orderId,
-                    paymentResponseAvroModel,
-                    kafkaMessageHelper.getKafkaCallback(paymentServiceConfigData.getPaymentResponseTopicName(),
-                            paymentResponseAvroModel,
-                            orderId,
-                            paymentResponseAvroModel.getClassSchema().getName()));
-
-            log.info("PaymentResponseAvroModel sent to kafka for order id: {}", orderId);
-        } catch (Exception e) {
-            log.error("Error while sending PaymentResponseAvroModel message" +
-                    " to kafka with order id: {}, error: {}", orderId, e.getMessage());
-        }
+//        try {
+//            PaymentResponseAvroModel paymentResponseAvroModel =
+//                    paymentMessagePublisherMapper.paymentCompletedEventToPaymentResponseAvroModel(domainEvent);
+//
+//            kafkaProducer.send(paymentServiceConfigData.getPaymentResponseTopicName(),
+//                    orderId,
+//                    paymentResponseAvroModel,
+//                    kafkaMessageHelper.getKafkaCallback(paymentServiceConfigData.getPaymentResponseTopicName(),
+//                            paymentResponseAvroModel,
+//                            orderId,
+//                            paymentResponseAvroModel.getClassSchema().getName()));
+//
+//            log.info("PaymentResponseAvroModel sent to kafka for order id: {}", orderId);
+//        } catch (Exception e) {
+//            log.error("Error while sending PaymentResponseAvroModel message" +
+//                    " to kafka with order id: {}, error: {}", orderId, e.getMessage());
+//        }
     }
 }

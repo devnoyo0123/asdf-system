@@ -22,9 +22,7 @@ import static java.time.ZoneOffset.UTC;
 public class RestaurantDomainService {
 
     public OrderApprovalEvent validateOrder(Restaurant restaurant,
-                                     List<String> failureMessages,
-                                     OrderApprovedMessagePublisher orderApprovedEventDomainEventPublisher,
-                                     OrderRejectedMessagePublisher orderRejectedEventDomainEventPublisher) {
+                                     List<String> failureMessages) {
         restaurant.validateOrder(failureMessages);
         log.info("Validationg order with id: {}", restaurant.getOrderDetail().getId().getValue());
 
@@ -34,16 +32,14 @@ public class RestaurantDomainService {
             return new OrderApprovedEvent(restaurant.getOrderApproval(),
                     restaurant.getId(),
                     failureMessages,
-                    ZonedDateTime.now(ZoneId.of(String.valueOf(UTC))),
-                    orderApprovedEventDomainEventPublisher);
+                    ZonedDateTime.now(ZoneId.of(String.valueOf(UTC))));
         } else {
             log.info("Order is rejected for order id: {}", restaurant.getOrderDetail().getId().getValue());
             restaurant.constructOrderApproval(OrderApprovalStatus.REJECTED);
             return new OrderRejectedEvent(restaurant.getOrderApproval(),
                     restaurant.getId(),
                     failureMessages,
-                    ZonedDateTime.now(ZoneId.of(String.valueOf(UTC))),
-                    orderRejectedEventDomainEventPublisher);
+                    ZonedDateTime.now(ZoneId.of(String.valueOf(UTC))));
         }
     }
 }

@@ -33,21 +33,21 @@ public class OrderApprovedKafkaMessagePublisher implements OrderApprovedMessageP
 
         log.info("Received OrderApprovedEvent for order id: {}", orderId);
 
-        try {
-            RestaurantApprovalResponseAvroModel restaurantApprovalResponseAvroModel =
-                    restaurantMessagingDataMapper.orderApprovedEventToRestaurantApprovalResponseAvroModel(domainEvent);
-            kafkaProducer.send(restaurantServiceConfigData.getRestaurantApprovalResponseTopicName(),
-                    orderId,
-                    restaurantApprovalResponseAvroModel,
-                    kafkaMessageHelper.getKafkaCallback(restaurantServiceConfigData.getRestaurantApprovalResponseTopicName(), restaurantApprovalResponseAvroModel,
-                            orderId, RestaurantApprovalRequestAvroModel.getClassSchema().getName())
-            );
-
-            log.info("RestaurantApprovalResponseAvroModel sent to Kafka at: {}", System.nanoTime());
-        } catch (Exception e) {
-            log.error("Error while sending RestaurantApprovalResponseAvroModel message" +
-                    " to kafka with order id: {}, error: {}", orderId, e.getMessage());
-        }
+//        try {
+//            RestaurantApprovalResponseAvroModel restaurantApprovalResponseAvroModel =
+//                    restaurantMessagingDataMapper.orderApprovedEventToRestaurantApprovalResponseAvroModel(domainEvent);
+//            kafkaProducer.send(restaurantServiceConfigData.getRestaurantApprovalResponseTopicName(),
+//                    orderId,
+//                    restaurantApprovalResponseAvroModel,
+//                    kafkaMessageHelper.getKafkaCallback(restaurantServiceConfigData.getRestaurantApprovalResponseTopicName(), restaurantApprovalResponseAvroModel,
+//                            orderId, RestaurantApprovalRequestAvroModel.getClassSchema().getName())
+//            );
+//
+//            log.info("RestaurantApprovalResponseAvroModel sent to Kafka at: {}", System.nanoTime());
+//        } catch (Exception e) {
+//            log.error("Error while sending RestaurantApprovalResponseAvroModel message" +
+//                    " to kafka with order id: {}, error: {}", orderId, e.getMessage());
+//        }
 
     }
 }
