@@ -4,30 +4,30 @@ import com.example.modulecommon.domain.entity.AggregateRoot;
 import com.example.modulecommon.domain.valueobject.CustomerId;
 
 public class Customer extends AggregateRoot<CustomerId> {
-    private String username;
-    private String firstName;
-    private String lastName;
+    private String name;
+    private String phone;
+    private String email;
 
-    public Customer(CustomerId customerId, String username, String firstName, String lastName) {
+    public Customer(CustomerId customerId, String name, String phone, String email) {
         super.setId(customerId);
-        this.username = username;
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.name = name;
+        this.phone = phone;
+        this.email = email;
     }
 
     public Customer(CustomerId customerId) {
         super.setId(customerId);
     }
 
-    public String getUsername() {
-        return username;
+    public String getName() {
+        return name;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getPhone() {
+        return phone;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getEmail() {
+        return email;
     }
 }
