@@ -9,12 +9,12 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+        hbm2ddl:
+          auto: validate
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=order&binaryTransfer=true&reWriteBatchedInserts=true&stringtype=unspecified
+    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=customer&binaryTransfer=true&reWriteBatchedInserts=true&stringtype=unspecified
     username: pass_local_user
     password: pass_local
     driver-class-name: org.postgresql.Driver
-  sql:
-    init:
-      mode: NEVER
-      schema-locations: classpath:init-schema.sql, classpath:init-data.sql
+  flyway:
+    enabled: false

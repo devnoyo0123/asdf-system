@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.1.7'
     id 'io.spring.dependency-management' version '1.1.4'
+    id "org.flywaydb.flyway" version "9.16.3"
 }
 
 group = 'com.example'
@@ -25,14 +26,29 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
-    implementation project(path: ':order-service') // 추가된 의존성
 
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'org.postgresql:postgresql'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
+    implementation 'org.flywaydb:flyway-core:9.16.3'
+    // version 10부터는 runtimeOnly 'org.flywaydb:flyway-database-postgresql:10.0.0'
+
     implementation project(':module-common')
+}
+
+flyway {
+    url = 'jdbc:postgresql://localhost:5432/postgres?currentSchema=customer'
+    user = 'pass_local_user'
+    password = 'pass_local'
+    connectRetries = 10
+    locations = ['classpath:db/migration']
+    baselineOnMigrate = false
+    cleanDisabled = false
+    schemas = ['customer']
+    baselineVersion = 0
+    table = 'migration_schema_version'
 }
 
 tasks.named('bootBuildImage') {

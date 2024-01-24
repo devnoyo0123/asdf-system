@@ -1,6 +1,7 @@
 package com.example.customerservice.adapter.out.dataaccess.repository;
 
-import com.example.orderservice.domain.entity.Customer;
+
+import com.example.customerservice.domain.entity.Customer;
 
 import java.util.Optional;
 import java.util.UUID;
