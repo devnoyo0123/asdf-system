@@ -42,3 +42,5 @@ food-ordering-system-container/local/.env
 
 food-ordering-system-container/**/volumes/
 food-ordering-system-container/**/db/
+
+**/generated/**

@@ -1,6 +1,7 @@
 package com.example.customerservice.adapter.out.dataaccess.mapper;
 
 import com.example.customerservice.adapter.out.dataaccess.entity.CustomerEntity;
+import com.example.customerservice.application.dto.CustomerDashboardQueryResponse;
 import com.example.customerservice.domain.entity.Customer;
 import com.example.modulecommon.domain.valueobject.CustomerId;
 import org.springframework.stereotype.Component;
@@ -17,4 +18,11 @@ public class CustomerDataAccessMapper {
                 .build();
     }
 
+    public CustomerDashboardQueryResponse customerEntityToCustomerDashboardQueryResponse(CustomerEntity customerEntity) {
+        return CustomerDashboardQueryResponse.of(
+                customerEntity.getId(),
+                customerEntity.getName(),
+                customerEntity.getAddress().getStreet(),
+                customerEntity.getAddress().getDetails());
+    }
 }

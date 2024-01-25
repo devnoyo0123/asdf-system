@@ -1,9 +1,11 @@
 package com.example.modulecommon.domain.valueobject;
 
 import jakarta.persistence.Embeddable;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
+@Getter
 @Embeddable
 public class Address {
     private String street;
