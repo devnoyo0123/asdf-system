@@ -17,11 +17,9 @@ import java.util.UUID;
 public class CustomerController {
 
     private final CustomerApplicationService customerApplicationService;
-    private final CustomerDataMapper customerDataMapper;
 
-    public CustomerController(CustomerApplicationService customerApplicationService, CustomerDataMapper customerDataMapper) {
+    public CustomerController(CustomerApplicationService customerApplicationService) {
         this.customerApplicationService = customerApplicationService;
-        this.customerDataMapper = customerDataMapper;
     }
 
     @GetMapping("/{id}")
@@ -32,12 +30,4 @@ public class CustomerController {
         return ResponseEntity.ok(customerFindOneQueryResponse);
     }
 
-
-    @GetMapping("/customer-dashboard")
-    public ResponseEntity<Page<CustomerDashboardQueryResponse>> search(CustomerDashboardQueryRequest customerDashboardQueryRequest) {
-        // 로직 구현
-        CustomerDashboardQuery customerDashboardQuery = customerDataMapper.customerDashboardQueryRequestToCustomerDashboardQuery(customerDashboardQueryRequest);
-        Page<CustomerDashboardQueryResponse> response = customerApplicationService.search(customerDashboardQuery);
-        return ResponseEntity.ok(response);
-    }
 }
