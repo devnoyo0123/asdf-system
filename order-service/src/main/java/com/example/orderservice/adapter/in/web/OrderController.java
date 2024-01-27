@@ -13,7 +13,7 @@ import java.util.UUID;
 
 @Slf4j
 @RestController
-@RequestMapping(value = "/orders", produces = "application/vnd.api.v1+json")
+@RequestMapping(value = "/orders")
 public class OrderController {
 
     private final OrderApplicationService orderApplicationService;

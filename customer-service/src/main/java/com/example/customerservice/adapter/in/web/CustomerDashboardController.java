@@ -25,7 +25,7 @@ public class CustomerDashboardController {
     }
 
 
-    @GetMapping("/customer-dashboard")
+    @GetMapping("")
     public ResponseEntity<Page<CustomerDashboardQueryResponse>> search(CustomerDashboardQueryRequest customerDashboardQueryRequest) {
         // 로직 구현
         CustomerDashboardQuery customerDashboardQuery = customerDashboardMapper.customerDashboardQueryRequestToCustomerDashboardQuery(customerDashboardQueryRequest);

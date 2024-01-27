@@ -1,6 +1,5 @@
 package com.example.orderservice.application.dto.create;
 
-import com.example.orderservice.domain.entity.OrderItem;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

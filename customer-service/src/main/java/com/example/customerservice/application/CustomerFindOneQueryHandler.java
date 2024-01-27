@@ -23,7 +23,7 @@ public class CustomerFindOneQueryHandler {
         this.customerRepository = customerRepository;
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = false)
     public CustomerFindOneQueryResponse findOneCustomerBy(FindOneCustomerQuery findOneCustomerQuery) {
         Optional<Customer> customerResult = customerRepository.findOneCustomerBy(findOneCustomerQuery.id());
         if(customerResult.isEmpty()) {

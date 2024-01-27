@@ -7,10 +7,8 @@ import com.example.orderservice.application.dto.create.CreateOrderResponse;
 import com.example.orderservice.application.dto.create.OrderAddressDto;
 import com.example.orderservice.application.dto.create.OrderItemDto;
 import com.example.orderservice.application.dto.track.TrackOrderResponse;
-import com.example.orderservice.domain.entity.Order;
-import com.example.orderservice.domain.entity.OrderItem;
-import com.example.orderservice.domain.entity.Product;
-import com.example.orderservice.domain.entity.Restaurant;
+import com.example.orderservice.config.feign.dto.CustomerSingleDTO;
+import com.example.orderservice.domain.entity.*;
 import com.example.orderservice.domain.event.OrderCancelledEvent;
 import com.example.orderservice.domain.event.OrderCreatedEvent;
 import com.example.orderservice.domain.event.OrderPaidEvent;
@@ -21,6 +19,7 @@ import com.example.orderservice.domain.valueobject.StreetAddress;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -111,5 +110,15 @@ public class OrderDataMapper {
                 .paymentOrderStatus(PaymentOrderStatus.CANCELLED.name())
                 .build();
 
+    }
+
+    public Optional<Customer> customerSingleDTOToCustomer(CustomerSingleDTO body) {
+
+        return Optional.of(Customer.of(
+                new CustomerId(UUID.fromString(body.id())),
+                body.name(),
+                body.phone(),
+                body.street())
+        );
     }
 }

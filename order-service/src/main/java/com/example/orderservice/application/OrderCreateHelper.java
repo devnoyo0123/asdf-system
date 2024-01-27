@@ -2,6 +2,7 @@ package com.example.orderservice.application;
 
 import com.example.orderservice.application.dto.create.CreateOrderCommand;
 import com.example.orderservice.application.mapper.order.OrderDataMapper;
+import com.example.orderservice.application.ports.output.customer.executor.CustomerExecutor;
 import com.example.orderservice.application.ports.output.customer.repository.CustomerRepository;
 import com.example.orderservice.application.ports.output.order.repository.OrderRepository;
 import com.example.orderservice.application.ports.output.restaurant.repository.RestaurantRepository;
@@ -24,14 +25,14 @@ public class OrderCreateHelper {
 
     private final OrderDomainService orderDomainService;
     private final OrderRepository orderRepository;
-    private final CustomerRepository customerRepository;
+    private final CustomerExecutor customerExecutor;
     private final RestaurantRepository restaurantRepository;
     private final OrderDataMapper orderDataMapper;
 
-    public OrderCreateHelper(OrderDomainService orderDomainService, OrderRepository orderRepository, CustomerRepository customerRepository, RestaurantRepository restaurantRepository, OrderDataMapper orderDataMapper) {
+    public OrderCreateHelper(OrderDomainService orderDomainService, OrderRepository orderRepository, CustomerExecutor customerExecutor, RestaurantRepository restaurantRepository, OrderDataMapper orderDataMapper) {
         this.orderDomainService = orderDomainService;
         this.orderRepository = orderRepository;
-        this.customerRepository = customerRepository;
+        this.customerExecutor = customerExecutor;
         this.restaurantRepository = restaurantRepository;
         this.orderDataMapper = orderDataMapper;
     }
@@ -58,7 +59,7 @@ public class OrderCreateHelper {
 
 
     private void checkCustomer(UUID customerId) {
-        Optional<Customer> customer= customerRepository.findCustomer(customerId);
+        Optional<Customer> customer= customerExecutor.getCustomerBy(customerId);
         if(customer.isEmpty()){
             log.warn("Could not find customer with customer id: {}", customerId);
             throw new OrderDomainException("Could not find customer with customer id: "+customerId);

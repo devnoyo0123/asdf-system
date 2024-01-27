@@ -1,5 +1,7 @@
 server:
   port: 8181
+  servlet:
+    context-path: /api
 
 spring:
   jpa:
@@ -16,10 +18,11 @@ spring:
     username: pass_local_user
     password: pass_local
     driver-class-name: org.postgresql.Driver
-  sql:
-    init:
-      mode: NEVER
-      schema-locations: classpath:init-schema.sql
+
+feign:
+  customer-service:
+    url:
+      prefix: http://localhost:8084
 
 logging:
   level:

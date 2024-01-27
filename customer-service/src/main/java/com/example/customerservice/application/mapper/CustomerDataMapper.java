@@ -7,6 +7,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class CustomerDataMapper {
     public CustomerFindOneQueryResponse customerToCustomerFindOneQueryResponse(Customer customer) {
-        return CustomerFindOneQueryResponse.of(customer.getId().getValue());
+        return CustomerFindOneQueryResponse.of(
+                customer.getId().getValue(),
+                customer.getPhone(),
+                customer.getName(),
+                customer.getAddress().getStreet()
+        );
     }
 }
