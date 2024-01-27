@@ -1,4 +1,4 @@
-FROM flyway/flyway:7-alpine
+FROM flyway/flyway:9-alpine
 
 USER root
 

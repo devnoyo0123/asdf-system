@@ -1,6 +1,8 @@
-DROP SCHEMA IF EXISTS restaurant CASCADE;
+DROP TYPE IF EXISTS saga_status;
+CREATE TYPE saga_status AS ENUM ('STARTED', 'FAILED', 'SUCCEEDED', 'PROCESSING', 'COMPENSATING', 'COMPENSATED');
 
-CREATE SCHEMA restaurant;
+DROP TYPE IF EXISTS outbox_status;
+CREATE TYPE outbox_status AS ENUM ('STARTED', 'COMPLETED', 'FAILED');
 
 DROP TABLE IF EXISTS restaurant.restaurants CASCADE;
 
@@ -11,8 +13,6 @@ CREATE TABLE restaurant.restaurants
     active boolean NOT NULL,
     CONSTRAINT restaurants_pkey PRIMARY KEY (id)
 );
-
-DROP TYPE IF EXISTS approval_status;
 
 CREATE TYPE approval_status AS ENUM ('APPROVED', 'REJECTED');
 
@@ -61,52 +61,6 @@ ALTER TABLE restaurant.restaurant_products
         ON UPDATE NO ACTION
         ON DELETE RESTRICT
         NOT VALID;
-
-DROP TABLE IF EXISTS restaurant.order_outbox CASCADE;
-
-CREATE TABLE restaurant.order_outbox
-(
-    id uuid NOT NULL,
-    saga_id uuid NOT NULL,
-    created_at TIMESTAMP WITH TIME ZONE NOT NULL,
-    processed_at TIMESTAMP WITH TIME ZONE,
-    type character varying COLLATE pg_catalog."default" NOT NULL,
-    payload jsonb NOT NULL,
-    outbox_status outbox_status NOT NULL,
-    approval_status approval_status NOT NULL,
-    version integer NOT NULL,
-    CONSTRAINT order_outbox_pkey PRIMARY KEY (id)
-);
-
-CREATE INDEX "restaurant_order_outbox_saga_status"
-    ON "restaurant".order_outbox
-        (type, approval_status);
-
-CREATE UNIQUE INDEX "restaurant_order_outbox_saga_id"
-    ON "restaurant".order_outbox
-        (type, saga_id, approval_status, outbox_status);DROP TABLE IF EXISTS restaurant.order_outbox CASCADE;
-
-CREATE TABLE restaurant.order_outbox
-(
-    id uuid NOT NULL,
-    saga_id uuid NOT NULL,
-    created_at TIMESTAMP WITH TIME ZONE NOT NULL,
-    processed_at TIMESTAMP WITH TIME ZONE,
-    type character varying COLLATE pg_catalog."default" NOT NULL,
-    payload jsonb NOT NULL,
-    outbox_status outbox_status NOT NULL,
-    approval_status approval_status NOT NULL,
-    version integer NOT NULL,
-    CONSTRAINT order_outbox_pkey PRIMARY KEY (id)
-);
-
-CREATE INDEX "restaurant_order_outbox_saga_status"
-    ON "restaurant".order_outbox
-        (type, approval_status);
-
-CREATE UNIQUE INDEX "restaurant_order_outbox_saga_id"
-    ON "restaurant".order_outbox
-        (type, saga_id, approval_status, outbox_status);
 
 DROP TABLE IF EXISTS restaurant.order_outbox CASCADE;
 

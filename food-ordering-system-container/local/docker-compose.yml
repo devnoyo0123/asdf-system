@@ -248,7 +248,7 @@ services:
 
   migration-order-service:
     build:
-      context: ../flyway/customer-service
+      context: ../flyway/order-service
       dockerfile: Dockerfile
     volumes:
       - ../flyway/order-service/migration:/flyway/sql
@@ -260,7 +260,7 @@ services:
 
 #  seed-order-service:
 #    build:
-#      context: ../flyway/customer-service
+#      context: ../flyway/order-service
 #      dockerfile: Dockerfile
 #    volumes:
 #      - ../flyway/order-service/seed:/flyway/sql
@@ -298,7 +298,7 @@ services:
 
   migration-restaurant-service:
     build:
-      context: ../flyway/customer-service
+      context: ../flyway/restaurant-service
       dockerfile: Dockerfile
     volumes:
       - ../flyway/restaurant-service/migration:/flyway/sql
@@ -308,18 +308,18 @@ services:
     networks:
       - ${GLOBAL_NETWORK:-food-ordering-system}
 
-#  seed-restaurant-service:
-#    build:
-#      context: ../flyway/customer-service
-#      dockerfile: Dockerfile
-#    volumes:
-#      - ../flyway/restaurant-service/seed:/flyway/sql
-#      - ../flyway/restaurant-service/conf:/flyway/conf
-#    depends_on:
-#      - db
-#      - migration-restaurant-service
-#    networks:
-#      - ${GLOBAL_NETWORK:-food-ordering-system}
+  seed-restaurant-service:
+    build:
+      context: ../flyway/restaurant-service
+      dockerfile: Dockerfile
+    volumes:
+      - ../flyway/restaurant-service/seed:/flyway/sql
+      - ../flyway/restaurant-service/conf:/flyway/conf
+    depends_on:
+      - db
+      - migration-restaurant-service
+    networks:
+      - ${GLOBAL_NETWORK:-food-ordering-system}
 
 networks:
   food-ordering-system:

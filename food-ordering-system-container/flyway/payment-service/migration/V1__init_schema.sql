@@ -1,6 +1,8 @@
-DROP SCHEMA IF EXISTS payment CASCADE;
+DROP TYPE IF EXISTS saga_status;
+CREATE TYPE saga_status AS ENUM ('STARTED', 'FAILED', 'SUCCEEDED', 'PROCESSING', 'COMPENSATING', 'COMPENSATED');
 
-CREATE SCHEMA payment;
+DROP TYPE IF EXISTS outbox_status;
+CREATE TYPE outbox_status AS ENUM ('STARTED', 'COMPLETED', 'FAILED');
 
 DROP TYPE IF EXISTS payment_status;
 
@@ -19,19 +21,7 @@ CREATE TABLE "payment".payments
     CONSTRAINT payments_pkey PRIMARY KEY (id)
 );
 
-CREATE TABLE "payment".order_outbox
-(
-    id uuid NOT NULL,
-    saga_id uuid NOT NULL,
-    created_at TIMESTAMP WITH TIME ZONE NOT NULL,
-    processed_at TIMESTAMP WITH TIME ZONE,
-    type character varying COLLATE pg_catalog."default" NOT NULL,
-    payload jsonb NOT NULL,
-    outbox_status outbox_status NOT NULL,
-    payment_status payment_status NOT NULL,
-    version integer NOT NULL,
-    CONSTRAINT order_outbox_pkey PRIMARY KEY (id)
-);
+DROP TABLE IF EXISTS payment.order_outbox CASCADE;
 
 CREATE TABLE "payment".order_outbox
 (

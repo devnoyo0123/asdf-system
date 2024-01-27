@@ -1,13 +1,11 @@
 #!/bin/bash
 echo "wait DB container up"
-dockerize -wait tcp://db:5432 -timeout 20s
-
-pwd
+dockerize -wait tcp://db:5432 -timeout 30s
 
 # DB Migration
-#echo "run restaurant database migration"
-#flyway -configFiles=/flyway/customer-service/conf/restaurant-migration.conf migrate
+echo "run restaurant database migration"
+flyway -configFiles=/flyway/conf/restaurant-migration.conf migrate
 
 # Seed Migration
-#echo "insert restaurant seed data"
-#flyway -configFiles=./conf/restaurant-seed.conf migrate
+echo "insert restaurant seed data"
+flyway -configFiles=/flyway/conf/restaurant-seed.conf migrate
