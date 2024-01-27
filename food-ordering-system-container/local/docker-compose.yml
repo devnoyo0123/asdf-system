@@ -3,6 +3,7 @@ version: '3.7'
 services:
   zookeeper:
     image: confluentinc/cp-zookeeper:${KAFKA_VERSION:-latest}
+    container_name: zookeeper
     hostname: zookeeper
     ports:
       - "2182:2181"
@@ -23,11 +24,12 @@ services:
       - "./volumes/zookeeper/data:/var/lib/zookeeper/data"
       - "./volumes/zookeeper/transactions:/var/lib/zookeeper/log"
     networks:
-      - ${GLOBAL_NETWORK:-kafka}
+      - ${GLOBAL_NETWORK:-food-ordering-system}
 
 
   schema-registry:
     image: confluentinc/cp-schema-registry:${KAFKA_VERSION}
+    container_name: schema-registry
     hostname: schema-registry
     depends_on:
       kafka-broker-1:
@@ -46,10 +48,11 @@ services:
       SCHEMA_REGISTRY_DEBUG: 'true'
 
     networks:
-      - ${GLOBAL_NETWORK:-kafka}
+      - ${GLOBAL_NETWORK:-food-ordering-system}
 
   kafka-broker-1:
     image: confluentinc/cp-kafka:${KAFKA_VERSION}
+    container_name: kafka-broker-1
     hostname: kafka-broker-1
     ports:
       - "19092:19092"
@@ -72,10 +75,11 @@ services:
     volumes:
       - "./volumes/kafka/broker-1:/var/lib/kafka/data"
     networks:
-      - ${GLOBAL_NETWORK:-kafka}
+      - ${GLOBAL_NETWORK:-food-ordering-system}
 
   kafka-broker-2:
     image: confluentinc/cp-kafka:${KAFKA_VERSION}
+    container_name: kafka-broker-2
     hostname: kafka-broker-2
     ports:
       - "29092:29092"
@@ -98,10 +102,11 @@ services:
     volumes:
       - "./volumes/kafka/broker-2:/var/lib/kafka/data"
     networks:
-      - ${GLOBAL_NETWORK:-kafka}
+      - ${GLOBAL_NETWORK:-food-ordering-system}
 
   kafka-broker-3:
     image: confluentinc/cp-kafka:${KAFKA_VERSION}
+    container_name: kafka-broker-3
     hostname: kafka-broker-3
     ports:
       - "39092:39092"
@@ -124,17 +129,18 @@ services:
     volumes:
       - "./volumes/kafka/broker-3:/var/lib/kafka/data"
     networks:
-      - ${GLOBAL_NETWORK:-kafka}
+      - ${GLOBAL_NETWORK:-food-ordering-system}
 
   kafka-ui:
-    container_name: kafka-simple-kafka-ui
+    container_name: kafka-ui
+    hostname: kafka-ui
     image: provectuslabs/kafka-ui:latest
     ports:
       - "8989:8080"
     environment:
       DYNAMIC_CONFIG_ENABLED: 'true'
     networks:
-      - ${GLOBAL_NETWORK:-kafka}
+      - ${GLOBAL_NETWORK:-food-ordering-system}
 
 #  kafka-debezium-connector:
 #    image: debezium/connect:${DEBEZIUM_VERSION}
@@ -160,7 +166,7 @@ services:
 #    volumes:
 #      - "/Users/Shared/debezium-connector-schemaregistry-7.2.5:/kafka/connect/debezium-connector-schemaregistry-7.2.5"
 #    networks:
-#      - ${GLOBAL_NETWORK:-kafka}
+#      - ${GLOBAL_NETWORK:-food-ordering-system}
 
   init-kafka:
     image: confluentinc/cp-kafka:${KAFKA_VERSION}
@@ -196,10 +202,12 @@ services:
       kafka-topics --bootstrap-server kafka-broker-1:9092 --list
       "
     networks:
-      - ${GLOBAL_NETWORK:-kafka}
+      - ${GLOBAL_NETWORK:-food-ordering-system}
 
   db:
     image: postgres:${POSTGRES_VERSION:-14.1}
+    container_name: db
+    hostname: db
     ports:
       - "5432:5432"                     # 호스트와 컨테이너 간의 포트 바인딩
     environment:
@@ -211,7 +219,107 @@ services:
       - ./db/pgdata:/var/lib/postgresql/data  # 공유 볼륨 경로
       - ./ddl:/docker-entrypoint-initdb.d
     networks:
-      - ${GLOBAL_NETWORK:-kafka}
+      - ${GLOBAL_NETWORK:-food-ordering-system}
+
+  migration-customer-service:
+    build:
+      context: ../flyway/customer-service
+      dockerfile: Dockerfile
+    volumes:
+      - ../flyway/customer-service/migration:/flyway/sql
+      - ../flyway/customer-service/conf:/flyway/conf
+    depends_on:
+      - db
+    networks:
+      - ${GLOBAL_NETWORK:-food-ordering-system}
+
+  seed-customer-service:
+    build:
+      context: ../flyway/customer-service
+      dockerfile: Dockerfile
+    volumes:
+      - ../flyway/customer-service/seed:/flyway/sql
+      - ../flyway/customer-service/conf:/flyway/conf
+    depends_on:
+      - db
+      - migration-customer-service
+    networks:
+      - ${GLOBAL_NETWORK:-food-ordering-system}
+
+  migration-order-service:
+    build:
+      context: ../flyway/customer-service
+      dockerfile: Dockerfile
+    volumes:
+      - ../flyway/order-service/migration:/flyway/sql
+      - ../flyway/order-service/conf:/flyway/conf
+    depends_on:
+      - db
+    networks:
+      - ${GLOBAL_NETWORK:-food-ordering-system}
+
+#  seed-order-service:
+#    build:
+#      context: ../flyway/customer-service
+#      dockerfile: Dockerfile
+#    volumes:
+#      - ../flyway/order-service/seed:/flyway/sql
+#      - .../flyway/order-service/conf:/flyway/conf
+#    depends_on:
+#      - db
+#      - migration-order-service
+#    networks:
+#      - ${GLOBAL_NETWORK:-food-ordering-system}
+
+  migration-payment-service:
+    build:
+      context: ../flyway/payment-service
+      dockerfile: Dockerfile
+    volumes:
+      - ../flyway/payment-service/migration:/flyway/sql
+      - ../flyway/payment-service/conf:/flyway/conf
+    depends_on:
+      - db
+    networks:
+      - ${GLOBAL_NETWORK:-food-ordering-system}
+
+#  seed-payment-service:
+#    build:
+#      context: ../flyway/payment-service
+#      dockerfile: Dockerfile
+#    volumes:
+#      - ../flyway/payment-service/seed:/flyway/sql
+#      - ../flyway/payment-service/conf:/flyway/conf
+#    depends_on:
+#      - db
+#      - migration-payment-service
+#    networks:
+#      - ${GLOBAL_NETWORK:-food-ordering-system}
+
+  migration-restaurant-service:
+    build:
+      context: ../flyway/customer-service
+      dockerfile: Dockerfile
+    volumes:
+      - ../flyway/restaurant-service/migration:/flyway/sql
+      - ../flyway/restaurant-service/conf:/flyway/conf
+    depends_on:
+      - db
+    networks:
+      - ${GLOBAL_NETWORK:-food-ordering-system}
+
+#  seed-restaurant-service:
+#    build:
+#      context: ../flyway/customer-service
+#      dockerfile: Dockerfile
+#    volumes:
+#      - ../flyway/restaurant-service/seed:/flyway/sql
+#      - ../flyway/restaurant-service/conf:/flyway/conf
+#    depends_on:
+#      - db
+#      - migration-restaurant-service
+#    networks:
+#      - ${GLOBAL_NETWORK:-food-ordering-system}
 
 networks:
   food-ordering-system:

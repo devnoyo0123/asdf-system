@@ -3,6 +3,7 @@ version: '3.7'
 services:
   zookeeper:
     image: confluentinc/cp-zookeeper:${KAFKA_VERSION:-latest}
+    container_name: zookeeper
     hostname: zookeeper
     ports:
       - "2182:2181"
@@ -20,11 +21,12 @@ services:
       timeout: 10s
       retries: 5
     networks:
-      - ${GLOBAL_NETWORK:-kafka}
+      - ${GLOBAL_NETWORK:-food-ordering-system}
 
 
   schema-registry:
     image: confluentinc/cp-schema-registry:${KAFKA_VERSION}
+    container_name: schema-registry
     hostname: schema-registry
     depends_on:
       kafka-broker-1:
@@ -43,10 +45,11 @@ services:
       SCHEMA_REGISTRY_DEBUG: 'true'
 
     networks:
-      - ${GLOBAL_NETWORK:-kafka}
+      - ${GLOBAL_NETWORK:-food-ordering-system}
 
   kafka-broker-1:
     image: confluentinc/cp-kafka:${KAFKA_VERSION}
+    container_name: kafka-broker-1
     hostname: kafka-broker-1
     ports:
       - "19092:19092"
@@ -67,10 +70,11 @@ services:
       timeout: 10s
       retries: 5
     networks:
-      - ${GLOBAL_NETWORK:-kafka}
+      - ${GLOBAL_NETWORK:-food-ordering-system}
 
   kafka-broker-2:
     image: confluentinc/cp-kafka:${KAFKA_VERSION}
+    container_name: kafka-broker-2
     hostname: kafka-broker-2
     ports:
       - "29092:29092"
@@ -91,10 +95,11 @@ services:
       timeout: 10s
       retries: 5
     networks:
-      - ${GLOBAL_NETWORK:-kafka}
+      - ${GLOBAL_NETWORK:-food-ordering-system}
 
   kafka-broker-3:
     image: confluentinc/cp-kafka:${KAFKA_VERSION}
+    container_name: kafka-broker-3
     hostname: kafka-broker-3
     ports:
       - "39092:39092"
@@ -115,7 +120,7 @@ services:
       timeout: 10s
       retries: 5
     networks:
-      - ${GLOBAL_NETWORK:-kafka}
+      - ${GLOBAL_NETWORK:-food-ordering-system}
 
 #  kafka-debezium-connector:
 #    image: debezium/connect:${DEBEZIUM_VERSION}
@@ -141,7 +146,7 @@ services:
 #    volumes:
 #      - "/Users/Shared/debezium-connector-schemaregistry-7.2.5:/kafka/connect/debezium-connector-schemaregistry-7.2.5"
 #    networks:
-#      - ${GLOBAL_NETWORK:-kafka}
+#      - ${GLOBAL_NETWORK:-food-ordering-system}
 
   init-kafka:
     image: confluentinc/cp-kafka:${KAFKA_VERSION}
@@ -179,10 +184,12 @@ services:
       kafka-topics --bootstrap-server kafka-broker-1:9092 --list
       "
     networks:
-      - ${GLOBAL_NETWORK:-kafka}
+      - ${GLOBAL_NETWORK:-food-ordering-system}
 
   db:
     image: postgres:${POSTGRES_VERSION:-14.1}
+    container_name: db
+    hostname: db
     ports:
       - "5432:5432"                     # 호스트와 컨테이너 간의 포트 바인딩
     environment:
@@ -193,7 +200,47 @@ services:
     volumes:
       - ./ddl:/docker-entrypoint-initdb.d
     networks:
-      - ${GLOBAL_NETWORK:-kafka}
+      - ${GLOBAL_NETWORK:-food-ordering-system}
+
+#  migration-restaurant-service:
+#    build:
+#      context: ./flyway
+#      dockerfile: Dockerfile
+#    volumes:
+#      - ../flyway/db-migration/main:/flyway/sql
+#      - ../flyway/conf/customer-migration.conf:/flyway/conf/flyway.config
+#    depends_on:
+#      - db
+#  seed-restaurant-service:
+#    build:
+#      context: ./flyway
+#      dockerfile: Dockerfile
+#    volumes:
+#      - ./flyway/migration-restaurant-service/seed:/flyway/sql
+#      - ./flyway/conf/flyway_seed.conf:/flyway/conf/flyway.config
+#    depends_on:
+#      - db
+#      - migration-restaurant-service
+
+  migration-customer-service:
+    build:
+      context: ./flyway
+      dockerfile: Dockerfile
+    volumes:
+      - ../flyway/migration/customer-service:/flyway/sql
+      - ../flyway/conf/customer-migration.conf:/flyway/conf/flyway.config
+    depends_on:
+      - db
+  seed-customer-service:
+    build:
+      context: ./flyway
+      dockerfile: Dockerfile
+    volumes:
+      - ../flyway/seed/customer-service:/flyway/sql
+      - ../flyway/conf/customer-seed.conf:/flyway/conf/flyway.config
+    depends_on:
+      - db
+      - migration-customer-service
 
 networks:
   food-ordering-system:

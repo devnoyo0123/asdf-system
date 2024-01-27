@@ -9,19 +9,18 @@ import com.example.orderservice.application.ports.output.outbox.repository.Payme
 import com.example.orderservice.domain.outbox.payment.OrderPaymentOutboxMessage;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.ZonedDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -43,8 +42,8 @@ class PaymentOutboxRepositoryImplTest {
         paymentOutboxRepository = new PaymentOutboxRepositoryImpl(paymentOutboxJpaRepository, paymentOutboxDataAccessMapper);
     }
 
+    @DisplayName("findByTypeAndSagaIdAndSagaStatus 메소드 테스트")
     @Test
-    @Transactional
     void findByTypeAndSagaIdAndSagaStatus() {
 
         // 1. 테스트 데이터 준비
