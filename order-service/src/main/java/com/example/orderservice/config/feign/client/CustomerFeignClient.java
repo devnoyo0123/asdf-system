@@ -1,12 +1,11 @@
 package com.example.orderservice.config.feign.client;
 
 import com.example.orderservice.config.feign.config.FeignConfig;
-import com.example.orderservice.config.feign.dto.CustomerSingleDTO;
+import com.example.orderservice.config.feign.dto.CustomerDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.UUID;
 
@@ -18,6 +17,6 @@ import java.util.UUID;
 public interface CustomerFeignClient {
 
     @GetMapping("/api/customers/{id}")
-    ResponseEntity<CustomerSingleDTO> callGet(@PathVariable("id") UUID id);
+    ResponseEntity<CustomerDTO> callGet(@PathVariable("id") UUID id);
 
 }

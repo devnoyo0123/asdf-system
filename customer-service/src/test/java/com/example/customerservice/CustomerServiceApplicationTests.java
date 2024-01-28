@@ -2,7 +2,7 @@ package com.example.customerservice;
 
 import com.example.customerservice.adapter.out.dataaccess.entity.CustomerEntity;
 import com.example.customerservice.adapter.out.dataaccess.repository.CustomerJpaRepository;
-import com.example.customerservice.application.dto.CustomerFindOneQueryResponse;
+import com.example.customerservice.application.dto.CustomerQueryResponse;
 import com.example.customerservice.application.dto.FindOneCustomerQuery;
 import com.example.customerservice.application.ports.input.CustomerApplicationService;
 import com.example.customerservice.domain.exception.CustomerNotFoundException;
@@ -45,7 +45,7 @@ class CustomerServiceApplicationTests {
 
         // when
         FindOneCustomerQuery query = FindOneCustomerQuery.of(customerId);
-        CustomerFindOneQueryResponse response = sut.findOneCustomerBy(query);
+        CustomerQueryResponse response = sut.findOneCustomerBy(query);
 
         // then
         assertNotNull(response);

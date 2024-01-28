@@ -1,6 +1,6 @@
 package com.example.customerservice.application;
 
-import com.example.customerservice.application.dto.CustomerFindOneQueryResponse;
+import com.example.customerservice.application.dto.CustomerQueryResponse;
 import com.example.customerservice.application.dto.FindOneCustomerQuery;
 import com.example.customerservice.application.mapper.CustomerDataMapper;
 import com.example.customerservice.application.ports.output.repository.CustomerRepository;
@@ -14,17 +14,17 @@ import java.util.Optional;
 
 @Slf4j
 @Component
-public class CustomerFindOneQueryHandler {
+public class CustomerQueryHandler {
     private final CustomerDataMapper customerDataMapper;
     private final CustomerRepository customerRepository;
 
-    public CustomerFindOneQueryHandler(CustomerDataMapper customerDataMapper, CustomerRepository customerRepository) {
+    public CustomerQueryHandler(CustomerDataMapper customerDataMapper, CustomerRepository customerRepository) {
         this.customerDataMapper = customerDataMapper;
         this.customerRepository = customerRepository;
     }
 
-    @Transactional(readOnly = false)
-    public CustomerFindOneQueryResponse findOneCustomerBy(FindOneCustomerQuery findOneCustomerQuery) {
+    @Transactional(readOnly = true)
+    public CustomerQueryResponse findOneBy(FindOneCustomerQuery findOneCustomerQuery) {
         Optional<Customer> customerResult = customerRepository.findOneCustomerBy(findOneCustomerQuery.id());
         if(customerResult.isEmpty()) {
             log.warn("Could not find customer with id: {}", findOneCustomerQuery.id());

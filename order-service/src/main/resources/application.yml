@@ -23,6 +23,9 @@ feign:
   customer-service:
     url:
       prefix: http://localhost:8084
+  restaurant-service:
+    url:
+      prefix: http://localhost:8083
 
 logging:
   level:

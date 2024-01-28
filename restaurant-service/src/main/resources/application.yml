@@ -1,5 +1,7 @@
 server:
-  port: 8183
+  port: 8083
+  servlet:
+    context-path: /api
 
 logging:
   level:
@@ -24,10 +26,7 @@ spring:
     username: pass_local_user
     password: pass_local
     driver-class-name: org.postgresql.Driver
-  sql:
-    init:
-      mode: NEVER
-      schema-locations: classpath:init-schema.sql,  classpath:init-data.sql
+
 
 kafka-config:
   bootstrap-servers: localhost:19092, localhost:29092, localhost:39092
