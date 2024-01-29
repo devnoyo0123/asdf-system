@@ -1,6 +1,6 @@
 package com.example.customerservice.application.mapper;
 
-import com.example.customerservice.adapter.dto.CustomerDashboardQueryRequest;
+import com.example.customerservice.adapter.web.dto.CustomerDashboardQueryRequest;
 import com.example.customerservice.application.dto.CustomerDashboardQuery;
 import com.example.customerservice.application.dto.CustomerSearchCondition;
 import com.example.modulecommon.domain.constant.SortCriteria;

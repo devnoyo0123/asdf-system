@@ -1,6 +1,6 @@
 package com.example.customerservice.adapter.out.dataaccess.repository;
 
-import com.example.customerservice.adapter.out.dataaccess.entity.CustomerEntity;
+import com.example.customerservice.adapter.dataaccess.entity.CustomerEntity;
 import com.example.customerservice.application.dto.CustomerDashboardQueryResponse;
 import com.example.customerservice.application.dto.CustomerSearchCondition;
 import com.example.customerservice.application.ports.output.repository.CustomerRepository;
