@@ -1,9 +1,8 @@
-package com.example.paymentservice.application.ports.output.outbox.scheduler;
+package com.example.restaurantservice.adapter.outbox.scheduler;
 
 import com.example.modulecommon.outbox.OutboxScheduler;
 import com.example.modulecommon.outbox.OutboxStatus;
-import com.example.paymentservice.application.ports.output.outbox.scheduler.OrderOutboxHelper;
-import com.example.paymentservice.domain.outbox.OrderOutboxMessage;
+import com.example.restaurantservice.domain.entity.outbox.OrderOutboxMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -22,9 +21,9 @@ public class OrderOutboxCleanerScheduler implements OutboxScheduler {
         this.orderOutboxHelper = orderOutboxHelper;
     }
 
-    @Override
     @Transactional
     @Scheduled(cron = "@midnight")
+    @Override
     public void processOutboxMessage() {
         Optional<List<OrderOutboxMessage>> outboxMessagesResponse =
                 orderOutboxHelper.getOrderOutboxMessageByOutboxStatus(OutboxStatus.COMPLETED);

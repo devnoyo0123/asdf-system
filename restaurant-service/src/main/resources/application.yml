@@ -16,6 +16,8 @@ decorator:
 restaurant-service:
   restaurant-approval-request-topic-name: restaurant-approval-request
   restaurant-approval-response-topic-name: restaurant-approval-response
+  outbox-scheduler-fixed-delay: 10000
+  outbox-scheduler-initial-delay: 10000
 
 spring:
   jpa:

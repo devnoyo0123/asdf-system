@@ -1,7 +1,6 @@
 package com.example.restaurantservice.domain.event;
 
 import com.example.modulecommon.domain.valueobject.RestaurantId;
-import com.example.restaurantservice.application.ports.output.message.publisher.OrderRejectedMessagePublisher;
 import com.example.restaurantservice.domain.entity.OrderApproval;
 
 import java.time.ZonedDateTime;

@@ -84,5 +84,6 @@ CREATE INDEX "restaurant_order_outbox_saga_status"
 
 CREATE UNIQUE INDEX "restaurant_order_outbox_saga_id"
     ON "restaurant".order_outbox
-        (type, saga_id, approval_status, outbox_status);DROP TABLE IF EXISTS restaurant.order_outbox CASCADE;
+        (type, saga_id, approval_status, outbox_status);
+
 
