@@ -1,4 +1,4 @@
-package com.example.restaurantservice.adapter.output.message.mapper;
+package com.example.restaurantservice.adapter.message.mapper;
 
 import com.example.modulecommon.domain.valueobject.ProductId;
 import com.example.modulecommon.domain.valueobject.RestaurantOrderStatus;

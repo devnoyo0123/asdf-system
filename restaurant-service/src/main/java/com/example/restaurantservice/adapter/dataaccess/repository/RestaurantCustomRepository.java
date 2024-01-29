@@ -1,4 +1,4 @@
-package com.example.restaurantservice.adapter.output.dataaccess.repository;
+package com.example.restaurantservice.adapter.dataaccess.repository;
 
 import com.example.restaurantservice.domain.entity.Restaurant;
 

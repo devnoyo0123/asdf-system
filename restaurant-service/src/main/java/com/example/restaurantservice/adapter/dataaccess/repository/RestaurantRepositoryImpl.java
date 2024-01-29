@@ -1,8 +1,5 @@
-package com.example.restaurantservice.adapter.output.dataaccess.repository;
+package com.example.restaurantservice.adapter.dataaccess.repository;
 
-import com.example.modulecommon.domain.valueobject.ProductId;
-import com.example.restaurantservice.application.dto.RestaurantQuery;
-import com.example.restaurantservice.application.dto.RestaurantQueryResponse;
 import com.example.restaurantservice.application.ports.output.repository.RestaurantRepository;
 import com.example.restaurantservice.domain.entity.Restaurant;
 import org.springframework.stereotype.Component;

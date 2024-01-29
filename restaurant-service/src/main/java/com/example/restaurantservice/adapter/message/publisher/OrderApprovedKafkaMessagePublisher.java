@@ -1,10 +1,9 @@
-package com.example.restaurantservice.adapter.output.message.publisher;
+package com.example.restaurantservice.adapter.message.publisher;
 
-import com.example.modulecommon.kafka.order.avro.model.RestaurantApprovalRequestAvroModel;
 import com.example.modulecommon.kafka.order.avro.model.RestaurantApprovalResponseAvroModel;
 import com.example.modulecommon.kafka.producer.service.KafkaMessageHelper;
 import com.example.modulecommon.kafka.producer.service.KafkaProducer;
-import com.example.restaurantservice.adapter.output.message.mapper.RestaurantMessagingDataMapper;
+import com.example.restaurantservice.adapter.message.mapper.RestaurantMessagingDataMapper;
 import com.example.restaurantservice.application.ports.output.message.publisher.OrderApprovedMessagePublisher;
 import com.example.restaurantservice.config.RestaurantServiceConfigData;
 import com.example.restaurantservice.domain.event.OrderApprovedEvent;

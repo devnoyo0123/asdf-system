@@ -1,14 +1,13 @@
-package com.example.restaurantservice.adapter.output.dataaccess.repository;
+package com.example.restaurantservice.adapter.dataaccess.repository;
 
 import com.example.modulecommon.domain.valueobject.OrderId;
 import com.example.modulecommon.domain.valueobject.RestaurantId;
-import com.example.restaurantservice.adapter.output.dataaccess.mapper.RestaurantDataAccessMapper;
+import com.example.restaurantservice.adapter.dataaccess.mapper.RestaurantDataAccessMapper;
 import com.example.restaurantservice.application.ports.output.repository.OrderApprovalRepository;
 import com.example.restaurantservice.domain.entity.OrderApproval;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
-import java.util.UUID;
 
 @Component
 public class OrderApprovalRepositoryImpl implements OrderApprovalRepository {

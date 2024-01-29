@@ -1,4 +1,4 @@
-package com.example.restaurantservice.adapter.output.dataaccess.entity;
+package com.example.restaurantservice.adapter.dataaccess.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

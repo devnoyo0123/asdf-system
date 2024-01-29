@@ -1,8 +1,8 @@
-package com.example.restaurantservice.adapter.output.message.listener;
+package com.example.restaurantservice.adapter.message.listener;
 
 import com.example.modulecommon.kafka.consumer.service.KafkaConsumer;
 import com.example.modulecommon.kafka.order.avro.model.RestaurantApprovalRequestAvroModel;
-import com.example.restaurantservice.adapter.output.message.mapper.RestaurantMessagingDataMapper;
+import com.example.restaurantservice.adapter.message.mapper.RestaurantMessagingDataMapper;
 import com.example.restaurantservice.application.ports.input.message.listener.RestaurantApprovalRequestMessageListener;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;

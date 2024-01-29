@@ -69,7 +69,19 @@ public class RestaurantApprovalRequestHelper {
                     " not found!");
         }
 
-        return orderApprovalResult.get();
+        return OrderApproval.builder()
+                .orderApprovalId(orderApprovalResult.get().getId())
+                .orderId(orderApprovalResult.get().getOrderId())
+                .restaurantId(orderApprovalResult.get().getRestaurantId())
+                .approvalStatus(orderApprovalResult.get().getApprovalStatus())
+                .orderDetail(
+                        OrderDetail.builder()
+                                .orderId(new OrderId(UUID.fromString(restaurantApprovalRequest.getOrderId())))
+                                .totalAmount(Money.of(restaurantApprovalRequest.getPrice()))
+                                .orderStatus(OrderStatus.valueOf(String.valueOf(restaurantApprovalRequest.getRestaurantOrderStatus())))
+                                .build()
+                )
+                .build();
     }
 
     private Restaurant findRestaurant(RestaurantApprovalRequest restaurantApprovalRequest) {

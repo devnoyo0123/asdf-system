@@ -1,4 +1,4 @@
-package com.example.restaurantservice.adapter.output.dataaccess.exception;
+package com.example.restaurantservice.adapter.dataaccess.exception;
 
 public class RestaurantDataAccessException extends RuntimeException{
     public RestaurantDataAccessException(String message) {

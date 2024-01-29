@@ -12,7 +12,7 @@ import java.util.UUID;
 public class OrderApproval extends BaseEntity<OrderApprovalId> {
     private final RestaurantId restaurantId;
     private final OrderId orderId;
-    private final OrderDetail orderDetail;
+    private OrderDetail orderDetail;
     private OrderApprovalStatus approvalStatus;
 
     private OrderApproval(Builder builder) {
@@ -24,6 +24,11 @@ public class OrderApproval extends BaseEntity<OrderApprovalId> {
     }
 
     public void validateOrder(List<String> failureMessages) {
+
+        if( orderDetail == null ) {
+            failureMessages.add("Order detail is not initialized for order: " + orderId.getValue());
+        }
+
         if( orderDetail.getOrderStatus() != OrderStatus.PAID ) {
             failureMessages.add("Payment is not completed for order: " + orderDetail.getId());
         }
@@ -46,7 +51,10 @@ public class OrderApproval extends BaseEntity<OrderApprovalId> {
 
     public void changeOrderApprovalStatus(OrderApprovalStatus orderApprovalStatus) {
         this.approvalStatus = orderApprovalStatus;
+    }
 
+    public void intializeOrderDetail(OrderDetail orderDetail) {
+        this.orderDetail = orderDetail;
     }
 
     public static final class Builder {

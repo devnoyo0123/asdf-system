@@ -1,4 +1,4 @@
-package com.example.restaurantservice.adapter.input.web;
+package com.example.restaurantservice.adapter.web;
 
 import com.example.restaurantservice.application.dto.RestaurantQuery;
 import com.example.restaurantservice.application.dto.RestaurantQueryResponse;

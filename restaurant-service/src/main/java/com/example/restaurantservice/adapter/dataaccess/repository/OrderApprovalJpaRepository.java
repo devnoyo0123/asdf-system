@@ -1,6 +1,6 @@
-package com.example.restaurantservice.adapter.output.dataaccess.repository;
+package com.example.restaurantservice.adapter.dataaccess.repository;
 
-import com.example.restaurantservice.adapter.output.dataaccess.entity.OrderApprovalEntity;
+import com.example.restaurantservice.adapter.dataaccess.entity.OrderApprovalEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

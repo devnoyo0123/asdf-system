@@ -1,15 +1,13 @@
-package com.example.restaurantservice.adapter.output.dataaccess.mapper;
+package com.example.restaurantservice.adapter.dataaccess.mapper;
 
 
 import com.example.modulecommon.domain.valueobject.Money;
 import com.example.modulecommon.domain.valueobject.OrderId;
 import com.example.modulecommon.domain.valueobject.ProductId;
 import com.example.modulecommon.domain.valueobject.RestaurantId;
-import com.example.restaurantservice.adapter.output.dataaccess.entity.OrderApprovalEntity;
-import com.example.restaurantservice.adapter.output.dataaccess.entity.ProductEntity;
-import com.example.restaurantservice.adapter.output.dataaccess.entity.RestaurantEntity;
-import com.example.restaurantservice.application.dto.ProductDto;
-import com.example.restaurantservice.application.dto.RestaurantQueryResponse;
+import com.example.restaurantservice.adapter.dataaccess.entity.OrderApprovalEntity;
+import com.example.restaurantservice.adapter.dataaccess.entity.ProductEntity;
+import com.example.restaurantservice.adapter.dataaccess.entity.RestaurantEntity;
 import com.example.restaurantservice.domain.entity.OrderApproval;
 import com.example.restaurantservice.domain.entity.Product;
 import com.example.restaurantservice.domain.entity.Restaurant;
@@ -48,25 +46,7 @@ public class RestaurantDataAccessMapper {
                 .approvalStatus(orderApprovalEntity.getStatus())
                 .build();
     }
-
-    public RestaurantQueryResponse restaurantEntityToRestaurantQueryResponse(RestaurantEntity restaurantEntity) {
-        return RestaurantQueryResponse.of(
-                restaurantEntity.getId(),
-                restaurantEntity.getRestaurantProducts().stream()
-                        .map(restaurantProduct -> this.productEntityToProductDto(restaurantProduct.getProduct()))
-                        .toList(),
-                restaurantEntity.isActive()
-        );
-    }
-
-    private ProductDto productEntityToProductDto(ProductEntity productEntity) {
-        return ProductDto.of(
-                productEntity.getId(),
-                productEntity.getName(),
-                new BigDecimal(String.valueOf(productEntity.getPrice())),
-                productEntity.isAvailable()
-        );
-    }
+    
 
     private Product productEntityToProduct(ProductEntity productEntity) {
         return Product.builder()
