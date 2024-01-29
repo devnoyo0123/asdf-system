@@ -1,5 +1,8 @@
 package com.example.orderservice.application.mapper.order;
 
+import com.example.modulecommon.domain.entity.Customer;
+import com.example.modulecommon.domain.entity.Product;
+import com.example.modulecommon.domain.entity.Restaurant;
 import com.example.modulecommon.domain.valueobject.*;
 import com.example.modulecommon.kafka.order.avro.model.PaymentOrderStatus;
 import com.example.orderservice.application.dto.create.CreateOrderCommand;
@@ -7,7 +10,7 @@ import com.example.orderservice.application.dto.create.CreateOrderResponse;
 import com.example.orderservice.application.dto.create.OrderAddressDto;
 import com.example.orderservice.application.dto.create.OrderItemDto;
 import com.example.orderservice.application.dto.track.TrackOrderResponse;
-import com.example.orderservice.config.feign.dto.CustomerSingleDTO;
+import com.example.orderservice.config.feign.dto.CustomerDTO;
 import com.example.orderservice.domain.entity.*;
 import com.example.orderservice.domain.event.OrderCancelledEvent;
 import com.example.orderservice.domain.event.OrderCreatedEvent;
@@ -112,7 +115,7 @@ public class OrderDataMapper {
 
     }
 
-    public Optional<Customer> customerSingleDTOToCustomer(CustomerSingleDTO body) {
+    public Optional<Customer> customerSingleDTOToCustomer(CustomerDTO body) {
 
         return Optional.of(Customer.of(
                 new CustomerId(UUID.fromString(body.id())),

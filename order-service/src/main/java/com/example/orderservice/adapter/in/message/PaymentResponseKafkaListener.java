@@ -34,7 +34,7 @@ public class PaymentResponseKafkaListener implements KafkaConsumer<PaymentRespon
                         @Header(KafkaHeaders.RECEIVED_KEY) List<String> keys,
                         @Header(KafkaHeaders.RECEIVED_PARTITION) List<Integer> partitions,
                         @Header(KafkaHeaders.OFFSET) List<Long> offsets) {
-        log.info("{} number of payment responses received with keys: {}, partitions: {} and offsets: {}",
+        log.debug("{} number of payment responses received with keys: {}, partitions: {} and offsets: {}",
                 messages.size(),
                 keys.toString(),
                 partitions.toString(),
@@ -43,12 +43,12 @@ public class PaymentResponseKafkaListener implements KafkaConsumer<PaymentRespon
         messages.forEach(paymentResponseAvroModel -> {
             try {
                 if(PaymentStatus.COMPLETED == paymentResponseAvroModel.getPaymentStatus()) {
-                    log.info("Processing successful payment for order id: {}", paymentResponseAvroModel.getOrderId());
+                    log.debug("Processing successful payment for order id: {}", paymentResponseAvroModel.getOrderId());
                     paymentResponseMessageListener.paymentCompleted(orderMessagingDataMapper
                             .paymentResponseAvroModelToPaymentResponse(paymentResponseAvroModel));
                 } else if (PaymentStatus.CANCELLED == paymentResponseAvroModel.getPaymentStatus() ||
                     PaymentStatus.FAILED == paymentResponseAvroModel.getPaymentStatus()) {
-                    log.info("Processing unsuccessful payment for order id: {}", paymentResponseAvroModel.getOrderId());
+                    log.debug("Processing unsuccessful payment for order id: {}", paymentResponseAvroModel.getOrderId());
                     paymentResponseMessageListener.paymentCancelled(orderMessagingDataMapper
                             .paymentResponseAvroModelToPaymentResponse(paymentResponseAvroModel));
                 }

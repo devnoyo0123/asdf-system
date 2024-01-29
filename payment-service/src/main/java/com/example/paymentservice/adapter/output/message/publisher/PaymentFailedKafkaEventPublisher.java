@@ -34,7 +34,7 @@ public class PaymentFailedKafkaEventPublisher implements PaymentEventPublisher<P
     public void publish(PaymentFailedEvent domainEvent) {
         String orderId = domainEvent.getPayment().getOrderId().getValue().toString();
 
-        log.info("Received PaymentFailedEvent for order id: {}", orderId);
+        log.debug("Received PaymentFailedEvent for order id: {}", orderId);
 
 //        try {
 //            PaymentResponseAvroModel paymentResponseAvroModel =
@@ -48,7 +48,7 @@ public class PaymentFailedKafkaEventPublisher implements PaymentEventPublisher<P
 //                            orderId,
 //                            PaymentResponseAvroModel.getClassSchema().getName()));
 //
-//            log.info("PaymentResponseAvroModel sent to kafka for order id: {}", orderId);
+//            log.debug("PaymentResponseAvroModel sent to kafka for order id: {}", orderId);
 //        } catch (Exception e) {
 //            log.error("Error while sending PaymentResponseAvroModel message" +
 //                    " to kafka with order id: {}, error: {}", orderId, e.getMessage());

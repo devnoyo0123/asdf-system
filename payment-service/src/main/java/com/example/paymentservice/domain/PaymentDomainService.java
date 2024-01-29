@@ -28,11 +28,11 @@ public class PaymentDomainService {
         payment.initializePayment();
 
         if (failureMessages.isEmpty()) {
-            log.info("Payment is initiated for order id: {}", payment.getOrderId().getValue());
+            log.debug("Payment is initiated for order id: {}", payment.getOrderId().getValue());
             payment.updateStatus(PaymentStatus.COMPLETED);
             return new PaymentCompletedEvent(payment, ZonedDateTime.now(ZoneId.of(String.valueOf(UTC))));
         } else {
-            log.info("Payment initiation is failed for order id: {}", payment.getOrderId().getValue());
+            log.debug("Payment initiation is failed for order id: {}", payment.getOrderId().getValue());
             payment.updateStatus(PaymentStatus.FAILED);
             return new PaymentFailedEvent(payment, ZonedDateTime.now(ZoneId.of(String.valueOf(UTC))), failureMessages);
         }
@@ -43,11 +43,11 @@ public class PaymentDomainService {
         payment.validatePayment(failureMessages);
 
         if (failureMessages.isEmpty()) {
-            log.info("Payment is cancelled for order id: {}", payment.getOrderId().getValue());
+            log.debug("Payment is cancelled for order id: {}", payment.getOrderId().getValue());
             payment.updateStatus(PaymentStatus.CANCELLED);
             return new PaymentCancelledEvent(payment, ZonedDateTime.now(ZoneId.of(String.valueOf(UTC))));
         } else {
-            log.info("Payment cancellation is failed for order id: {}", payment.getOrderId().getValue());
+            log.debug("Payment cancellation is failed for order id: {}", payment.getOrderId().getValue());
             payment.updateStatus(PaymentStatus.FAILED);
             return new PaymentFailedEvent(payment, ZonedDateTime.now(ZoneId.of(String.valueOf(UTC))), failureMessages);
         }

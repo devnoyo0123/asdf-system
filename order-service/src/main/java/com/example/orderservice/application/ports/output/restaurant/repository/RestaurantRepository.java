@@ -1,6 +1,6 @@
 package com.example.orderservice.application.ports.output.restaurant.repository;
 
-import com.example.orderservice.domain.entity.Restaurant;
+import com.example.modulecommon.domain.entity.Restaurant;
 
 import java.util.Optional;
 

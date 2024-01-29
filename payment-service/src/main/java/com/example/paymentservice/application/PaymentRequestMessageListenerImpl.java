@@ -30,7 +30,7 @@ public class PaymentRequestMessageListenerImpl implements PaymentRequestMessageL
     }
 
     private void fireEvent(PaymentEvent paymentEvent) {
-        log.info("Publishing payment event for payment id: {} and order id: {}",
+        log.debug("Publishing payment event for payment id: {} and order id: {}",
                 paymentEvent.getPayment().getId().getValue(),
                 paymentEvent.getPayment().getOrderId().getValue());
 

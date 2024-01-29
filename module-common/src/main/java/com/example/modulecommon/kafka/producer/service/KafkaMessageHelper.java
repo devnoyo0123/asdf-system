@@ -39,7 +39,7 @@ public class KafkaMessageHelper {
         return (result, ex) -> {
             if (ex == null) {
                 RecordMetadata metadata = result.getRecordMetadata();
-                log.info("Received successful response from Kafka for order id: {}" +
+                log.debug("Received successful response from Kafka for order id: {}" +
                                 " Topic: {} Partition: {} Offset: {} Timestamp: {}",
                         orderId,
                         metadata.topic(),

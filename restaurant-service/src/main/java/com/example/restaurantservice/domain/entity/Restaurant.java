@@ -13,45 +13,16 @@ import java.util.UUID;
 
 @Getter
 public class Restaurant extends AggregateRoot<RestaurantId> {
-    private OrderApproval orderApproval;
     private boolean isActive;
-    private final OrderDetail orderDetail;
-
-    public void validateOrder(List<String> failureMessages) {
-        if( orderDetail.getOrderStatus() != OrderStatus.PAID ) {
-            failureMessages.add("Payment is not completed for order: " + orderDetail.getId());
-        }
-        Money totalAmount = orderDetail.getProducts().stream().map(product -> {
-            if (product.isAvailable()) {
-                failureMessages.add("Product with id: " + product.getId().getValue()
-                        + " is not available");
-            }
-            return product.getPrice().multiply(product.getQuantity());
-        }).reduce(Money.ZERO, Money::add);
-
-        if (!totalAmount.equals(orderDetail.getTotalAmount())) {
-            failureMessages.add("Price total is not correct for order: " + orderDetail.getId());
-        }
-    }
-
-    public void constructOrderApproval(OrderApprovalStatus orderApprovalStatus) {
-        orderApproval = OrderApproval.builder()
-                .orderApprovalId(new OrderApprovalId(UUID.randomUUID()))
-                .restaurantId(this.getId())
-                .orderId(orderDetail.getId())
-                .approvalStatus(orderApprovalStatus)
-                .build();
-    }
-
+    private List<Product> products;
     public void setActive(boolean active) {
         isActive = active;
     }
 
     private Restaurant(Builder builder) {
         setId(builder.id);
-        orderApproval = builder.orderApproval;
         isActive = builder.isActive;
-        orderDetail = builder.orderDetail;
+        products = builder.products;
     }
 
     public static Builder builder() {
@@ -60,9 +31,8 @@ public class Restaurant extends AggregateRoot<RestaurantId> {
 
     public static final class Builder {
         private RestaurantId id;
-        private OrderApproval orderApproval;
         private boolean isActive;
-        private OrderDetail orderDetail;
+        private List<Product> products;
 
         private Builder() {
         }
@@ -72,18 +42,13 @@ public class Restaurant extends AggregateRoot<RestaurantId> {
             return this;
         }
 
-        public Builder orderApproval(OrderApproval val) {
-            orderApproval = val;
-            return this;
-        }
-
         public Builder isActive(boolean val) {
             isActive = val;
             return this;
         }
 
-        public Builder orderDetail(OrderDetail val) {
-            orderDetail = val;
+        public Builder products(List<Product> val) {
+            products = val;
             return this;
         }
 

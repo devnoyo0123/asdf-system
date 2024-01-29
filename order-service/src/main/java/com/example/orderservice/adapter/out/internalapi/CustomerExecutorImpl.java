@@ -4,7 +4,7 @@ import com.example.orderservice.application.mapper.order.OrderDataMapper;
 import com.example.orderservice.application.ports.output.customer.executor.CustomerExecutor;
 import com.example.orderservice.config.feign.client.CustomerFeignClient;
 import com.example.orderservice.config.feign.dto.CustomerDTO;
-import com.example.orderservice.domain.entity.Customer;
+import com.example.modulecommon.domain.entity.Customer;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 

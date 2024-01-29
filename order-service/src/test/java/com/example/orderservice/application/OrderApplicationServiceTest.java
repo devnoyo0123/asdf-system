@@ -19,26 +19,21 @@ import com.example.orderservice.application.ports.output.outbox.repository.Appro
 import com.example.orderservice.application.ports.output.outbox.repository.PaymentOutboxRepository;
 import com.example.orderservice.application.ports.output.restaurant.repository.RestaurantRepository;
 import com.example.orderservice.config.IntegrationTest;
-import com.example.orderservice.domain.OrderDomainService;
-import com.example.orderservice.domain.OrderDomainServiceImpl;
-import com.example.orderservice.domain.entity.Customer;
+import com.example.modulecommon.domain.entity.Customer;
 import com.example.orderservice.domain.entity.Order;
-import com.example.orderservice.domain.entity.Product;
-import com.example.orderservice.domain.entity.Restaurant;
+import com.example.modulecommon.domain.entity.Product;
+import com.example.modulecommon.domain.entity.Restaurant;
 import com.example.orderservice.domain.exception.OrderDomainException;
 import com.example.orderservice.domain.outbox.payment.OrderPaymentEventPayload;
 import com.example.orderservice.domain.outbox.payment.OrderPaymentOutboxMessage;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Bean;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
@@ -160,8 +155,6 @@ public class OrderApplicationServiceTest extends IntegrationTest {
 
     @Test
     public void testCreateOrder() {
-
-
         // given
         Customer customer = new Customer(new CustomerId(CUSTOMER_ID));
 

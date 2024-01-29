@@ -54,7 +54,7 @@ public class OrderApprovalSaga implements SagaStep<RestaurantApproveResponse> {
                 );
 
         if( orderApprovalOutboxMessageResponse.isEmpty()) {
-            log.info("Outbox message with saga id :{} is already processed!", restaurantApproveResponse.getSagaId());
+            log.debug("Outbox message with saga id :{} is already processed!", restaurantApproveResponse.getSagaId());
             return;
         }
 
@@ -76,7 +76,7 @@ public class OrderApprovalSaga implements SagaStep<RestaurantApproveResponse> {
                 sagaStatus)
         );
 
-        log.info("Order with id: {} approved", restaurantApproveResponse.getOrderId());
+        log.debug("Order with id: {} approved", restaurantApproveResponse.getOrderId());
     }
 
     @Override
@@ -90,7 +90,7 @@ public class OrderApprovalSaga implements SagaStep<RestaurantApproveResponse> {
         );
 
         if(orderApprovalOutboxMessageResponse.isEmpty()) {
-            log.info("Outbox message with saga id :{} is already roll backed!", restaurantApproveResponse.getSagaId());
+            log.debug("Outbox message with saga id :{} is already roll backed!", restaurantApproveResponse.getSagaId());
             return;
         }
 
@@ -114,11 +114,11 @@ public class OrderApprovalSaga implements SagaStep<RestaurantApproveResponse> {
                 UUID.fromString(restaurantApproveResponse.getSagaId())
         );
 
-        log.info("Order with id: {} cancelled", domainEvent.getOrder().getId().getValue());
+        log.debug("Order with id: {} cancelled", domainEvent.getOrder().getId().getValue());
     }
 
     private OrderCancelledEvent rollbackOfOrderApproval(RestaurantApproveResponse restaurantApproveResponse) {
-        log.info("Cancelling order with id: {}", restaurantApproveResponse.getOrderId());
+        log.debug("Cancelling order with id: {}", restaurantApproveResponse.getOrderId());
         Order order = orderSagaHelper.findOrder(restaurantApproveResponse.getOrderId());
         OrderCancelledEvent domainEvent = orderDomainService.cancelOrderPayment(order,
                 restaurantApproveResponse.getFailureMessages());
@@ -134,7 +134,7 @@ public class OrderApprovalSaga implements SagaStep<RestaurantApproveResponse> {
         );
 
         if(orderPaymentOutboxMessageResponse.isEmpty()) {
-            log.info("Outbox message with saga id :{} is already processed!", sagaId);
+            log.debug("Outbox message with saga id :{} is already processed!", sagaId);
             return null;
         }
 
@@ -153,7 +153,7 @@ public class OrderApprovalSaga implements SagaStep<RestaurantApproveResponse> {
     }
 
     private Order approveOrder(RestaurantApproveResponse restaurantApproveResponse) {
-        log.info("Approving order with id: {}", restaurantApproveResponse.getOrderId());
+        log.debug("Approving order with id: {}", restaurantApproveResponse.getOrderId());
         Order order = orderSagaHelper.findOrder(restaurantApproveResponse.getOrderId());
         orderDomainService.approveOrder(order);
         orderSagaHelper.saveOrder(order);

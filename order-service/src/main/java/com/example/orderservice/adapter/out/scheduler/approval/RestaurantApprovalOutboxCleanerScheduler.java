@@ -36,7 +36,7 @@ public class RestaurantApprovalOutboxCleanerScheduler implements OutboxScheduler
 
         if( response.isPresent() ) {
             List<OrderApprovalOutboxMessage> outboxMessages = response.get();
-            log.info("Retrieved {} outbox messages for removed. payloads: {}", outboxMessages.size(),
+            log.debug("Retrieved {} outbox messages for removed. payloads: {}", outboxMessages.size(),
                     outboxMessages.stream().map(OrderApprovalOutboxMessage::getPayload)
                             .collect(Collectors.joining("\n")));
             approvalOutboxHelper.deleteApprovalOutboxMessageByOutboxStatusAndSagaStatus(
@@ -45,7 +45,7 @@ public class RestaurantApprovalOutboxCleanerScheduler implements OutboxScheduler
                     SagaStatus.FAILED,
                     SagaStatus.COMPENSATED);
 
-            log.info("{} outbox messages removed!", outboxMessages.size());
+            log.debug("{} outbox messages removed!", outboxMessages.size());
         }
     }
 }

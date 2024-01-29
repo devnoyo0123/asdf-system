@@ -55,7 +55,7 @@ public class PaymentOutboxHelper {
             throw new OrderDomainException("Could not save OrderPaymentOutboxMessage with outbox id: {}" + orderPaymentOutboxMessage.getId());
 
         }
-        log.info("OrderPaymentMessage saved with id: {}", message.getId());
+        log.debug("OrderPaymentMessage saved with id: {}", message.getId());
     }
 
     public void savePaymentOutboxMessage(OrderPaymentEventPayload paymentEventPayload,

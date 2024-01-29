@@ -1,6 +1,5 @@
-package com.example.orderservice.domain.entity;
+package com.example.modulecommon.domain.entity;
 
-import com.example.modulecommon.domain.entity.AggregateRoot;
 import com.example.modulecommon.domain.valueobject.CustomerId;
 import lombok.Getter;
 
@@ -17,7 +16,7 @@ public class Customer extends AggregateRoot<CustomerId> {
         this.street = street;
     }
 
-    protected Customer(CustomerId customerId) {
+    public Customer(CustomerId customerId) {
         super.setId(customerId);
     }
 

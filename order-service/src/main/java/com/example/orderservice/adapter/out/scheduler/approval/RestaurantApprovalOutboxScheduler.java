@@ -36,7 +36,7 @@ public class RestaurantApprovalOutboxScheduler implements OutboxScheduler {
 
         if(outboxMessageResponse.isPresent() && outboxMessageResponse.get().size() > 0 ) {
             List<OrderApprovalOutboxMessage> outboxMessages = outboxMessageResponse.get();
-            log.info("Retrieved {} outbox messages with ids: {}, sending to message bus",
+            log.debug("Retrieved {} outbox messages with ids: {}, sending to message bus",
                     outboxMessages.size(),
                     outboxMessages.stream().map(outboxMessage ->
                             outboxMessage.getId().toString())
@@ -45,14 +45,14 @@ public class RestaurantApprovalOutboxScheduler implements OutboxScheduler {
             outboxMessages.forEach(outboxMessage ->
                     restaurantApprovalRequestMessagePublisher.publish(outboxMessage, this::updateOutboxStatus));
 
-            log.info("{} OrderApprovalOutboxMessage sent to message bus", outboxMessages.size());
+            log.debug("{} OrderApprovalOutboxMessage sent to message bus", outboxMessages.size());
         }
     }
 
     private void updateOutboxStatus(OrderApprovalOutboxMessage outboxMessage, OutboxStatus outboxStatus) {
         outboxMessage.setOutboxStatus(outboxStatus);
         approvalOutboxHelper.save(outboxMessage);
-        log.info("OrderApprovalOutboxMessage is updated with id: {}, outboxStatus: {}",
+        log.debug("OrderApprovalOutboxMessage is updated with id: {}, outboxStatus: {}",
                 outboxMessage.getId().toString(),
                 outboxStatus.toString());
 

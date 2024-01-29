@@ -1,9 +1,14 @@
 package com.example.restaurantservice.adapter.output.dataaccess.repository;
 
+import com.example.modulecommon.domain.valueobject.OrderId;
+import com.example.modulecommon.domain.valueobject.RestaurantId;
 import com.example.restaurantservice.adapter.output.dataaccess.mapper.RestaurantDataAccessMapper;
 import com.example.restaurantservice.application.ports.output.repository.OrderApprovalRepository;
 import com.example.restaurantservice.domain.entity.OrderApproval;
 import org.springframework.stereotype.Component;
+
+import java.util.Optional;
+import java.util.UUID;
 
 @Component
 public class OrderApprovalRepositoryImpl implements OrderApprovalRepository {
@@ -22,6 +27,11 @@ public class OrderApprovalRepositoryImpl implements OrderApprovalRepository {
         return restaurantDataAccessMapper
                 .orderApprovalEntityToOrderApproval(orderApprovalJpaRepository
                         .save(restaurantDataAccessMapper.orderApprovalToOrderApprovalEntity(orderApproval)));
+    }
+
+    @Override
+    public Optional<OrderApproval> findOneBy(OrderId orderId, RestaurantId restaurantId) {
+        return Optional.empty();
     }
 
 }

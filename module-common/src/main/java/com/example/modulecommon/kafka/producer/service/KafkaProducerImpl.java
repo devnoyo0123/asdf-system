@@ -25,7 +25,7 @@ public class KafkaProducerImpl<K extends Serializable, V extends SpecificRecordB
 
     @Override
     public void send(String topicName, K key, V message, BiConsumer<SendResult<K, V>, Throwable> callback) {
-        log.info("Sending message={} to topic={}", message, topicName);
+        log.debug("Sending message={} to topic={}", message, topicName);
         try {
             CompletableFuture<SendResult<K, V>> kafkaResultFuture = kafkaTemplate.send(topicName, key, message);
             kafkaResultFuture.whenComplete(callback);
@@ -39,7 +39,7 @@ public class KafkaProducerImpl<K extends Serializable, V extends SpecificRecordB
     @PreDestroy
     public void close() {
         if (kafkaTemplate != null) {
-            log.info("Closing kafka producer!");
+            log.debug("Closing kafka producer!");
             kafkaTemplate.destroy();
         }
     }

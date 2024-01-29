@@ -53,7 +53,7 @@ public class OrderPaymentSaga implements SagaStep<PaymentResponse> {
         );
 
         if(orderPaymentOutboxMessageResponse.isEmpty()) {
-            log.info("Outbox message with saga id :{} is already processed!", paymentResponse.getSagaId());
+            log.debug("Outbox message with saga id :{} is already processed!", paymentResponse.getSagaId());
             return;
         }
 
@@ -76,7 +76,7 @@ public class OrderPaymentSaga implements SagaStep<PaymentResponse> {
                 UUID.fromString(paymentResponse.getSagaId())
         );
 
-        log.info("Order with id: {} is paid", orderPaidEvent.getOrder().getId().getValue());
+        log.debug("Order with id: {} is paid", orderPaidEvent.getOrder().getId().getValue());
     }
 
     @Override
@@ -90,7 +90,7 @@ public class OrderPaymentSaga implements SagaStep<PaymentResponse> {
                 );
 
         if( orderPaymentOutboxMessageResponse.isEmpty()) {
-            log.info("Outbox message with saga id :{} is already rollback!", paymentResponse.getSagaId());
+            log.debug("Outbox message with saga id :{} is already rollback!", paymentResponse.getSagaId());
             return;
         }
 
@@ -114,7 +114,7 @@ public class OrderPaymentSaga implements SagaStep<PaymentResponse> {
             ));
         }
 
-        log.info("Order with id {} is cancelled", order.getId().getValue());
+        log.debug("Order with id {} is cancelled", order.getId().getValue());
     }
 
     private OrderPaymentOutboxMessage getUpdatedOrderPaymentOutboxMessage(OrderPaymentOutboxMessage orderPaymentOutboxMessage, OrderStatus orderStatus, SagaStatus sagaStatus) {
@@ -143,7 +143,7 @@ public class OrderPaymentSaga implements SagaStep<PaymentResponse> {
     }
 
     private OrderPaidEvent completePaymentOfOrder(PaymentResponse paymentResponse) {
-        log.info("Completing payment for order with id: {}", paymentResponse.getOrderId());
+        log.debug("Completing payment for order with id: {}", paymentResponse.getOrderId());
         var order = orderSagaHelper.findOrder(paymentResponse.getOrderId());
         OrderPaidEvent orderPaidEvent = orderDomainService.payOrder(order);
         orderSagaHelper.saveOrder(order);
@@ -159,7 +159,7 @@ public class OrderPaymentSaga implements SagaStep<PaymentResponse> {
     }
 
     private Order rollbackPaymentOfOrder(PaymentResponse paymentResponse) {
-        log.info("Cancelling order with id: {}", paymentResponse.getOrderId());
+        log.debug("Cancelling order with id: {}", paymentResponse.getOrderId());
         Order order = orderSagaHelper.findOrder(paymentResponse.getOrderId());
         orderDomainService.cancelOrder(order, paymentResponse.getFailureMessages());
         orderSagaHelper.saveOrder(order);;

@@ -33,7 +33,7 @@ public class OrderRejectedKafkaMessagePublisher implements OrderRejectedMessageP
     public void publish(OrderRejectedEvent domainEvent) {
         String orderId = domainEvent.getOrderApproval().getOrderId().getValue().toString();
 
-        log.info("Received OrderRejectedEvent for order id: {}", orderId);
+        log.debug("Received OrderRejectedEvent for order id: {}", orderId);
 
 //        try {
 //            RestaurantApprovalResponseAvroModel restaurantApprovalResponseAvroModel =
@@ -45,7 +45,7 @@ public class OrderRejectedKafkaMessagePublisher implements OrderRejectedMessageP
 //                            orderId, restaurantApprovalResponseAvroModel.getClassSchema().getName())
 //            );
 //
-//            log.info("RestaurantApprovalResponseAvroModel sent to Kafka at: {}", System.nanoTime());
+//            log.debug("RestaurantApprovalResponseAvroModel sent to Kafka at: {}", System.nanoTime());
 //        } catch (Exception e) {
 //            log.error("Error while sending RestaurantApprovalResponseAvroModel message" +
 //                    " to kafka with order id: {}, error: {}", orderId, e.getMessage());

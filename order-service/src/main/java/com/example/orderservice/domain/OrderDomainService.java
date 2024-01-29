@@ -1,8 +1,7 @@
 package com.example.orderservice.domain;
 
-import com.example.modulecommon.domain.event.publisher.DomainEventPublisher;
 import com.example.orderservice.domain.entity.Order;
-import com.example.orderservice.domain.entity.Restaurant;
+import com.example.modulecommon.domain.entity.Restaurant;
 import com.example.orderservice.domain.event.OrderCancelledEvent;
 import com.example.orderservice.domain.event.OrderCreatedEvent;
 import com.example.orderservice.domain.event.OrderPaidEvent;

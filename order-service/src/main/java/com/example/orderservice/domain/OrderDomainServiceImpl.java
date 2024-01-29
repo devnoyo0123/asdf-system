@@ -1,8 +1,8 @@
 package com.example.orderservice.domain;
 
 import com.example.orderservice.domain.entity.Order;
-import com.example.orderservice.domain.entity.Product;
-import com.example.orderservice.domain.entity.Restaurant;
+import com.example.modulecommon.domain.entity.Product;
+import com.example.modulecommon.domain.entity.Restaurant;
 import com.example.orderservice.domain.event.OrderCancelledEvent;
 import com.example.orderservice.domain.event.OrderCreatedEvent;
 import com.example.orderservice.domain.event.OrderPaidEvent;
@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -25,21 +26,23 @@ public class OrderDomainServiceImpl implements OrderDomainService{
                                                       Restaurant restaurant
                                                       ) {
         validateRestaurant(restaurant);
-        serOrderProductInformation(order, restaurant);
+        validateOrderProductPriceWithRestaurant(order, restaurant);
         order.validateOrder();
         order.initOrder();
-        log.info("Order with id: {} is initiated", order.getId().getValue());
+        log.debug("Order with id: {} is initiated", order.getId().getValue());
         return new OrderCreatedEvent(order, ZonedDateTime.now(ZoneId.of(UTC)));
     }
 
-    private void serOrderProductInformation(Order order, Restaurant restaurant) {
+    private void validateOrderProductPriceWithRestaurant(Order order, Restaurant restaurant) {
         order.getItems().forEach(orderItem -> {
-            restaurant.getProducts().forEach(restaurantProduct -> {
-                Product product = orderItem.getProduct();
-                if(product.equals(restaurantProduct)) {
-                    product.updateWithConfirmedNameAndPrice(restaurantProduct.getName(), restaurantProduct.getPrice());
-                }
-            });
+            Product orderProduct = orderItem.getProduct();
+            Optional<Product> matchingRestaurantProduct = restaurant.getProducts().stream()
+                    .filter(restaurantProduct -> restaurantProduct.equals(orderProduct))
+                    .findAny();
+
+            if (matchingRestaurantProduct.isEmpty() || !matchingRestaurantProduct.get().getPrice().equals(orderProduct.getPrice())) {
+                throw new OrderDomainException("가격 정보가 올바르지 않습니다. 제품 ID: " + orderProduct.getId().getValue());
+            }
         });
     }
 
@@ -53,27 +56,27 @@ public class OrderDomainServiceImpl implements OrderDomainService{
     @Override
     public OrderPaidEvent payOrder(Order order) {
         order.pay();
-        log.info("Order with id: {} is paid", order.getId().getValue());
+        log.debug("Order with id: {} is paid", order.getId().getValue());
         return new OrderPaidEvent(order, ZonedDateTime.now(ZoneId.of(UTC)));
     }
 
     @Override
     public void approveOrder(Order order) {
         order.approve();
-        log.info("Order with id: {} is approved", order.getId().getValue());
+        log.debug("Order with id: {} is approved", order.getId().getValue());
     }
 
     @Override
     public OrderCancelledEvent cancelOrderPayment(Order order,
                                                   List<String> failureMessages) {
         order.initCancel(failureMessages);
-        log.info("Order payment is cancelling for order id: {}", order.getId().getValue());
+        log.debug("Order payment is cancelling for order id: {}", order.getId().getValue());
         return new OrderCancelledEvent(order, ZonedDateTime.now(ZoneId.of(UTC)));
     }
 
     @Override
     public void cancelOrder(Order order, List<String> failureMessages) {
         order.cancel(failureMessages);
-        log.info("Order with id: {} is cancelled", order.getId().getValue());
+        log.debug("Order with id: {} is cancelled", order.getId().getValue());
     }
 }

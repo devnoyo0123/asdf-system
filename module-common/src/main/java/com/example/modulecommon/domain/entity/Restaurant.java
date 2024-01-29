@@ -1,6 +1,5 @@
-package com.example.orderservice.domain.entity;
+package com.example.modulecommon.domain.entity;
 
-import com.example.modulecommon.domain.entity.AggregateRoot;
 import com.example.modulecommon.domain.valueobject.RestaurantId;
 import lombok.Getter;
 

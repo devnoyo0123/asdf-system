@@ -40,7 +40,7 @@ public class OrderPaymentEventKafkaPublisher implements PaymentRequestMessagePub
 
         String sagaId = orderPaymentOutboxMessage.getSagaId().toString();
 
-        log.info("Received OrderPaymentOutboxMessage for order id: {} and saga id: {}",
+        log.debug("Received OrderPaymentOutboxMessage for order id: {} and saga id: {}",
                 orderPaymentEventPayload.getOrderId(),
                 sagaId);
 

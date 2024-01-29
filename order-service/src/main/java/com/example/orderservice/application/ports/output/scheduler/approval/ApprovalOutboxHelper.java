@@ -56,7 +56,7 @@ public class ApprovalOutboxHelper {
             throw new OrderDomainException("Could not save outbox message for order with id: " + orderApprovalOutboxMessage.getId());
 
         }
-        log.info("OrderApprovalMessage saved with id: {}", message.getId());
+        log.debug("OrderApprovalMessage saved with id: {}", message.getId());
     }
 
     @Transactional

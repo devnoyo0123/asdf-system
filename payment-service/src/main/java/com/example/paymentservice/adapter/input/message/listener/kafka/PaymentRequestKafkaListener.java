@@ -34,15 +34,15 @@ public class PaymentRequestKafkaListener implements KafkaConsumer<PaymentRequest
                         @Header(KafkaHeaders.RECEIVED_PARTITION)List<Integer> partitions,
                         @Header(KafkaHeaders.OFFSET)List<Long> offsets) {
 
-        log.info("{} number of payment request received with keys: {}, partitions: {}, offsets: {}",
+        log.debug("{} number of payment request received with keys: {}, partitions: {}, offsets: {}",
                 messages.size(), keys.toString(), partitions.toString(), offsets.toString());
 
         messages.forEach(paymentRequestAvroModel -> {
             if(PaymentOrderStatus.PENDING == paymentRequestAvroModel.getPaymentOrderStatus()){
-                log.info("Processing payment for order id: {}", paymentRequestAvroModel.getOrderId());
+                log.debug("Processing payment for order id: {}", paymentRequestAvroModel.getOrderId());
                 paymentRequestMessageListener.completePayment(paymentMessageListenerMapper.paymentRequestAvroModelToPaymentRequest(paymentRequestAvroModel));
             } else if (PaymentOrderStatus.CANCELLED == paymentRequestAvroModel.getPaymentOrderStatus()) {
-                log.info("Cancelling payment for order id: {}", paymentRequestAvroModel.getOrderId());
+                log.debug("Cancelling payment for order id: {}", paymentRequestAvroModel.getOrderId());
                 paymentRequestMessageListener.cancelPayment(paymentMessageListenerMapper.paymentRequestAvroModelToPaymentRequest(paymentRequestAvroModel));
             }
         });

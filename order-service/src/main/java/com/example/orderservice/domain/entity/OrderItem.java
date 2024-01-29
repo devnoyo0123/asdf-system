@@ -1,6 +1,7 @@
 package com.example.orderservice.domain.entity;
 
 import com.example.modulecommon.domain.entity.BaseEntity;
+import com.example.modulecommon.domain.entity.Product;
 import com.example.modulecommon.domain.valueobject.Money;
 import com.example.modulecommon.domain.valueobject.OrderId;
 import com.example.orderservice.domain.valueobject.OrderItemId;

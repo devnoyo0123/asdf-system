@@ -3,13 +3,12 @@ package com.example.orderservice.application;
 import com.example.orderservice.application.dto.create.CreateOrderCommand;
 import com.example.orderservice.application.mapper.order.OrderDataMapper;
 import com.example.orderservice.application.ports.output.customer.executor.CustomerExecutor;
-import com.example.orderservice.application.ports.output.customer.repository.CustomerRepository;
+import com.example.orderservice.application.ports.output.customer.executor.RestaurantExecutor;
 import com.example.orderservice.application.ports.output.order.repository.OrderRepository;
-import com.example.orderservice.application.ports.output.restaurant.repository.RestaurantRepository;
 import com.example.orderservice.domain.OrderDomainService;
-import com.example.orderservice.domain.entity.Customer;
+import com.example.modulecommon.domain.entity.Customer;
 import com.example.orderservice.domain.entity.Order;
-import com.example.orderservice.domain.entity.Restaurant;
+import com.example.modulecommon.domain.entity.Restaurant;
 import com.example.orderservice.domain.event.OrderCreatedEvent;
 import com.example.orderservice.domain.exception.OrderDomainException;
 import lombok.extern.slf4j.Slf4j;
@@ -26,14 +25,14 @@ public class OrderCreateHelper {
     private final OrderDomainService orderDomainService;
     private final OrderRepository orderRepository;
     private final CustomerExecutor customerExecutor;
-    private final RestaurantRepository restaurantRepository;
+    private final RestaurantExecutor restaurantExecutor;
     private final OrderDataMapper orderDataMapper;
 
-    public OrderCreateHelper(OrderDomainService orderDomainService, OrderRepository orderRepository, CustomerExecutor customerExecutor, RestaurantRepository restaurantRepository, OrderDataMapper orderDataMapper) {
+    public OrderCreateHelper(OrderDomainService orderDomainService, OrderRepository orderRepository, CustomerExecutor customerExecutor, RestaurantExecutor restaurantExecutor, OrderDataMapper orderDataMapper) {
         this.orderDomainService = orderDomainService;
         this.orderRepository = orderRepository;
         this.customerExecutor = customerExecutor;
-        this.restaurantRepository = restaurantRepository;
+        this.restaurantExecutor = restaurantExecutor;
         this.orderDataMapper = orderDataMapper;
     }
 
@@ -49,7 +48,7 @@ public class OrderCreateHelper {
 
     private Restaurant checkRestaurant(CreateOrderCommand createOrderCommand) {
         Restaurant restaurant = orderDataMapper.createOrderCommandToRestaurant(createOrderCommand);
-        Optional<Restaurant> optionalRestaurant = restaurantRepository.findRestaurantInformation(restaurant);
+        Optional<Restaurant> optionalRestaurant = restaurantExecutor.getRestaurantByIdAndProductIdIn(restaurant);
         if (optionalRestaurant.isEmpty()) {
             log.warn("Could not find restaurant with restaurant id: {}", createOrderCommand.getRestaurantId());
             throw new OrderDomainException("Could not find restaurant with restaurant id: "+ createOrderCommand.getRestaurantId());
@@ -72,7 +71,7 @@ public class OrderCreateHelper {
             log.error("Could not save order!");
             throw new OrderDomainException("Could not save order!");
         }
-        log.info("Order is saved with id: {}", orderResult.getId().getValue());
+        log.debug("Order is saved with id: {}", orderResult.getId().getValue());
         return orderResult;
     }
 }

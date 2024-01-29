@@ -33,7 +33,7 @@ public class PaymentCompletedKafkaEventPublisher implements PaymentEventPublishe
     public void publish(PaymentCompletedEvent domainEvent) {
         String orderId = domainEvent.getPayment().getOrderId().getValue().toString();
 
-        log.info("Received PaymentCompletedEvent for order id: {}", orderId);
+        log.debug("Received PaymentCompletedEvent for order id: {}", orderId);
 
 //        try {
 //            PaymentResponseAvroModel paymentResponseAvroModel =
@@ -47,7 +47,7 @@ public class PaymentCompletedKafkaEventPublisher implements PaymentEventPublishe
 //                            orderId,
 //                            paymentResponseAvroModel.getClassSchema().getName()));
 //
-//            log.info("PaymentResponseAvroModel sent to kafka for order id: {}", orderId);
+//            log.debug("PaymentResponseAvroModel sent to kafka for order id: {}", orderId);
 //        } catch (Exception e) {
 //            log.error("Error while sending PaymentResponseAvroModel message" +
 //                    " to kafka with order id: {}, error: {}", orderId, e.getMessage());

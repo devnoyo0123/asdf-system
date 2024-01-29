@@ -38,7 +38,7 @@ public class RestaurantApprovalResponseKafkaListener implements KafkaConsumer<Re
                         @Header(KafkaHeaders.RECEIVED_KEY) List<String> keys,
                         @Header(KafkaHeaders.RECEIVED_PARTITION) List<Integer> partitions,
                         @Header(KafkaHeaders.OFFSET) List<Long> offsets) {
-        log.info("{} number of restaurant approval responses received with keys {}, partitions {} and offsets {}",
+        log.debug("{} number of restaurant approval responses received with keys {}, partitions {} and offsets {}",
                 messages.size(),
                 keys.toString(),
                 partitions.toString(),
@@ -47,12 +47,12 @@ public class RestaurantApprovalResponseKafkaListener implements KafkaConsumer<Re
         messages.forEach(restaurantApprovalResponseAvroModel -> {
             try {
                 if(OrderApprovalStatus.APPROVED == restaurantApprovalResponseAvroModel.getOrderApprovalStatus()) {
-                    log.info("Processing approved order for order id: {}",
+                    log.debug("Processing approved order for order id: {}",
                             restaurantApprovalResponseAvroModel.getOrderId());
                     restaurantApprovalResponseMessageListener.orderApproved(orderMessagingDataMapper
                             .approvalResponseAvroModelToApprovalResponse(restaurantApprovalResponseAvroModel));
                 }else if(OrderApprovalStatus.REJECTED == restaurantApprovalResponseAvroModel.getOrderApprovalStatus()) {
-                    log.info("Processing rejected order for order id: {}, with failure messages: {}",
+                    log.debug("Processing rejected order for order id: {}, with failure messages: {}",
                             restaurantApprovalResponseAvroModel.getOrderId(),
                             String.join(FAILURE_MESSAGE_DELIMITER, restaurantApprovalResponseAvroModel.getFailureMessages()));
                     restaurantApprovalResponseMessageListener.orderRejected(orderMessagingDataMapper

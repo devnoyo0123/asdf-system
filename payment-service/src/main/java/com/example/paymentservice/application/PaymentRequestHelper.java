@@ -38,7 +38,7 @@ public class PaymentRequestHelper {
 
     @Transactional
     public PaymentEvent persistPayment(PaymentRequest paymentRequest) {
-        log.info("Received payment complete event for order id: {}", paymentRequest.getOrderId());
+        log.debug("Received payment complete event for order id: {}", paymentRequest.getOrderId());
         Payment payment = paymentDataMapper.paymentRequestModelToPayment(paymentRequest);
         List<String> failureMessages = new ArrayList<>();
         PaymentEvent paymentEvent = paymentDomainService.validateAndInitiatePayment(payment, failureMessages);
@@ -48,7 +48,7 @@ public class PaymentRequestHelper {
 
     @Transactional
     public PaymentEvent persistCancelPayment(PaymentRequest paymentRequest ) {
-        log.info("Received payment rollback event for order id: {}", paymentRequest.getOrderId());
+        log.debug("Received payment rollback event for order id: {}", paymentRequest.getOrderId());
         Optional<Payment> paymentResponse = paymentRepository.findByOrderId(UUID.fromString(paymentRequest.getOrderId()));
         if(paymentResponse.isEmpty()) {
             log.error("Payment with order id: {} could not be found!", paymentRequest.getOrderId());

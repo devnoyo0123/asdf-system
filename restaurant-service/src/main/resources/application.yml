@@ -3,9 +3,15 @@ server:
   servlet:
     context-path: /api
 
-logging:
-  level:
-    com.food.ordering.system: DEBUG
+#logging:
+#  level:
+#    com.food.ordering.system: DEBUG
+#    org.springframework.web.servlet: debug
+
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: true
 
 restaurant-service:
   restaurant-approval-request-topic-name: restaurant-approval-request
@@ -18,11 +24,11 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
-        format_sql: true
-    show-sql: true
+#        format_sql: true
+#    show-sql: true
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=payment&binaryTransfer=true&reWriteBatchedInserts=true&stringtype=unspecified
+    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=restaurant&binaryTransfer=true&reWriteBatchedInserts=true&stringtype=unspecified
     username: pass_local_user
     password: pass_local
     driver-class-name: org.postgresql.Driver

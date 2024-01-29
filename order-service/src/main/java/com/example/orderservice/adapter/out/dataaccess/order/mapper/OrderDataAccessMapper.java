@@ -6,7 +6,7 @@ import com.example.orderservice.adapter.out.dataaccess.order.entity.OrderEntity;
 import com.example.orderservice.adapter.out.dataaccess.order.entity.OrderItemEntity;
 import com.example.orderservice.domain.entity.Order;
 import com.example.orderservice.domain.entity.OrderItem;
-import com.example.orderservice.domain.entity.Product;
+import com.example.modulecommon.domain.entity.Product;
 import com.example.orderservice.domain.valueobject.OrderItemId;
 import com.example.orderservice.domain.valueobject.StreetAddress;
 import com.example.orderservice.domain.valueobject.TrackingId;

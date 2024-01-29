@@ -35,7 +35,7 @@ public class PaymentOutboxCleanerScheduler implements OutboxScheduler {
                         SagaStatus.COMPENSATED);
         if(response.isPresent()) {
             List<OrderPaymentOutboxMessage> outboxMessages = response.get();
-            log.info("Retrieved {} outbox messages for removed. payloads: {}", outboxMessages.size(),
+            log.debug("Retrieved {} outbox messages for removed. payloads: {}", outboxMessages.size(),
                     outboxMessages.stream().map(OrderPaymentOutboxMessage::getPayload)
                             .collect(Collectors.joining("\n")));
 
@@ -44,7 +44,7 @@ public class PaymentOutboxCleanerScheduler implements OutboxScheduler {
                     SagaStatus.SUCCEEDED,
                     SagaStatus.FAILED,
                     SagaStatus.COMPENSATED);
-            log.info("{} outbox messages removed!", outboxMessages.size());
+            log.debug("{} outbox messages removed!", outboxMessages.size());
         }
     }
 }

@@ -1,13 +1,17 @@
 package com.example.restaurantservice.application;
 
+import com.example.modulecommon.domain.valueobject.Money;
 import com.example.modulecommon.domain.valueobject.OrderId;
+import com.example.modulecommon.domain.valueobject.OrderStatus;
+import com.example.modulecommon.domain.valueobject.RestaurantId;
 import com.example.restaurantservice.application.dto.RestaurantApprovalRequest;
+import com.example.restaurantservice.application.dto.RestaurantQuery;
 import com.example.restaurantservice.application.mapper.RestaurantDataMapper;
-import com.example.restaurantservice.application.ports.output.message.publisher.OrderApprovedMessagePublisher;
-import com.example.restaurantservice.application.ports.output.message.publisher.OrderRejectedMessagePublisher;
 import com.example.restaurantservice.application.ports.output.repository.OrderApprovalRepository;
 import com.example.restaurantservice.application.ports.output.repository.RestaurantRepository;
 import com.example.restaurantservice.domain.RestaurantDomainService;
+import com.example.restaurantservice.domain.entity.OrderApproval;
+import com.example.restaurantservice.domain.entity.OrderDetail;
 import com.example.restaurantservice.domain.entity.Restaurant;
 import com.example.restaurantservice.domain.event.OrderApprovalEvent;
 import com.example.restaurantservice.domain.exception.RestaurantNotFoundException;
@@ -44,37 +48,42 @@ public class RestaurantApprovalRequestHelper {
         log.info("Processing restaurant approval for order id: {}", restaurantApprovalRequest.getOrderId());
         List<String> failureMessages = new ArrayList<>();
         Restaurant restaurant = findRestaurant(restaurantApprovalRequest);
+        OrderApproval orderApproval = findOrderApproval(restaurantApprovalRequest);
         var orderApprovalEvent = restaurantDomainService.validateOrder(
                 restaurant,
+                orderApproval,
                 failureMessages);
-        orderApprovalRepository.persist(restaurant.getOrderApproval());
+        orderApprovalRepository.persist(orderApproval);
         return orderApprovalEvent;
     }
 
-    private Restaurant findRestaurant(RestaurantApprovalRequest restaurantApprovalRequest) {
-        Restaurant restaurant = restaurantDataMapper.
-                restaurantApprovalRequestToRestaurant(restaurantApprovalRequest);
-        Optional<Restaurant> restaurantResult = restaurantRepository.findRestaurantInformation(restaurant);
-        if (restaurantResult.isEmpty()) {
-            log.error("Restaurant with id " + restaurant.getId().getValue() + " not found!");
-            throw new RestaurantNotFoundException("Restaurant with restaurant id: " + restaurant.getId().getValue() +
+    private OrderApproval findOrderApproval(RestaurantApprovalRequest restaurantApprovalRequest) {
+
+        Optional<OrderApproval> orderApprovalResult = orderApprovalRepository.findOneBy(
+                new OrderId(UUID.fromString(restaurantApprovalRequest.getOrderId())),
+                new RestaurantId(UUID.fromString(restaurantApprovalRequest.getRestaurantId())));
+
+        if(orderApprovalResult.isEmpty()){
+            log.error("Order approval with order id " + restaurantApprovalRequest.getOrderId() + " not found!");
+            throw new RestaurantNotFoundException("Order approval with order id: " + restaurantApprovalRequest.getOrderId() +
                     " not found!");
         }
 
-        Restaurant restaurantEntity = restaurantResult.get();
-        restaurant.setActive(restaurantEntity.isActive());
-        restaurant.getOrderDetail().getProducts().forEach(product -> {
-            restaurantEntity.getOrderDetail().getProducts().forEach(productEntity -> {
-                if (productEntity.getId().equals(product.getId())) {
-                    product.updateWithConfirmedNameAndPriceAndAvailability(productEntity.getName(),
-                            productEntity.getPrice(),
-                            productEntity.getQuantity(),
-                            productEntity.isAvailable());
+        return orderApprovalResult.get();
+    }
 
-                }
-            });
-        });
-        restaurant.getOrderDetail().setId(new OrderId(UUID.fromString(restaurantApprovalRequest.getOrderId())));
-        return restaurant;
+    private Restaurant findRestaurant(RestaurantApprovalRequest restaurantApprovalRequest) {
+
+        Optional<Restaurant> restaurantResult = restaurantRepository.findOneBy(
+                UUID.fromString(restaurantApprovalRequest.getRestaurantId()),
+                restaurantApprovalRequest.getProducts().stream().map(product -> product.getId().getValue()).toList());
+
+        if (restaurantResult.isEmpty()) {
+            log.error("Restaurant with id " + restaurantApprovalRequest.getRestaurantId() + " not found!");
+            throw new RestaurantNotFoundException("Restaurant with restaurant id: " + restaurantApprovalRequest.getRestaurantId() +
+                    " not found!");
+        }
+
+        return restaurantResult.get();
     }
 }
