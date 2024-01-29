@@ -46,13 +46,13 @@ public class KafkaMessageHelper {
                         metadata.partition(),
                         metadata.offset(),
                         metadata.timestamp());
-                outboxCallback.accept(outboxMessage, OutboxStatus.FAILED);
+                outboxCallback.accept(outboxMessage, OutboxStatus.COMPLETED);
 
             } else {
                 log.error("Error while sending "+avroModelName+" message {} to topic {}",
                         avroModel.toString(), responseTopicName, ex);
 
-                outboxCallback.accept(outboxMessage, OutboxStatus.COMPLETED);
+                outboxCallback.accept(outboxMessage, OutboxStatus.FAILED);
             }
         };
     }

@@ -1,4 +1,4 @@
-package com.example.paymentservice.adapter.output.dataaccess.entity;
+package com.example.paymentservice.adapter.dataaccess.entity;
 
 import com.example.modulecommon.domain.valueobject.PaymentStatus;
 import jakarta.persistence.*;

@@ -1,6 +1,6 @@
-package com.example.paymentservice.adapter.output.dataaccess.repository;
+package com.example.paymentservice.adapter.dataaccess.repository;
 
-import com.example.paymentservice.adapter.output.dataaccess.mapper.PaymentDataAccessMapper;
+import com.example.paymentservice.adapter.dataaccess.mapper.PaymentDataAccessMapper;
 import com.example.paymentservice.application.ports.output.dataaccess.repository.PaymentJpaRepository;
 import com.example.paymentservice.application.ports.output.dataaccess.repository.PaymentRepository;
 import com.example.paymentservice.domain.entity.Payment;

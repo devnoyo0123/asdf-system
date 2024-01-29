@@ -1,4 +1,4 @@
-package com.example.paymentservice.application.ports.output.message;
+package com.example.paymentservice.application.ports.output.message.publisher;
 
 import com.example.modulecommon.domain.event.DomainEvent;
 

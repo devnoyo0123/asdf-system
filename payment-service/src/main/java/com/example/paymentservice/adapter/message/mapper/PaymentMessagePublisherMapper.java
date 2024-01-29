@@ -1,4 +1,4 @@
-package com.example.paymentservice.adapter.output.message.mapper;
+package com.example.paymentservice.adapter.message.mapper;
 
 import com.example.modulecommon.kafka.order.avro.model.PaymentResponseAvroModel;
 import com.example.modulecommon.kafka.order.avro.model.PaymentStatus;

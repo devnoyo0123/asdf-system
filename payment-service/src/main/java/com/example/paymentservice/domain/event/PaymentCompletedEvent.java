@@ -1,8 +1,6 @@
 package com.example.paymentservice.domain.event;
 
 
-import com.example.modulecommon.domain.event.publisher.DomainEventPublisher;
-import com.example.paymentservice.application.ports.output.message.PaymentEventPublisher;
 import com.example.paymentservice.domain.entity.Payment;
 
 import java.time.ZonedDateTime;

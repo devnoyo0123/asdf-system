@@ -1,6 +1,6 @@
 package com.example.paymentservice.application.ports.output.dataaccess.repository;
 
-import com.example.paymentservice.adapter.output.dataaccess.entity.PaymentEntity;
+import com.example.paymentservice.adapter.dataaccess.entity.PaymentEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

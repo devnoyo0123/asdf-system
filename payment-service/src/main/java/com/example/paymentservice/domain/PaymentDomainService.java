@@ -1,7 +1,6 @@
 package com.example.paymentservice.domain;
 
 import com.example.modulecommon.domain.valueobject.PaymentStatus;
-import com.example.paymentservice.application.ports.output.message.PaymentEventPublisher;
 import com.example.paymentservice.domain.entity.Payment;
 import com.example.paymentservice.domain.event.PaymentCancelledEvent;
 import com.example.paymentservice.domain.event.PaymentCompletedEvent;
