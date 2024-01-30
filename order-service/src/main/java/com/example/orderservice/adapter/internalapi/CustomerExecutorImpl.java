@@ -27,6 +27,6 @@ public class CustomerExecutorImpl implements CustomerExecutor {
     public Optional<Customer> getCustomerBy(UUID id) {
 
         ResponseEntity<CustomerDTO> response = customerFeignClient.callGet(id);
-        return orderDataMapper.customerSingleDTOToCustomer(response.getBody());
+        return orderDataMapper.customerDTOToCustomer(response.getBody());
     }
 }

@@ -160,8 +160,8 @@ public class OrderApplicationServiceTest extends IntegrationTest {
 
         Restaurant restaurantResponse = Restaurant.builder()
                 .restaurantId(new RestaurantId(createOrderCommand.getRestaurantId()))
-                .products(List.of(new Product(new ProductId(PRODUCT_ID), "product-1", Money.of(new BigDecimal("5000"))),
-                        new Product(new ProductId(PRODUCT_ID), "product-2", Money.of(new BigDecimal("5000")))))
+                .products(List.of(Product.of(new ProductId(PRODUCT_ID), "product-1", Money.of(new BigDecimal("5000"))),
+                        Product.of(new ProductId(PRODUCT_ID), "product-2", Money.of(new BigDecimal("5000")))))
                 .active(true)
                 .build();
 
@@ -191,8 +191,8 @@ public class OrderApplicationServiceTest extends IntegrationTest {
 
         Restaurant restaurantResponse = Restaurant.builder()
                 .restaurantId(new RestaurantId(createOrderCommand.getRestaurantId()))
-                .products(List.of(new Product(new ProductId(PRODUCT_ID), "product-1", Money.of(new BigDecimal("5000"))),
-                        new Product(new ProductId(PRODUCT_ID), "product-2", Money.of(new BigDecimal("5000")))))
+                .products(List.of(Product.of(new ProductId(PRODUCT_ID), "product-1", Money.of(new BigDecimal("5000"))),
+                        Product.of(new ProductId(PRODUCT_ID), "product-2", Money.of(new BigDecimal("5000")))))
                 .active(true)
                 .build();
 
@@ -222,8 +222,8 @@ public class OrderApplicationServiceTest extends IntegrationTest {
 
         Restaurant restaurantResponse = Restaurant.builder()
                 .restaurantId(new RestaurantId(createOrderCommand.getRestaurantId()))
-                .products(List.of(new Product(new ProductId(PRODUCT_ID), "product-1", Money.of(new BigDecimal("5000"))),
-                        new Product(new ProductId(PRODUCT_ID), "product-2", Money.of(new BigDecimal("5000")))))
+                .products(List.of(Product.of(new ProductId(PRODUCT_ID), "product-1", Money.of(new BigDecimal("5000"))),
+                        Product.of(new ProductId(PRODUCT_ID), "product-2", Money.of(new BigDecimal("5000")))))
                 .active(true)
                 .build();
 
@@ -253,8 +253,8 @@ public class OrderApplicationServiceTest extends IntegrationTest {
         Customer customer = new Customer(new CustomerId(CUSTOMER_ID));
         Restaurant restaurantResponse = Restaurant.builder()
                 .restaurantId(new RestaurantId(createOrderCommand.getRestaurantId()))
-                .products(List.of(new Product(new ProductId(PRODUCT_ID), "product-1", Money.of(new BigDecimal("5000"))),
-                        new Product(new ProductId(PRODUCT_ID), "product-2", Money.of(new BigDecimal("5000")))))
+                .products(List.of(Product.of(new ProductId(PRODUCT_ID), "product-1", Money.of(new BigDecimal("5000"))),
+                        Product.of(new ProductId(PRODUCT_ID), "product-2", Money.of(new BigDecimal("5000")))))
                 .active(false)
                 .build();
 

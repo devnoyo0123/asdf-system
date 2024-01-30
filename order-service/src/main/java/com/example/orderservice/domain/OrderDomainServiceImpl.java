@@ -26,24 +26,21 @@ public class OrderDomainServiceImpl implements OrderDomainService{
                                                       Restaurant restaurant
                                                       ) {
         validateRestaurant(restaurant);
-        validateOrderProductPriceWithRestaurant(order, restaurant);
+        setOrderProductInformation(order, restaurant);
         order.validateOrder();
         order.initOrder();
         log.debug("Order with id: {} is initiated", order.getId().getValue());
         return new OrderCreatedEvent(order, ZonedDateTime.now(ZoneId.of(UTC)));
     }
 
-    private void validateOrderProductPriceWithRestaurant(Order order, Restaurant restaurant) {
-        order.getItems().forEach(orderItem -> {
-            Product orderProduct = orderItem.getProduct();
-            Optional<Product> matchingRestaurantProduct = restaurant.getProducts().stream()
-                    .filter(restaurantProduct -> restaurantProduct.equals(orderProduct))
-                    .findAny();
-
-            if (matchingRestaurantProduct.isEmpty() || !matchingRestaurantProduct.get().getPrice().equals(orderProduct.getPrice())) {
-                throw new OrderDomainException("가격 정보가 올바르지 않습니다. 제품 ID: " + orderProduct.getId().getValue());
+    private void setOrderProductInformation(Order order, Restaurant restaurant) {
+        order.getItems().forEach(orderItem -> restaurant.getProducts().forEach(restaurantProduct -> {
+            Product currentProduct = orderItem.getProduct();
+            if (currentProduct.equals(restaurantProduct)) {
+                currentProduct.updateWithConfirmedNameAndPrice(restaurantProduct.getName(),
+                        restaurantProduct.getPrice());
             }
-        });
+        }));
     }
 
     private void validateRestaurant(Restaurant restaurant) {

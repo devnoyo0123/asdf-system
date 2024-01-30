@@ -2,9 +2,11 @@ package com.example.modulecommon.domain.entity;
 
 import com.example.modulecommon.domain.valueobject.RestaurantId;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.util.List;
 
+@ToString
 @Getter
 public class Restaurant extends AggregateRoot<RestaurantId> {
 

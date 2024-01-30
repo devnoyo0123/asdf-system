@@ -1,5 +1,5 @@
 server:
-  port: 8081
+  port: 8085
   servlet:
     context-path: /api
 
@@ -29,6 +29,7 @@ feign:
 
 logging:
   level:
+    com.example.orderservice: debug
     org.hibernate.SQL: debug
 
 order-service:

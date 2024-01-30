@@ -60,7 +60,7 @@ public class OrderDataAccessMapper {
         return items.stream()
                 .map(orderItemEntity -> OrderItem.builder()
                         .orderItemId(new OrderItemId(orderItemEntity.getId()))
-                        .product(new Product(new ProductId(orderItemEntity.getProductId())))
+                        .product(Product.of(new ProductId(orderItemEntity.getProductId())))
                         .price(Money.of(orderItemEntity.getPrice()))
                         .quantity(orderItemEntity.getQuantity())
                         .subTotal(Money.of(orderItemEntity.getSubTotal()))

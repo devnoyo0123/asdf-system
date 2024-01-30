@@ -1,9 +1,5 @@
 package com.example.restaurantservice.application.ports.input;
 
-import com.example.restaurantservice.adapter.output.dataaccess.entity.RestaurantEntity;
-import com.example.restaurantservice.application.dto.RestaurantQuery;
-import com.example.restaurantservice.application.dto.RestaurantQueryResponse;
-import com.example.restaurantservice.domain.entity.Restaurant;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

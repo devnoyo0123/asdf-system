@@ -45,7 +45,7 @@ public class OrderSagaHelper {
             case CANCELLED:
                 return SagaStatus.COMPENSATED;
             default:
-                return SagaStatus.FAILED;
+                return SagaStatus.STARTED;
         }
     }
 }

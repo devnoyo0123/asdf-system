@@ -11,14 +11,22 @@ public class Product extends BaseEntity<ProductId> {
     private String name;
     private Money price;
 
-    public Product(ProductId productId, String name, Money price) {
+    protected Product(ProductId productId, String name, Money price) {
         super.setId(productId);
         this.name = name;
         this.price = price;
     }
 
-    public Product(ProductId productId) {
+    protected Product(ProductId productId) {
         super.setId(productId);
+    }
+
+    public static Product of(ProductId productId, String name, Money price) {
+        return new Product(productId, name, price);
+    }
+
+    public static Product of(ProductId productId) {
+        return new Product(productId);
     }
 
     public void updateWithConfirmedNameAndPrice(String name, Money price) {

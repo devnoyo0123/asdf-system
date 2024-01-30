@@ -21,8 +21,8 @@ public class ProductEntity {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "price", nullable = false)
-    private double price;
+    @Column(name = "price", nullable = false, length = 255)
+    private String price;
 
     @Column(name = "available", nullable = false)
     private boolean available;

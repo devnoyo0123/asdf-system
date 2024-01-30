@@ -56,7 +56,7 @@ flyway {
     cleanDisabled = false
     schemas = ['customer']
     baselineVersion = 0
-    table = 'migration_schema_version'
+    table = 'customer_migration_version'
 }
 
 // --QueryDSL 설정

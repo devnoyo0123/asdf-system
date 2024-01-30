@@ -11,6 +11,7 @@ import com.example.orderservice.application.dto.create.OrderAddressDto;
 import com.example.orderservice.application.dto.create.OrderItemDto;
 import com.example.orderservice.application.dto.track.TrackOrderResponse;
 import com.example.orderservice.config.feign.dto.CustomerDTO;
+import com.example.orderservice.config.feign.dto.RestaurantDTO;
 import com.example.orderservice.domain.entity.*;
 import com.example.orderservice.domain.event.OrderCancelledEvent;
 import com.example.orderservice.domain.event.OrderCreatedEvent;
@@ -33,7 +34,7 @@ public class OrderDataMapper {
         return Restaurant.builder()
                 .restaurantId(new RestaurantId(createOrderCommand.getRestaurantId()))
                 .products(createOrderCommand.getItemList().stream().map(orderItemDto ->
-                                new Product(new ProductId(orderItemDto.getProductId())))
+                                Product.of(new ProductId(orderItemDto.getProductId())))
                         .collect(Collectors.toList())
                 )
                 .build();
@@ -50,8 +51,9 @@ public class OrderDataMapper {
     }
 
     private List<OrderItem> orderItemsToOrderItemEntities(List<OrderItemDto> itemList) {
+
         return itemList.stream().map(orderItemDto ->
-                OrderItem.builder().product(new Product(new ProductId(orderItemDto.getProductId())))
+                OrderItem.builder().product(Product.of(new ProductId(orderItemDto.getProductId())))
                         .price(Money.of(orderItemDto.getPrice()))
                         .quantity(orderItemDto.getQuantity())
                         .subTotal(Money.of(orderItemDto.getSubTotal()))
@@ -115,13 +117,29 @@ public class OrderDataMapper {
 
     }
 
-    public Optional<Customer> customerSingleDTOToCustomer(CustomerDTO body) {
+    public Optional<Customer> customerDTOToCustomer(CustomerDTO body) {
 
         return Optional.of(Customer.of(
                 new CustomerId(UUID.fromString(body.id())),
                 body.name(),
                 body.phone(),
                 body.street())
+        );
+    }
+
+    public Optional<Restaurant> restaurantDTOToRestaurant(RestaurantDTO body) {
+        return Optional.of(
+                Restaurant.builder()
+                        .restaurantId(new RestaurantId(UUID.fromString(String.valueOf(body.id()))))
+                        .active(body.active())
+                        .products(body.products().stream()
+                                .map(productDTO -> Product.of(
+                                        new ProductId(UUID.fromString(String.valueOf(productDTO.id()))),
+                                        productDTO.name(),
+                                        Money.of(productDTO.price())
+                                        ))
+                                .collect(Collectors.toList())
+                        ).build()
         );
     }
 }

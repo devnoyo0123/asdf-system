@@ -1,7 +1,7 @@
 package com.example.customerservice.adapter.dataaccess.repository;
 
 import com.example.customerservice.adapter.dataaccess.entity.CustomerEntity;
-import com.example.customerservice.adapter.out.dataaccess.entity.QCustomerEntity;
+import com.example.customerservice.adapter.dataaccess.entity.QCustomerEntity;
 import com.example.customerservice.adapter.dataaccess.mapper.CustomerDataAccessMapper;
 import com.example.customerservice.application.dto.CustomerDashboardQueryResponse;
 import com.example.customerservice.application.dto.CustomerSearchCondition;
@@ -18,7 +18,6 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 import static org.springframework.util.StringUtils.hasText;
-
 
 
 public class CustomerCustomRepositoryImpl implements CustomerCustomRepository {

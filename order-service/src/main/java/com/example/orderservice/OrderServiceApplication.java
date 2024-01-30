@@ -7,12 +7,6 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @EnableFeignClients
-@EnableJpaRepositories(
-		basePackages = {"com.example.orderservice"}
-)
-@EntityScan(
-		basePackages = {"com.example.orderservice", "com.example.modulecommon.dataaccess"}
-)
 @SpringBootApplication(
 		scanBasePackages = {"com.example.orderservice", "com.example.modulecommon"}
 )

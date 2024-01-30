@@ -19,6 +19,7 @@ spring:
 
 logging:
   level:
+    com.example.paymentservice: debug
     org.hibernate.SQL: debug
 
 payment-service:
