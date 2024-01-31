@@ -39,4 +39,5 @@ public class RestaurantDataMapper {
                 .failureMessages(orderApprovalEvent.getFailureMessages())
                 .build();
     }
+
 }

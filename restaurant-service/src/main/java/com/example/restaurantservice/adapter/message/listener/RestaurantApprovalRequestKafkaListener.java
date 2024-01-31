@@ -38,7 +38,7 @@ public class RestaurantApprovalRequestKafkaListener implements KafkaConsumer<Res
             @Header(KafkaHeaders.RECEIVED_KEY) List<String> keys,
             @Header(KafkaHeaders.RECEIVED_PARTITION) List<Integer> partitions,
             @Header(KafkaHeaders.OFFSET) List<Long> offsets) {
-        log.debug("{} number of orders approval requests received with keys:{}, partitions:{} and offsets: {}" +
+        log.debug("{} c received with keys:{}, partitions:{} and offsets: {}" +
                 " , sending for restaurant approval",
                 messages.size(),
                 keys.toString(),

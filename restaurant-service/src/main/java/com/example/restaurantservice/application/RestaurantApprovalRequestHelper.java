@@ -1,19 +1,15 @@
 package com.example.restaurantservice.application;
 
-import com.example.modulecommon.domain.valueobject.Money;
-import com.example.modulecommon.domain.valueobject.OrderId;
-import com.example.modulecommon.domain.valueobject.OrderStatus;
-import com.example.modulecommon.domain.valueobject.RestaurantId;
 import com.example.modulecommon.outbox.OutboxStatus;
 import com.example.restaurantservice.adapter.outbox.scheduler.OrderOutboxHelper;
 import com.example.restaurantservice.application.dto.RestaurantApprovalRequest;
+import com.example.restaurantservice.application.mapper.OrderApprovalDataMapper;
 import com.example.restaurantservice.application.mapper.RestaurantDataMapper;
 import com.example.restaurantservice.application.ports.output.message.publisher.RestaurantApprovalResponseMessagePublisher;
 import com.example.restaurantservice.application.ports.output.repository.OrderApprovalRepository;
 import com.example.restaurantservice.application.ports.output.repository.RestaurantRepository;
 import com.example.restaurantservice.domain.RestaurantDomainService;
 import com.example.restaurantservice.domain.entity.OrderApproval;
-import com.example.restaurantservice.domain.entity.OrderDetail;
 import com.example.restaurantservice.domain.entity.Restaurant;
 import com.example.restaurantservice.domain.entity.outbox.OrderOutboxMessage;
 import com.example.restaurantservice.domain.exception.RestaurantNotFoundException;
@@ -32,6 +28,7 @@ public class RestaurantApprovalRequestHelper {
 
     private final RestaurantDomainService restaurantDomainService;
     private final RestaurantDataMapper restaurantDataMapper;
+    private final OrderApprovalDataMapper orderApprovalDataMapper;
     private final RestaurantRepository restaurantRepository;
     private final OrderApprovalRepository orderApprovalRepository;
     private final OrderOutboxHelper orderOutboxHelper;
@@ -39,10 +36,11 @@ public class RestaurantApprovalRequestHelper {
 
     public RestaurantApprovalRequestHelper(RestaurantDomainService restaurantDomainService,
                                            RestaurantDataMapper restaurantDataMapper,
-                                           RestaurantRepository restaurantRepository,
+                                           OrderApprovalDataMapper orderApprovalDataMapper, RestaurantRepository restaurantRepository,
                                            OrderApprovalRepository orderApprovalRepository, OrderOutboxHelper orderOutboxHelper, RestaurantApprovalResponseMessagePublisher restaurantApprovalResponseMessagePublisher) {
         this.restaurantDomainService = restaurantDomainService;
         this.restaurantDataMapper = restaurantDataMapper;
+        this.orderApprovalDataMapper = orderApprovalDataMapper;
         this.restaurantRepository = restaurantRepository;
         this.orderApprovalRepository = orderApprovalRepository;
         this.orderOutboxHelper = orderOutboxHelper;
@@ -61,7 +59,7 @@ public class RestaurantApprovalRequestHelper {
         log.debug("Processing restaurant approval for order id: {}", restaurantApprovalRequest.getOrderId());
         List<String> failureMessages = new ArrayList<>();
         Restaurant restaurant = findRestaurant(restaurantApprovalRequest);
-        OrderApproval orderApproval = findOrderApproval(restaurantApprovalRequest);
+        OrderApproval orderApproval = this.orderApprovalDataMapper.restaurantApprovalRequestToOrderApproval(restaurant, restaurantApprovalRequest);
         var orderApprovalEvent = restaurantDomainService.validateOrder(
                 restaurant,
                 orderApproval,
@@ -73,33 +71,6 @@ public class RestaurantApprovalRequestHelper {
                         orderApprovalEvent.getOrderApproval().getApprovalStatus(),
                         OutboxStatus.STARTED,
                         UUID.fromString(restaurantApprovalRequest.getSagaId()));
-    }
-
-    private OrderApproval findOrderApproval(RestaurantApprovalRequest restaurantApprovalRequest) {
-
-        Optional<OrderApproval> orderApprovalResult = orderApprovalRepository.findOneBy(
-                new OrderId(UUID.fromString(restaurantApprovalRequest.getOrderId())),
-                new RestaurantId(UUID.fromString(restaurantApprovalRequest.getRestaurantId())));
-
-        if(orderApprovalResult.isEmpty()){
-            log.error("Order approval with order id " + restaurantApprovalRequest.getOrderId() + " not found!");
-            throw new RestaurantNotFoundException("Order approval with order id: " + restaurantApprovalRequest.getOrderId() +
-                    " not found!");
-        }
-
-        return OrderApproval.builder()
-                .orderApprovalId(orderApprovalResult.get().getId())
-                .orderId(orderApprovalResult.get().getOrderId())
-                .restaurantId(orderApprovalResult.get().getRestaurantId())
-                .approvalStatus(orderApprovalResult.get().getApprovalStatus())
-                .orderDetail(
-                        OrderDetail.builder()
-                                .orderId(new OrderId(UUID.fromString(restaurantApprovalRequest.getOrderId())))
-                                .totalAmount(Money.of(restaurantApprovalRequest.getPrice()))
-                                .orderStatus(OrderStatus.valueOf(String.valueOf(restaurantApprovalRequest.getRestaurantOrderStatus())))
-                                .build()
-                )
-                .build();
     }
 
     private Restaurant findRestaurant(RestaurantApprovalRequest restaurantApprovalRequest) {

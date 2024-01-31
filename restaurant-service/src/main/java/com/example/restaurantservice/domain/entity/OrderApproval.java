@@ -33,7 +33,7 @@ public class OrderApproval extends BaseEntity<OrderApprovalId> {
             failureMessages.add("Payment is not completed for order: " + orderDetail.getId());
         }
         Money totalAmount = orderDetail.getProducts().stream().map(product -> {
-            if (product.isAvailable()) {
+            if (!product.isAvailable()) {
                 failureMessages.add("Product with id: " + product.getId().getValue()
                         + " is not available");
             }
@@ -53,9 +53,6 @@ public class OrderApproval extends BaseEntity<OrderApprovalId> {
         this.approvalStatus = orderApprovalStatus;
     }
 
-    public void intializeOrderDetail(OrderDetail orderDetail) {
-        this.orderDetail = orderDetail;
-    }
 
     public static final class Builder {
         private OrderApprovalId orderApprovalId;

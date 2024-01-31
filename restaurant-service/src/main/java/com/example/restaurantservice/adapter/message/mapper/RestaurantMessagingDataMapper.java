@@ -27,7 +27,7 @@ public class RestaurantMessagingDataMapper {
                 .products(restaurantApprovalRequestAvroModel.getProducts()
                         .stream().map(avroModel ->
                                 Product.builder()
-                                        .productId(new ProductId(UUID.fromString(avroModel.getId())))
+                                        .productId(ProductId.of(UUID.fromString(avroModel.getId())))
                                         .quantity(avroModel.getQuantity())
                                         .build())
                         .collect(Collectors.toList()))

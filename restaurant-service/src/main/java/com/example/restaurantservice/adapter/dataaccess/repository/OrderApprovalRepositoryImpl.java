@@ -30,7 +30,9 @@ public class OrderApprovalRepositoryImpl implements OrderApprovalRepository {
 
     @Override
     public Optional<OrderApproval> findOneBy(OrderId orderId, RestaurantId restaurantId) {
-        return Optional.empty();
+        return orderApprovalJpaRepository
+                .findOneByOrderIdAndRestaurantId(orderId.getValue(), restaurantId.getValue())
+                .map(restaurantDataAccessMapper::orderApprovalEntityToOrderApproval);
     }
 
 }

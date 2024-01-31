@@ -32,9 +32,9 @@ public class OrderDataMapper {
 
     public Restaurant createOrderCommandToRestaurant(CreateOrderCommand createOrderCommand) {
         return Restaurant.builder()
-                .restaurantId(new RestaurantId(createOrderCommand.getRestaurantId()))
+                .restaurantId(RestaurantId.of(createOrderCommand.getRestaurantId()))
                 .products(createOrderCommand.getItemList().stream().map(orderItemDto ->
-                                Product.of(new ProductId(orderItemDto.getProductId())))
+                                Product.of(ProductId.of(orderItemDto.getProductId())))
                         .collect(Collectors.toList())
                 )
                 .build();
@@ -42,8 +42,8 @@ public class OrderDataMapper {
 
     public Order createOrderCommandToOrder(CreateOrderCommand createOrderCommand) {
         return Order.builder()
-                .customerId(new CustomerId(createOrderCommand.getCustomerId()))
-                .restaurantId(new RestaurantId(createOrderCommand.getRestaurantId()))
+                .customerId(CustomerId.of(createOrderCommand.getCustomerId()))
+                .restaurantId(RestaurantId.of(createOrderCommand.getRestaurantId()))
                 .deliveryAddress(orderAddressToStreetAddress(createOrderCommand.getAddress()))
                 .price(Money.of(createOrderCommand.getPrice()))
                 .items(orderItemsToOrderItemEntities(createOrderCommand.getItemList()))
@@ -53,7 +53,7 @@ public class OrderDataMapper {
     private List<OrderItem> orderItemsToOrderItemEntities(List<OrderItemDto> itemList) {
 
         return itemList.stream().map(orderItemDto ->
-                OrderItem.builder().product(Product.of(new ProductId(orderItemDto.getProductId())))
+                OrderItem.builder().product(Product.of(ProductId.of(orderItemDto.getProductId())))
                         .price(Money.of(orderItemDto.getPrice()))
                         .quantity(orderItemDto.getQuantity())
                         .subTotal(Money.of(orderItemDto.getSubTotal()))
@@ -120,7 +120,7 @@ public class OrderDataMapper {
     public Optional<Customer> customerDTOToCustomer(CustomerDTO body) {
 
         return Optional.of(Customer.of(
-                new CustomerId(UUID.fromString(body.id())),
+                CustomerId.of(UUID.fromString(body.id())),
                 body.name(),
                 body.phone(),
                 body.street())
@@ -130,11 +130,11 @@ public class OrderDataMapper {
     public Optional<Restaurant> restaurantDTOToRestaurant(RestaurantDTO body) {
         return Optional.of(
                 Restaurant.builder()
-                        .restaurantId(new RestaurantId(UUID.fromString(String.valueOf(body.id()))))
+                        .restaurantId(RestaurantId.of(UUID.fromString(String.valueOf(body.id()))))
                         .active(body.active())
                         .products(body.products().stream()
                                 .map(productDTO -> Product.of(
-                                        new ProductId(UUID.fromString(String.valueOf(productDTO.id()))),
+                                        ProductId.of(UUID.fromString(String.valueOf(productDTO.id()))),
                                         productDTO.name(),
                                         Money.of(productDTO.price())
                                         ))

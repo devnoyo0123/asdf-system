@@ -26,7 +26,7 @@ public class Order extends AggregateRoot<OrderId> {
     public static final String FAILURE_MESSAGE_DELIMITER = ",";
 
     public void initOrder() {
-        setId(new OrderId(UUID.randomUUID()));
+        setId(OrderId.of(UUID.randomUUID()));
         trackingId = new TrackingId(UUID.randomUUID());
         orderStatus = OrderStatus.PENDING;
         initOrderItems();

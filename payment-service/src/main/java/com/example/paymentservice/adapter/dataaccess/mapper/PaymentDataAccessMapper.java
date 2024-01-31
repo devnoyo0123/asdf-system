@@ -23,9 +23,9 @@ public class PaymentDataAccessMapper {
 
     public Payment paymentEntityToPayment(PaymentEntity paymentEntity) {
         return Payment.builder()
-                .paymentId(new PaymentId(paymentEntity.getId()))
-                .customerId(new CustomerId(paymentEntity.getCustomerId()))
-                .orderId(new OrderId(paymentEntity.getOrderId()))
+                .paymentId(PaymentId.of(paymentEntity.getId()))
+                .customerId(CustomerId.of(paymentEntity.getCustomerId()))
+                .orderId(OrderId.of(paymentEntity.getOrderId()))
                 .price(Money.of(paymentEntity.getPrice()))
                 .createdAt(paymentEntity.getCreatedAt())
                 .build();

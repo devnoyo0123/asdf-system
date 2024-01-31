@@ -46,8 +46,8 @@ public class Money {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Money money = (Money) o;
-        var result= Objects.equals(amount, money.amount);
-        return result;
+        return this.amount != null && money.amount != null &&
+                this.amount.compareTo(money.amount) == 0;
     }
 
     @Override

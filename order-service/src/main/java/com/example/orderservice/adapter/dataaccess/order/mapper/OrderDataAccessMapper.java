@@ -42,9 +42,9 @@ public class OrderDataAccessMapper {
 
     public Order orderEntityToOrder(OrderEntity orderEntity) {
         return Order.builder()
-                .orderId(new OrderId(orderEntity.getId()))
-                .customerId(new CustomerId(orderEntity.getCustomerId()))
-                .restaurantId(new RestaurantId(orderEntity.getRestaurantId()))
+                .orderId(OrderId.of(orderEntity.getId()))
+                .customerId(CustomerId.of(orderEntity.getCustomerId()))
+                .restaurantId(RestaurantId.of(orderEntity.getRestaurantId()))
                 .deliveryAddress(addressEntityToDeliveryAddress(orderEntity.getAddress()))
                 .price(Money.of(orderEntity.getPrice()))
                 .items(orderItemEntitiesToOrderItems(orderEntity.getItems()))
@@ -60,7 +60,7 @@ public class OrderDataAccessMapper {
         return items.stream()
                 .map(orderItemEntity -> OrderItem.builder()
                         .orderItemId(new OrderItemId(orderItemEntity.getId()))
-                        .product(Product.of(new ProductId(orderItemEntity.getProductId())))
+                        .product(Product.of(ProductId.of(orderItemEntity.getProductId())))
                         .price(Money.of(orderItemEntity.getPrice()))
                         .quantity(orderItemEntity.getQuantity())
                         .subTotal(Money.of(orderItemEntity.getSubTotal()))

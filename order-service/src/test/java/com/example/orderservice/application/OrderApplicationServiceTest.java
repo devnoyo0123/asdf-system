@@ -156,17 +156,17 @@ public class OrderApplicationServiceTest extends IntegrationTest {
     @Test
     public void testCreateOrder() {
         // given
-        Customer customer = new Customer(new CustomerId(CUSTOMER_ID));
+        Customer customer = new Customer(CustomerId.of(CUSTOMER_ID));
 
         Restaurant restaurantResponse = Restaurant.builder()
-                .restaurantId(new RestaurantId(createOrderCommand.getRestaurantId()))
-                .products(List.of(Product.of(new ProductId(PRODUCT_ID), "product-1", Money.of(new BigDecimal("5000"))),
-                        Product.of(new ProductId(PRODUCT_ID), "product-2", Money.of(new BigDecimal("5000")))))
+                .restaurantId(RestaurantId.of(createOrderCommand.getRestaurantId()))
+                .products(List.of(Product.of(ProductId.of(PRODUCT_ID), "product-1", Money.of(new BigDecimal("5000"))),
+                        Product.of(ProductId.of(PRODUCT_ID), "product-2", Money.of(new BigDecimal("5000")))))
                 .active(true)
                 .build();
 
         Order order = orderDataMapper.createOrderCommandToOrder(createOrderCommand);
-        order.setId(new OrderId(ORDER_ID));
+        order.setId(OrderId.of(ORDER_ID));
 
         when(customerRepository.findCustomer(CUSTOMER_ID)).thenReturn(Optional.of(customer));
         when(restaurantRepository.findRestaurantInformation(orderDataMapper.createOrderCommandToRestaurant(createOrderCommand)))
@@ -187,17 +187,17 @@ public class OrderApplicationServiceTest extends IntegrationTest {
     @Test
     public void testCreateOrderWithWrongTotalPrice() {
         // given
-        Customer customer = new Customer(new CustomerId(CUSTOMER_ID));
+        Customer customer = new Customer(CustomerId.of(CUSTOMER_ID));
 
         Restaurant restaurantResponse = Restaurant.builder()
-                .restaurantId(new RestaurantId(createOrderCommand.getRestaurantId()))
-                .products(List.of(Product.of(new ProductId(PRODUCT_ID), "product-1", Money.of(new BigDecimal("5000"))),
-                        Product.of(new ProductId(PRODUCT_ID), "product-2", Money.of(new BigDecimal("5000")))))
+                .restaurantId(RestaurantId.of(createOrderCommand.getRestaurantId()))
+                .products(List.of(Product.of(ProductId.of(PRODUCT_ID), "product-1", Money.of(new BigDecimal("5000"))),
+                        Product.of(ProductId.of(PRODUCT_ID), "product-2", Money.of(new BigDecimal("5000")))))
                 .active(true)
                 .build();
 
         Order order = orderDataMapper.createOrderCommandToOrder(createOrderCommand);
-        order.setId(new OrderId(ORDER_ID));
+        order.setId(OrderId.of(ORDER_ID));
 
         when(customerRepository.findCustomer(CUSTOMER_ID)).thenReturn(Optional.of(customer));
         when(restaurantRepository.findRestaurantInformation(orderDataMapper.createOrderCommandToRestaurant(createOrderCommand)))
@@ -218,17 +218,17 @@ public class OrderApplicationServiceTest extends IntegrationTest {
     public void testCreateOrderWithWrongProductPrice() {
 
         // given
-        Customer customer = new Customer(new CustomerId(CUSTOMER_ID));
+        Customer customer = new Customer(CustomerId.of(CUSTOMER_ID));
 
         Restaurant restaurantResponse = Restaurant.builder()
-                .restaurantId(new RestaurantId(createOrderCommand.getRestaurantId()))
-                .products(List.of(Product.of(new ProductId(PRODUCT_ID), "product-1", Money.of(new BigDecimal("5000"))),
-                        Product.of(new ProductId(PRODUCT_ID), "product-2", Money.of(new BigDecimal("5000")))))
+                .restaurantId(RestaurantId.of(createOrderCommand.getRestaurantId()))
+                .products(List.of(Product.of(ProductId.of(PRODUCT_ID), "product-1", Money.of(new BigDecimal("5000"))),
+                        Product.of(ProductId.of(PRODUCT_ID), "product-2", Money.of(new BigDecimal("5000")))))
                 .active(true)
                 .build();
 
         Order order = orderDataMapper.createOrderCommandToOrder(createOrderCommand);
-        order.setId(new OrderId(ORDER_ID));
+        order.setId(OrderId.of(ORDER_ID));
 
         when(customerRepository.findCustomer(CUSTOMER_ID)).thenReturn(Optional.of(customer));
         when(restaurantRepository.findRestaurantInformation(orderDataMapper.createOrderCommandToRestaurant(createOrderCommand)))
@@ -250,16 +250,16 @@ public class OrderApplicationServiceTest extends IntegrationTest {
         // given
 
         // given
-        Customer customer = new Customer(new CustomerId(CUSTOMER_ID));
+        Customer customer = new Customer(CustomerId.of(CUSTOMER_ID));
         Restaurant restaurantResponse = Restaurant.builder()
-                .restaurantId(new RestaurantId(createOrderCommand.getRestaurantId()))
-                .products(List.of(Product.of(new ProductId(PRODUCT_ID), "product-1", Money.of(new BigDecimal("5000"))),
-                        Product.of(new ProductId(PRODUCT_ID), "product-2", Money.of(new BigDecimal("5000")))))
+                .restaurantId(RestaurantId.of(createOrderCommand.getRestaurantId()))
+                .products(List.of(Product.of(ProductId.of(PRODUCT_ID), "product-1", Money.of(new BigDecimal("5000"))),
+                        Product.of(ProductId.of(PRODUCT_ID), "product-2", Money.of(new BigDecimal("5000")))))
                 .active(false)
                 .build();
 
         Order order = orderDataMapper.createOrderCommandToOrder(createOrderCommand);
-        order.setId(new OrderId(ORDER_ID));
+        order.setId(OrderId.of(ORDER_ID));
 
         when(customerRepository.findCustomer(CUSTOMER_ID)).thenReturn(Optional.of(customer));
         when(restaurantRepository.findRestaurantInformation(orderDataMapper.createOrderCommandToRestaurant(createOrderCommand)))

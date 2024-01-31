@@ -1,6 +1,7 @@
 package com.example.restaurantservice.domain;
 
 import com.example.modulecommon.domain.valueobject.OrderApprovalStatus;
+import com.example.restaurantservice.application.dto.RestaurantApprovalRequest;
 import com.example.restaurantservice.domain.entity.OrderApproval;
 import com.example.restaurantservice.domain.entity.Restaurant;
 import com.example.restaurantservice.domain.event.OrderApprovalEvent;
@@ -41,4 +42,5 @@ public class RestaurantDomainService {
                     ZonedDateTime.now(ZoneId.of(String.valueOf(UTC))));
         }
     }
+
 }

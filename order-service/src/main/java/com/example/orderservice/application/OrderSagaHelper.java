@@ -22,7 +22,7 @@ public class OrderSagaHelper {
     }
 
     public Order findOrder(String orderId) {
-        var orderResponse = orderRepository.findById(new OrderId(UUID.fromString(orderId)));
+        var orderResponse = orderRepository.findById(OrderId.of(UUID.fromString(orderId)));
         if( orderResponse.isEmpty()) {
             log.error("Order with id: {} could not be found!", orderId);
             throw new OrderNotFoundException("Order with id: " + orderId + " could not be found!");
