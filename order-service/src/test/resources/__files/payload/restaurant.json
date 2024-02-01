@@ -1,0 +1,18 @@
+{
+  "id": "ebcf1720-358b-4a9f-87d0-3d02a10dd8f6",
+  "products": [
+    {
+      "id": "8aef234c-0304-4324-b6a3-728e4b522c93",
+      "name": "product-1",
+      "price": 5000,
+      "isAvailable": true
+    },
+    {
+      "id": "d215b5f8-0249-4dc5-89a3-51fd148cfb48",
+      "name": "product-2",
+      "price": 7000,
+      "isAvailable": true
+    }
+  ],
+  "active": true
+}

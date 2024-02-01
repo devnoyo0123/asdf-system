@@ -48,6 +48,8 @@ dependencies {
     api platform("org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}")
     api 'org.springframework.cloud:spring-cloud-starter-openfeign'
 
+    api "org.springframework.cloud:spring-cloud-contract-wiremock:3.1.5"
+
     // queryDSL 설정
     implementation "com.querydsl:querydsl-jpa:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
     implementation "com.querydsl:querydsl-apt"

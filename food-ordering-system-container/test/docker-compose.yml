@@ -2,8 +2,7 @@ version: '3.7'
 
 services:
   zookeeper:
-    image: confluentinc/cp-zookeeper:${KAFKA_VERSION:-latest}
-    container_name: zookeeper
+    image: confluentinc/cp-zookeeper:7.2.5
     hostname: zookeeper
     ports:
       - "2182:2181"
@@ -25,8 +24,7 @@ services:
 
 
   schema-registry:
-    image: confluentinc/cp-schema-registry:${KAFKA_VERSION}
-    container_name: schema-registry
+    image: confluentinc/cp-schema-registry:7.2.5
     hostname: schema-registry
     depends_on:
       kafka-broker-1:
@@ -48,8 +46,7 @@ services:
       - ${GLOBAL_NETWORK:-food-ordering-system}
 
   kafka-broker-1:
-    image: confluentinc/cp-kafka:${KAFKA_VERSION}
-    container_name: kafka-broker-1
+    image: confluentinc/cp-kafka:7.2.5
     hostname: kafka-broker-1
     ports:
       - "19092:19092"
@@ -73,8 +70,7 @@ services:
       - ${GLOBAL_NETWORK:-food-ordering-system}
 
   kafka-broker-2:
-    image: confluentinc/cp-kafka:${KAFKA_VERSION}
-    container_name: kafka-broker-2
+    image: confluentinc/cp-kafka:7.2.5
     hostname: kafka-broker-2
     ports:
       - "29092:29092"
@@ -98,8 +94,7 @@ services:
       - ${GLOBAL_NETWORK:-food-ordering-system}
 
   kafka-broker-3:
-    image: confluentinc/cp-kafka:${KAFKA_VERSION}
-    container_name: kafka-broker-3
+    image: confluentinc/cp-kafka:7.2.5
     hostname: kafka-broker-3
     ports:
       - "39092:39092"
@@ -149,7 +144,7 @@ services:
 #      - ${GLOBAL_NETWORK:-food-ordering-system}
 
   init-kafka:
-    image: confluentinc/cp-kafka:${KAFKA_VERSION}
+    image: confluentinc/cp-kafka:7.2.5
     ports:
       - "8092:8092"
     depends_on:
@@ -188,7 +183,6 @@ services:
 
   db:
     image: postgres:${POSTGRES_VERSION:-14.1}
-    container_name: db
     hostname: db
     ports:
       - "5432:5432"                     # 호스트와 컨테이너 간의 포트 바인딩
@@ -202,45 +196,113 @@ services:
     networks:
       - ${GLOBAL_NETWORK:-food-ordering-system}
 
-#  migration-restaurant-service:
-#    build:
-#      context: ./flyway
-#      dockerfile: Dockerfile
-#    volumes:
-#      - ../flyway/db-migration/main:/flyway/sql
-#      - ../flyway/conf/customer-migration.conf:/flyway/conf/flyway.config
-#    depends_on:
-#      - db
-#  seed-restaurant-service:
-#    build:
-#      context: ./flyway
-#      dockerfile: Dockerfile
-#    volumes:
-#      - ./flyway/migration-restaurant-service/seed:/flyway/sql
-#      - ./flyway/conf/flyway_seed.conf:/flyway/conf/flyway.config
-#    depends_on:
-#      - db
-#      - migration-restaurant-service
-
   migration-customer-service:
+    platform: linux/amd64
     build:
-      context: ./flyway
+      context: ../flyway/customer-service
       dockerfile: Dockerfile
     volumes:
-      - ../flyway/migration/customer-service:/flyway/sql
-      - ../flyway/conf/customer-migration.conf:/flyway/conf/flyway.config
+      - ../flyway/customer-service/migration:/flyway/sql
+      - ../flyway/customer-service/conf:/flyway/conf
     depends_on:
       - db
+    networks:
+      - ${GLOBAL_NETWORK:-food-ordering-system}
+
   seed-customer-service:
+    platform: linux/amd64
     build:
-      context: ./flyway
+      context: ../flyway/customer-service
       dockerfile: Dockerfile
     volumes:
-      - ../flyway/seed/customer-service:/flyway/sql
-      - ../flyway/conf/customer-seed.conf:/flyway/conf/flyway.config
+      - ../flyway/customer-service/seed:/flyway/sql
+      - ../flyway/customer-service/conf:/flyway/conf
     depends_on:
       - db
       - migration-customer-service
+    networks:
+      - ${GLOBAL_NETWORK:-food-ordering-system}
+
+  migration-order-service:
+    platform: linux/amd64
+    build:
+      context: ../flyway/order-service
+      dockerfile: Dockerfile
+    volumes:
+      - ../flyway/order-service/migration:/flyway/sql
+      - ../flyway/order-service/conf:/flyway/conf
+    depends_on:
+      - db
+    networks:
+      - ${GLOBAL_NETWORK:-food-ordering-system}
+
+  #  seed-order-service:
+  #  platform: linux/amd64
+  #    build:
+  #      context: ../flyway/order-service
+  #      dockerfile: Dockerfile
+  #    volumes:
+  #      - ../flyway/order-service/seed:/flyway/sql
+  #      - .../flyway/order-service/conf:/flyway/conf
+  #    depends_on:
+  #      - db
+  #      - migration-order-service
+  #    networks:
+  #      - ${GLOBAL_NETWORK:-food-ordering-system}
+
+  migration-payment-service:
+    platform: linux/amd64
+    build:
+      context: ../flyway/payment-service
+      dockerfile: Dockerfile
+    volumes:
+      - ../flyway/payment-service/migration:/flyway/sql
+      - ../flyway/payment-service/conf:/flyway/conf
+    depends_on:
+      - db
+    networks:
+      - ${GLOBAL_NETWORK:-food-ordering-system}
+
+  #  seed-payment-service:
+  #  platform: linux/amd64
+  #    build:
+  #      context: ../flyway/payment-service
+  #      dockerfile: Dockerfile
+  #    volumes:
+  #      - ../flyway/payment-service/seed:/flyway/sql
+  #      - ../flyway/payment-service/conf:/flyway/conf
+  #    depends_on:
+  #      - db
+  #      - migration-payment-service
+  #    networks:
+  #      - ${GLOBAL_NETWORK:-food-ordering-system}
+
+  migration-restaurant-service:
+    platform: linux/amd64
+    build:
+      context: ../flyway/restaurant-service
+      dockerfile: Dockerfile
+    volumes:
+      - ../flyway/restaurant-service/migration:/flyway/sql
+      - ../flyway/restaurant-service/conf:/flyway/conf
+    depends_on:
+      - db
+    networks:
+      - ${GLOBAL_NETWORK:-food-ordering-system}
+
+  seed-restaurant-service:
+    platform: linux/amd64
+    build:
+      context: ../flyway/restaurant-service
+      dockerfile: Dockerfile
+    volumes:
+      - ../flyway/restaurant-service/seed:/flyway/sql
+      - ../flyway/restaurant-service/conf:/flyway/conf
+    depends_on:
+      - db
+      - migration-restaurant-service
+    networks:
+      - ${GLOBAL_NETWORK:-food-ordering-system}
 
 networks:
   food-ordering-system:

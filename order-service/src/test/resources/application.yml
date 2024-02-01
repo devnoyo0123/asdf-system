@@ -23,6 +23,14 @@ logging:
     org.hibernate.orm.jdbc.bind: trace # JPA기능 사용할때 Query로그를 DEBUG모드로 확인가능
     org.hibernate.sql: debug
 
+feign:
+  customer-service:
+    url:
+      prefix: http://localhost:8080
+  restaurant-service:
+    url:
+      prefix: http://localhost:8080
+
 order-service:
   payment-request-topic-name: payment-request
   payment-response-topic-name: payment-response
