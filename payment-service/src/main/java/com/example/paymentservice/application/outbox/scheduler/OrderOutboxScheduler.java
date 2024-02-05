@@ -1,9 +1,8 @@
-package com.example.paymentservice.application.ports.output.outbox.scheduler;
+package com.example.paymentservice.application.outbox.scheduler;
 
 import com.example.modulecommon.outbox.OutboxScheduler;
 import com.example.modulecommon.outbox.OutboxStatus;
 import com.example.paymentservice.application.ports.output.message.publisher.PaymentResponseMessagePublisher;
-import com.example.paymentservice.application.ports.output.outbox.scheduler.OrderOutboxHelper;
 import com.example.paymentservice.domain.outbox.OrderOutboxMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;

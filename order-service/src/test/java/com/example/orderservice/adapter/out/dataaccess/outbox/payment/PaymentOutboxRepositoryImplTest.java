@@ -43,7 +43,7 @@ class PaymentOutboxRepositoryImplTest {
         paymentOutboxRepository = new PaymentOutboxRepositoryImpl(paymentOutboxJpaRepository, paymentOutboxDataAccessMapper);
     }
 
-    @DisplayName("findByTypeAndSagaIdAndSagaStatus 메소드 테스트")
+    @DisplayName("findByTypeAndSagaIdAndSagaStatus 조회 테스트")
     @Test
     void findByTypeAndSagaIdAndSagaStatus() {
 

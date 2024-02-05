@@ -6,7 +6,7 @@ import com.example.paymentservice.application.dto.PaymentRequest;
 import com.example.paymentservice.application.mapper.PaymentDataMapper;
 import com.example.paymentservice.application.ports.output.dataaccess.repository.PaymentRepository;
 import com.example.paymentservice.application.ports.output.message.publisher.PaymentResponseMessagePublisher;
-import com.example.paymentservice.application.ports.output.outbox.scheduler.OrderOutboxHelper;
+import com.example.paymentservice.application.outbox.scheduler.OrderOutboxHelper;
 import com.example.paymentservice.domain.PaymentDomainService;
 import com.example.paymentservice.domain.entity.Payment;
 import com.example.paymentservice.domain.event.PaymentEvent;

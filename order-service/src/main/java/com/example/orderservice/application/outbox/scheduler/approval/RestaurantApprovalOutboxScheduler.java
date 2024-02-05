@@ -1,4 +1,4 @@
-package com.example.orderservice.adapter.outbox.scheduler.approval;
+package com.example.orderservice.application.outbox.scheduler.approval;
 
 import com.example.modulecommon.outbox.OutboxScheduler;
 import com.example.modulecommon.outbox.OutboxStatus;

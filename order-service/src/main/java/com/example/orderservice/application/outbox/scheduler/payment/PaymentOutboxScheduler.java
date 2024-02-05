@@ -1,4 +1,4 @@
-package com.example.orderservice.adapter.outbox.scheduler.payment;
+package com.example.orderservice.application.outbox.scheduler.payment;
 
 import com.example.modulecommon.outbox.OutboxScheduler;
 import com.example.modulecommon.outbox.OutboxStatus;
