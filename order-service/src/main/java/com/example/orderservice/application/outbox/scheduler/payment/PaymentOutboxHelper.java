@@ -1,4 +1,4 @@
-package com.example.orderservice.application.ports.output.scheduler.payment;
+package com.example.orderservice.application.outbox.scheduler.payment;
 
 import com.example.modulecommon.domain.valueobject.OrderStatus;
 import com.example.modulecommon.outbox.OutboxStatus;

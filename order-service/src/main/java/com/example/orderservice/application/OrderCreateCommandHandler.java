@@ -4,7 +4,7 @@ import com.example.modulecommon.outbox.OutboxStatus;
 import com.example.orderservice.application.dto.create.CreateOrderCommand;
 import com.example.orderservice.application.dto.create.CreateOrderResponse;
 import com.example.orderservice.application.mapper.order.OrderDataMapper;
-import com.example.orderservice.application.ports.output.scheduler.payment.PaymentOutboxHelper;
+import com.example.orderservice.application.outbox.scheduler.payment.PaymentOutboxHelper;
 import com.example.orderservice.domain.event.OrderCreatedEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

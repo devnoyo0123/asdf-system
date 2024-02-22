@@ -1,4 +1,4 @@
-package com.example.orderservice.application.ports.output.scheduler.approval;
+package com.example.orderservice.application.outbox.scheduler.approval;
 
 import com.example.modulecommon.domain.valueobject.OrderStatus;
 import com.example.modulecommon.outbox.OutboxStatus;

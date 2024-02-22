@@ -4,7 +4,6 @@ import com.example.modulecommon.outbox.OutboxScheduler;
 import com.example.modulecommon.outbox.OutboxStatus;
 import com.example.modulecommon.saga.SagaStatus;
 import com.example.orderservice.application.ports.output.message.publisher.restaurantapproval.RestaurantApprovalRequestMessagePublisher;
-import com.example.orderservice.application.ports.output.scheduler.approval.ApprovalOutboxHelper;
 import com.example.orderservice.domain.outbox.approval.OrderApprovalOutboxMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
