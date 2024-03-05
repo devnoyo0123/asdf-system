@@ -1,0 +1,9 @@
+server:
+  port: 8084
+  servlet:
+    context-path: /api
+
+spring:
+  h2:
+    console:
+      enabled: true
