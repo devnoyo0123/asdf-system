@@ -8,17 +8,23 @@ MSA 환경에서 분산 트랜잭션 프로세스를 구현한 프로젝트입�
 
 # 프로젝트 기술스택
 Java/Spring 기반의 멀티모듈 프로젝트로 구성했습니다. DB는 postgresql를 사용했으며,
-
 이벤트 통신은 kafka, API간 통신은 feign을 이용했습니다.
 
 로컬 개발 구성 및 테스트를 위해 flyway를 구성했습니다.
+
+테스트는 Junit5, Mockito, TestContainer를 사용했습니다.
+
+Spring Data JPA, QueryDSL를 사용했습니다.
+
 # 프로젝트 구조
 
 order-service, customer-service, payment-service, restaurant-service는 헥사고날 아키텍처를 기반으로 DDD(도메인 주도 설계) 개발 방법론을 적용했습니다.
 
 mutation과 query 모두 web adapter를 통해 command로 application에 전달되며, command handler로 처리하도록 구성했습니다. query의 경우에는 mutation보다 훨씬 간단하지만, 일관된 구조가 팀에 더 도움이 된다 생각하여 구성했습니다.
 
-ORM엔티티와 도메인엔티티를 분리하였고, DataMapper를 통해 변환하도록 구성했습니다. 외부로 나가는 데이터의 경우에는 MessageMapper, DataAccessMapper를 구성하여 도메인 엔티티와 외부 메시지, 응답 메시지에 대한 데이터 의존성을 분리했습니다. ORM엔티티와 도메인엔티티를 분리하게된 이유는 도메인 서비스의 테스트를 더 다양하게 하기 위함이고, 많은 테스트를 실행시 의존성이 적을 수록 테스트를 구성하기도 편리하다 생각하여 분리했습니다. 또한, 운영 환경과 비슷한 상황에서 테스트할 수 있도록 testContainer를 통한 통합 테스트 환경도 구성했습니다.
+ORM엔티티와 도메인엔티티를 분리하였고, DataMapper를 통해 변환하도록 구성했습니다. 외부로 나가는 데이터의 경우에는 MessageMapper, DataAccessMapper등 Mapper를 구성하여 일관된 구조로 도메인 엔티티와 외부 메시지, 응답 메시지에 대한 데이터 의존성을 분리했습니다. 
+
+ORM엔티티와 도메인엔티티를 분리하게된 이유는 도메인 서비스의 테스트를 더 다양하게 하기 위함이고, 많은 테스트를 실행시 의존성이 적을 수록 테스트를 구성하기도 편리하다 생각하여 분리했습니다. 또한, 운영 환경과 비슷한 상황에서 테스트할 수 있도록 testContainer를 통한 통합 테스트 환경도 구성했습니다.
 
 ## 각 서비스 상세 설명
 
@@ -26,6 +32,7 @@ ORM엔티티와 도메인엔티티를 분리하였고, DataMapper를 통해 변�
   - 프로젝트 전반에서 사용하는 Enum, 값객체, 마커인터페이스, 모듈들이 포함되어있고, 각 서비스 모듈에서 주입받아서 사용합니다.
     - 값객체를 통해 value대신 컨텍스트를 담을 수 있게 구성했습니다.
     - Aggregate라는 마커인터페이스를 통해 해당 엔티티가 애그리거트 루트인지 그냥 엔티티인지 구분했습니다.
+
 - order-service
   - 주문 서비스 객체이며, 주문 사가에 대한 쿠디네이터역할을 합니다. 사가는 코레오그라피유형이며 쿠디네이터를 두는 하이브리드 구조로 구성했습니다.
   - 사가 구성도
@@ -36,10 +43,13 @@ ORM엔티티와 도메인엔티티를 분리하였고, DataMapper를 통해 변�
     - 동시성 이슈가 발생할 수 있기 때문에 낙관적 락을 구현했습니다.
     - sagaid와 status를 통해 unique제약 조건으로 이중으로 같은 row생성되지 않도록 처리했습니다.
   - 스케쥴러에 대안으로 CDC를 구성할수 있으나, outbox 패턴을 깊게 파악하고자 스케쥴러를 이용했습니다.
+
 - customer-service
   - 간단한 고객정보를 조회하는 API를 제공하며, 도메인 서비스 내에서 사용하는 repository와 view에 특화된 repository를 구분했습니다. queryDSL를 통해 검색 로직을 type-safe하게 구성했습니다.
+
 - payment-service
   - saga를 구성하기 위해 넣었고, 간단히 주문생성에 대한 Event를 컨슈밍하며, 결제 Event를 퍼블리시 하는 역할을 합니다.
+
 - restaurant-service
   - saga를 구성하기 위해 넣었고, 주문한 가격, 상품가격, 가게의 오픈상태를 검증하고 주문 승인 요청 Event를 컨슈밍하며 주문 승인 허용 Event를 퍼블리시합니다.
 
@@ -59,7 +69,7 @@ $ ./startup.sh
 
 # 프로젝트 실행방법
 
-```jsx
+```
 컨테이너들이 다 정상으로 올라갔다면, 각 서비스를 모두 띄워야합니다
 
 customer-service
