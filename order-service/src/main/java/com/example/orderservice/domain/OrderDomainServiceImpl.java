@@ -1,11 +1,12 @@
 package com.example.orderservice.domain;
 
-import com.example.orderservice.domain.entity.Order;
 import com.example.modulecommon.domain.entity.Product;
 import com.example.modulecommon.domain.entity.Restaurant;
+import com.example.orderservice.domain.entity.Order;
 import com.example.orderservice.domain.event.OrderCancelledEvent;
 import com.example.orderservice.domain.event.OrderCreatedEvent;
 import com.example.orderservice.domain.event.OrderPaidEvent;
+import com.example.orderservice.domain.exception.InvalidProductRequestException;
 import com.example.orderservice.domain.exception.OrderDomainException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -13,7 +14,6 @@ import org.springframework.stereotype.Service;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -34,6 +34,10 @@ public class OrderDomainServiceImpl implements OrderDomainService{
     }
 
     private void setOrderProductInformation(Order order, Restaurant restaurant) {
+        if (restaurant.getProducts() == null) {
+            throw new InvalidProductRequestException("Restaurant has no products!");
+        }
+
         order.getItems().forEach(orderItem -> restaurant.getProducts().forEach(restaurantProduct -> {
             Product currentProduct = orderItem.getProduct();
             if (currentProduct.equals(restaurantProduct)) {
