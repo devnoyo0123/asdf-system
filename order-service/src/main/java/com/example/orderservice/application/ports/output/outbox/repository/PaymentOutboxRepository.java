@@ -2,6 +2,7 @@ package com.example.orderservice.application.ports.output.outbox.repository;
 
 import com.example.modulecommon.outbox.OutboxStatus;
 import com.example.modulecommon.saga.SagaStatus;
+import com.example.orderservice.adapter.dataaccess.outbox.payment.entity.PaymentOutboxEntity;
 import com.example.orderservice.domain.outbox.payment.OrderPaymentOutboxMessage;
 
 import java.util.List;

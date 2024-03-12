@@ -2,6 +2,7 @@ version: '3.7'
 
 services:
   zookeeper:
+    platform: linux/amd64
     image: confluentinc/cp-zookeeper:7.2.5
     hostname: zookeeper
     ports:
@@ -24,6 +25,7 @@ services:
 
 
   schema-registry:
+    platform: linux/amd64
     image: confluentinc/cp-schema-registry:7.2.5
     hostname: schema-registry
     depends_on:
@@ -46,6 +48,7 @@ services:
       - ${GLOBAL_NETWORK:-food-ordering-system}
 
   kafka-broker-1:
+    platform: linux/amd64
     image: confluentinc/cp-kafka:7.2.5
     hostname: kafka-broker-1
     ports:
@@ -70,6 +73,7 @@ services:
       - ${GLOBAL_NETWORK:-food-ordering-system}
 
   kafka-broker-2:
+    platform: linux/amd64
     image: confluentinc/cp-kafka:7.2.5
     hostname: kafka-broker-2
     ports:
@@ -94,6 +98,7 @@ services:
       - ${GLOBAL_NETWORK:-food-ordering-system}
 
   kafka-broker-3:
+    platform: linux/amd64
     image: confluentinc/cp-kafka:7.2.5
     hostname: kafka-broker-3
     ports:

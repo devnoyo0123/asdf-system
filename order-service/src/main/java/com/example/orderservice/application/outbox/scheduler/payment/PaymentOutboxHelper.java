@@ -58,6 +58,7 @@ public class PaymentOutboxHelper {
         log.debug("OrderPaymentMessage saved with id: {}", message.getId());
     }
 
+    @Transactional
     public void savePaymentOutboxMessage(OrderPaymentEventPayload paymentEventPayload,
                                          OrderStatus orderStatus,
                                          SagaStatus sagaStatus,
